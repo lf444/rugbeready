@@ -3,27 +3,19 @@
     
 
     <v-main>
-      <v-container>
-        <v-row>
-          <HomeHead/>
-          <Equipe/>
-        </v-row>
-      </v-container>
-      
+      <HomeHead/>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import HomeHead from './components/HomeHead';
-import Equipe from './components/Equipe.vue';
 
 export default {
-  name: 'App',
+  name: 'EquipeVue',
 
   components: {
     HomeHead,
-    Equipe,
   },
 
   data: () => ({
