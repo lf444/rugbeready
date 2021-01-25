@@ -2,14 +2,13 @@
   <v-app>
     
 
-    <v-main>
-      <v-container>
-        <v-row>
+    <v-main >
+        <v-row style="height:100%">
           <HomeHead/>
+        <v-col>
           <Equipe/>
+      </v-col>
         </v-row>
-      </v-container>
-      
     </v-main>
   </v-app>
 </template>

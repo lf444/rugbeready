@@ -3,6 +3,7 @@
       <v-navigation-drawer
         permanent
         expand-on-hover
+        
       >
         <v-list
           nav
