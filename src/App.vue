@@ -1,32 +1,49 @@
 <template>
-  <v-app>
-    
-
-    <v-main >
-        <v-row style="height:100%">
-          <HomeHead/>
-        <v-col>
-          <Equipe/>
-      </v-col>
-        </v-row>
-    </v-main>
+  <v-app id="app">
+    <HomeHead/>
+    <router-view/>
   </v-app>
 </template>
 
 <script>
 import HomeHead from './components/HomeHead';
-import Equipe from './components/Equipe.vue';
-
 export default {
   name: 'App',
-
-  components: {
+  components:{
     HomeHead,
-    Equipe,
-  },
-
-  data: () => ({
-    //
-  }),
+  }
 };
 </script>
+
+<style lang="scss">
+html{
+  overflow: hidden;
+}
+
+.v-application--wrap{
+  flex-direction: row !important;
+}
+
+
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+#nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+}
+</style>

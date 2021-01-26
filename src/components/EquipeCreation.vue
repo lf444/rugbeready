@@ -1,0 +1,131 @@
+<template> 
+    <v-card style="margin-left:25px;;">
+        <v-form>
+            <v-container>
+                <v-row>
+                    <v-col
+                    cols="3"
+                    sm="3"
+                    >
+                        <v-text-field
+                            label="Nom"
+                            value="Chabal"
+                        ></v-text-field>
+                    </v-col>
+
+                    <v-col
+                    cols="3"
+                    sm="3"
+                    >
+                        <v-text-field
+                            label="Poste"
+                            value="Pillier"
+                            persistent-hint
+                        ></v-text-field>
+                    </v-col>
+
+                    <v-col
+                    cols="3"
+                    sm="3"
+                    >
+                        <v-text-field
+                            label="Etat"
+                            value="Ok"
+                        ></v-text-field>
+                    </v-col>
+
+                    <v-col
+                    cols="3"
+                    sm="3"
+                    >
+                        <p>Delete/Edit</p>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col
+                    cols="3"
+                    sm="3"
+                    >
+                        <v-text-field
+                            label="Nom"
+                            value="Chabal"
+                        ></v-text-field>
+                    </v-col>
+
+                    <v-col
+                    cols="3"
+                    sm="3"
+                    >
+                        <v-text-field
+                            label="Poste"
+                            value="Pillier"
+                            persistent-hint
+                        ></v-text-field>
+                    </v-col>
+
+                    <v-col
+                    cols="3"
+                    sm="3"
+                    >
+                        <v-text-field
+                            label="Etat"
+                            value="Ok"
+                        ></v-text-field>
+                    </v-col>
+
+                    <v-col
+                    cols="3"
+                    sm="3"
+                    >
+                        <p>Delete/Edit</p>
+                    </v-col>
+                </v-row>
+                <v-row>
+                    <v-col
+                    cols="3"
+                    sm="3"
+                    >
+                        <v-text-field
+                            label="Nom"
+                            value="Chabal"
+                        ></v-text-field>
+                    </v-col>
+
+                    <v-col
+                    cols="3"
+                    sm="3"
+                    >
+                        <v-text-field
+                            label="Poste"
+                            value="Pillier"
+                            persistent-hint
+                        ></v-text-field>
+                    </v-col>
+
+                    <v-col
+                    cols="3"
+                    sm="3"
+                    >
+                        <v-text-field
+                            label="Etat"
+                            value="Ok"
+                        ></v-text-field>
+                    </v-col>
+
+                    <v-col
+                    cols="3"
+                    sm="3"
+                    >
+                        <p>Delete/Edit</p>
+                    </v-col>
+                </v-row>
+            </v-container>
+        </v-form> 
+    </v-card>    
+</template>
+
+<script>
+export default {
+    name:'EquipeCreation',
+}
+</script>
