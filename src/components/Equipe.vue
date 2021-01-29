@@ -12,7 +12,8 @@
         </thead>
         <tbody class="text-center">
           <tr v-for="item in equipe" :key="item.name">
-            <td>{{ item.name }}</td>
+            <td><router-link tag="span" to="/ProfilJoueurVue"
+                ><v-button style="cursor: pointer">{{ item.name }}</v-button></router-link></td>
             <td>{{ item.poste }}</td>
             <td>{{ item.etat }}</td>
             <td>

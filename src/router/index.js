@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import EquipeVue from '../views/EquipeVue.vue'
 import EquipeCreationVue from '../views/EquipeCreationVue.vue'
+import ProfilJoueurVue from '../views/ProfilJoueurVue.vue'
 
 
 Vue.use(VueRouter)
@@ -23,6 +24,11 @@ const routes = [
     name: 'EquipeCreationVue',
     component: EquipeCreationVue
   },
+  {
+    path: '/ProfilJoueurVue',
+    name: 'ProfilJoueurVue',
+    component: ProfilJoueurVue
+},
   
   
 ]
