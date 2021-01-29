@@ -12,7 +12,7 @@
         </v-card-title>
       </v-card>
 
-      <router-link tag="span" to="/Equipe/?id=1" style="cursor:pointer">
+      <router-link tag="span" to="/EquipeVue/?id=1" style="cursor:pointer">
         <v-card style="margin-right:3vh !important" class="mx-auto" max-width="344" height="266">
           <v-img src="https://www.asm-rugby.com/sites/default/files/thumbnails/image/160331-ballon%20%281%29.jpg" height="200px"></v-img>
           <v-card-title>
@@ -21,7 +21,7 @@
         </v-card>
       </router-link>
 
-      <router-link tag="span" to="/Equipe/?id=2" style="cursor:pointer">
+      <router-link tag="span" to="/EquipeVue/?id=2" style="cursor:pointer">
         <v-card style="margin-right:3vh !important" class="mx-auto" max-width="344" height="266">
           <v-img src="https://www.asm-rugby.com/sites/default/files/thumbnails/image/160331-ballon%20%281%29.jpg" height="200px"></v-img>
           <v-card-title>
@@ -30,7 +30,7 @@
         </v-card>
       </router-link>
 
-      <router-link tag="span" to="/Equipe/?id=3" style="cursor:pointer">
+      <router-link tag="span" to="/EquipeVue/?id=3" style="cursor:pointer">
         <v-card style="margin-right:3vh !important" class="mx-auto" max-width="344" height="266">
           <v-img src="https://www.asm-rugby.com/sites/default/files/thumbnails/image/160331-ballon%20%281%29.jpg" height="200px"></v-img>
           <v-card-title>

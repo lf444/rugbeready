@@ -4,7 +4,7 @@
       <v-navigation-drawer permanent expand-on-hover>
         <v-list nav dense>
 
-          <router-link tag="span" to="/EquipeVue">
+          <router-link tag="span" to="/">
             <v-list-item link>
                 <v-list-item-icon style="display:inline">
                   <font-awesome-icon icon="users"/>

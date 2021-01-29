@@ -3,19 +3,19 @@
     
 
     <v-main>
-      <HomeHead/>
+      <Equipe/>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HomeHead from '../components/HomeHead';
+import Equipe from '../components/Equipe';
 
 export default {
   name: 'EquipeVue',
 
   components: {
-    HomeHead,
+    Equipe,
   },
 
   data: () => ({
