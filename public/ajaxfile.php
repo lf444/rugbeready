@@ -2,7 +2,7 @@
 
 include "config.php";
 
-$userData = mysqli_query($con,"select * from users");
+$userData = mysqli_query($con,"select * from JOUEUR");
 
 $response = array();
 

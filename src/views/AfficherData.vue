@@ -13,10 +13,10 @@
 					<th>Email</th>
 				</tr>
 
-				<tr v-for='user in users' v-bind:key="user.id">
-					<td>{{ user.username }}</td>
-					<td>{{ user.name }}</td>
-					<td>{{ user.email }}</td>
+				<tr v-for='joueur in joueurs' v-bind:key="joueur.idJoueur">
+					<td>{{ joueur.nom }}</td>
+					<td>{{ joueur.pillier }}</td>
+					<td>{{ joueur.prenom }}</td>
 				</tr>
 			</table>
 
@@ -31,7 +31,7 @@ const axios = require("axios");
         name:"AfficherData",
         data(){
             return{
-                users:"null",
+                joueurs:"null",
             }
         },
 
@@ -39,7 +39,7 @@ const axios = require("axios");
             allRecords:function(){
                 axios.get("./ajaxfile.php")
                 .then((response)=>{ 
-                    this.users = response.data;
+                    this.joueurs = response.data;
                 })
                 .catch(function(error){
                     console.log(error);
