@@ -32,6 +32,15 @@
             </v-list-item>
           </router-link>
 
+          <router-link tag="span" to="/AfficherData">
+            <v-list-item link>
+              <v-list-item-icon style="display:inline">
+                <font-awesome-icon icon=""/>
+              </v-list-item-icon>
+              <v-list-item-title style="font-size:14px">AfficherData</v-list-item-title>
+            </v-list-item>
+          </router-link>
+
         </v-list>
       </v-navigation-drawer>  
   </div>

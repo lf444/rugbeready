@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import EquipeVue from '../views/EquipeVue.vue'
 import EquipeCreationVue from '../views/EquipeCreationVue.vue'
 import ProfilJoueurVue from '../views/ProfilJoueurVue.vue'
+import AfficherData from '../views/AfficherData.vue'
 
 
 Vue.use(VueRouter)
@@ -29,7 +30,11 @@ const routes = [
     name: 'ProfilJoueurVue',
     component: ProfilJoueurVue
 },
-  
+{
+  path: '/AfficherData',
+  name: 'AfficherData',
+  component: AfficherData
+},
   
 ]
 
