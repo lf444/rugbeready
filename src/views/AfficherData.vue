@@ -1,18 +1,39 @@
 <template>
 <v-app>
     <v-main>
-                 
-    <!-- Add Recods -->       
-    <button v-on:click="AllRecords();"  value='Select All users' >Le potit bouton</button>
-			<br><br>
-    <!-- Add -->
-   <tr>
-     <td><input type='text' v-model='nom'></td>
-     <td><input type='text' v-model='poste'></td>
-     <td><input type='text' v-model='prenom'></td>
-     <td><input type='button' value='Add'  v-on:click='InsertRecods();'></td>
-   </tr>
-   <br><br>
+
+
+    <v-card>
+    <v-form v-model="valid">
+    <v-container>
+      <v-row>
+        <v-col cols="12" md="4">
+          <v-text-field v-model="nom" label="Nom"></v-text-field>
+        </v-col>
+
+        <v-col cols="12" md="4">
+          <v-text-field v-model="prenom" label="Prenom" ></v-text-field>
+        </v-col>
+
+        <v-col cols="12">
+          <v-select 
+            v-model ="selectedPoste"
+            v-bind:items="poste"
+            label="Select a post" 
+
+            single-line
+
+          ></v-select>
+        </v-col>
+        <v-btn v-on:click="InsertRecods();AllRecords();clear()"> submit </v-btn>
+         <v-btn v-on:click="clear();"> clear</v-btn>
+        </v-row>
+    </v-container>
+  </v-form>
+
+
+  
+   </v-card>
 
     <v-card>
     <v-simple-table dark style="background-color:grey;">
@@ -45,15 +66,22 @@
 const axios = require("axios");
     export default {
         name:"AfficherData",
-        data(){
-       
-            return{
+        data:()=>({
                 joueurs:[],
                 nom:"",
-                poste:"",
                 prenom:"",
-            }
-        },
+                poste:[
+                'Pilliers',
+                'Talonneur',
+                'Deuxième ligne',
+                'Troisième ligne',
+                'Demi de mêlée',
+                "Demi d'ouverture",
+                'Trois-quarts',
+                'Ailier',
+                'Arrière'],
+                selectedPoste:"",
+        }),
         methods:{
             // Recup les donners depuis la base
             AllRecords(){
@@ -70,23 +98,22 @@ const axios = require("axios");
             InsertRecods(){
                 axios.post("./adddata.php",{
                     nom: this.nom,
-                    poste: this.poste,
-                    prenom: this.prenom
-                })
-                .then(function(response){
-                    //Vide les champs :) !
-                    this.nom='';
-                    this.poste='';
-                    this.prenom='';
-                    // refresh les donner recup
-                    this.AllRecords();
-                    console.log(response.data);
+                    prenom: this.prenom,
+                    poste: this.selectedPoste
+                
                 })
                 .then(function(error){
                     console.log(error);
-                });
+                })
+             },
+
+             clear(){
+               this.nom='';
+               this.prenom='';
+               this.selectedPoste='';
              }
-           
+                    
+
         },
 
         created(){

@@ -20,7 +20,7 @@
             <td>{{ joueur.poste }}</td>
             <td>Pas encore mis</td>
             <td>
-            <button value="Delete data" v-on:click="DeleteRecods(joueur.idJoueur);">Delete</button>
+            <button value="Delete data" v-on:click="DeleteRecods(joueur.idJoueur);AllRecords();">Delete</button>
             </td>
           </tr>
         </tbody>
