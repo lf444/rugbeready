@@ -2,15 +2,16 @@
 
 include "config.php";
 
-$userData = mysqli_query($con,"select * from JOUEUR");
 
-$response = array();
 
-while($row = mysqli_fetch_assoc($userData)){
+  // 1. On requête la base de données pour sortir les 20 derniers messages
+  $resultats = $linkpdo->query("SELECT * FROM JOUEUR ");
+  // 2. On traite les résultats
+  $messages = $resultats->fetchAll();
+  // 3. On affiche les données sous forme de JSON
 
-    $response[] = $row;
-}
-var_dump($response);
 
-echo json_encode($response);
+
+
+echo json_encode($messages);
 exit;

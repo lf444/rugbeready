@@ -1,7 +1,9 @@
 <template>
-  <v-card>
+  <v-app>
+    <v-main>
+    <v-card>
     <v-simple-table dark style="background-color:grey;">
-      <template v-slot:default>
+
         <thead>
           <tr>
             <th class="text-center">Nom</th>
@@ -12,25 +14,21 @@
           </tr>
         </thead>
         <tbody class="text-center">
-          <tr v-for="item in equipe" :key="item.id">
-            <td>{{ item.nom }}</td>
-            <td>{{ item.prenom }}</td>
-            <td>{{ item.poste }}</td>
-            <td>{{ item.etat }}</td>
+          <tr v-for='joueur in joueurs' v-bind:key="joueur.idJoueur">
+            <td>{{ joueur.nom }}</td>
+            <td>{{ joueur.prenom }}</td>
+            <td>{{ joueur.poste }}</td>
+            <td>Pas encore mis</td>
             <td>
               <router-link tag="span" to="/ProfilJoueurVue"
                 ><v-button style="cursor: pointer">Profil</v-button></router-link
               >
               |
-              <router-link tag="span" to="/"
-                ><v-button style="cursor: pointer"
-                  >Delete</v-button
-                ></router-link
-              >
+              <router-link tag="span" to="/"><v-button style="cursor: pointer">Delete</v-button></router-link>
             </td>
           </tr>
         </tbody>
-      </template>
+ 
     </v-simple-table>
     <v-row>
         <v-col>
@@ -41,38 +39,39 @@
         </v-col>
     </v-row>
   </v-card>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-export default {
-  name: "Equipe",
+const axios = require("axios");
 
+export default {
+  name: 'Equipe',
   data() {
     return {
-      equipe: [
-        {
-          nom: "Lartin",
-          prenom: "Fabien",
-          poste: "Pilier",
-          etat: "-",
-          id: "1",
-        },
-        {
-          nom: "Perret",
-          prenom: "Anthony",
-          poste: "Talonneur",
-          etat: "Blessure",
-          id: "2",
-        },
-        {
-          nom: "Celaries",
-          prenom: "Loup",
-          poste: "Ailier droit",
-          etat: "Malade",
-          id: "3",
-        },
-      ],
-    };
+      joueurs:[],
+      nom:"",
+      poste:"",
+      prenom:"",
+    }
   },
-};
+    methods:{
+      // Recup les donners depuis la base
+      AllRecords(){
+          axios.get("../../ajaxfile.php")
+          .then((response)=>{ 
+              console.log(response.data);
+              this.joueurs = response.data;
+          })
+          .catch(function(error){
+              console.log(error);
+          });
+      }
+    },
+    created(){
+      this.AllRecords();
+   },
+  };
+
 </script>

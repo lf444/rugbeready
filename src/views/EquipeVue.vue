@@ -10,14 +10,11 @@
 
 <script>
 import Equipe from '../components/Equipe';
-
 export default {
   name: 'EquipeVue',
-
   components: {
     Equipe,
   },
-
   data: () => ({
     //
   }),

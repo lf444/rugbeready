@@ -1,14 +1,13 @@
 <?php
 
-$host = "rugbergroot.mysql.db";    /* Host name */
-$user = "rugbergroot";         /* User */
-$password = "NgpvyJZN3YFdvpy";         /* Password */
+$host = "localhost";    /* Host name */
+$user = "root";         /* User */
+$password = "";         /* Password */
 $dbname = "rugbergroot";   /* Database name */
 
-$con = mysqli_connect($host, $user, $password,$dbname);
-
-// Check connection
-if (!$con) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
+    try {
+        $linkpdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
+        $linkpdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (Exception $e) { 
+        die('Erreur : '. $e->getMessage()); 
+    }
