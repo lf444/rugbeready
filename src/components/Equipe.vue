@@ -20,11 +20,7 @@
             <td>{{ joueur.poste }}</td>
             <td>Pas encore mis</td>
             <td>
-              <router-link tag="span" to="/ProfilJoueurVue"
-                ><v-button style="cursor: pointer">Profil</v-button></router-link
-              >
-              |
-              <router-link tag="span" to="/"><v-button style="cursor: pointer">Delete</v-button></router-link>
+            <button value="Delete data" v-on:click="DeleteRecods(joueur.idJoueur);">Delete</button>
             </td>
           </tr>
         </tbody>
@@ -67,11 +63,24 @@ export default {
           .catch(function(error){
               console.log(error);
           });
-      }
+      },
+
+    DeleteRecods(id){
+      axios.post("../../deldata.php", {
+        id: id
+      })
+      .then(function() {
+        this.AllRecords();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     },
+
+   },
+
     created(){
       this.AllRecords();
    },
   };
-
 </script>
