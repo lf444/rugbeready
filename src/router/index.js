@@ -39,6 +39,7 @@ const Routes = [
 ]
 
 const router = new VueRouter({
+  // Mode hash pour avoir l'historique sans avoir à activé des truc cotés serveur c'est le mode par défaut. 
   mode: 'hash',
   routes: Routes,
 })

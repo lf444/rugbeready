@@ -14,6 +14,7 @@
 
 
         <tr v-for='equipe in equipes' v-bind:key="equipe.idEquipe">
+          <!-- Route qui sert à transmettre l'id d'une équipe via l'url -->
          <router-link tag="span" :to=" { path: '/EquipeVue/?idEquipe='+equipe.idEquipe } " v-bind:tooltip="equipe.idEquipe" style="cursor:pointer">
           <v-card style="margin-right:3vh !important" class="mx-auto" max-width="344" height="266">
             <v-img src="https://www.asm-rugby.com/sites/default/files/thumbnails/image/160331-ballon%20%281%29.jpg" height="200px"></v-img>
@@ -59,7 +60,7 @@ const axios = require("axios");
     methods:{
       // Recup les donners depuis la base
       AllRecords(){
-          axios.get("../../afficherequipe.php")
+          axios.get("../../afficherEquipe.php")
           .then((response)=>{ 
               console.log(response.data);
               this.equipes = response.data;

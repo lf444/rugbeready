@@ -92,7 +92,7 @@ const axios = require("axios");
         methods:{
             // Recup les donners depuis la base
             AllRecords(){
-                axios.post("./ajaxfile.php",{
+                axios.post("./afficherJoueur.php",{
                   idEquipe: 1
                 })
                 .then((response)=>{ 
@@ -116,7 +116,7 @@ const axios = require("axios");
                     console.log(error);
                 })
              },
-
+            // Nettoye les champs
              clear(){
                this.nom='';
                this.prenom='';

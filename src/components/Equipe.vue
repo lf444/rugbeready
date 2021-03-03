@@ -56,7 +56,8 @@ export default {
       
       // Recup les donners depuis la base
       AllRecords(){
-          axios.post("../../ajaxfile.php", {
+          axios.post("../../afficherJoueur.php", {
+            //Recup de l'id dans l'url
             idEquipe: this.$route.query.idEquipe
           })
           .then((response)=>{ 
@@ -70,6 +71,7 @@ export default {
 
     DeleteRecods(id){
       axios.post("../../deldata.php", {
+        // id du joueur à supprimer
         id: id
       })
       .then(function() {
@@ -82,6 +84,7 @@ export default {
 
    },
 
+    // les fonctions qui seront executé à la création de la page
     created(){
       this.AllRecords();
    },
