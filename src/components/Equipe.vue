@@ -18,7 +18,7 @@
             <td>{{ joueur.nom }}</td>
             <td>{{ joueur.prenom }}</td>
             <td>{{ joueur.poste }}</td>
-            <td>Pas encore mis</td>
+            <td>En bonne etat</td>
             <td>
             <button value="Delete data" v-on:click="DeleteRecods(joueur.idJoueur);AllRecords();">Delete</button>
             </td>
@@ -53,9 +53,12 @@ export default {
     }
   },
     methods:{
+      
       // Recup les donners depuis la base
       AllRecords(){
-          axios.get("../../ajaxfile.php")
+          axios.post("../../ajaxfile.php", {
+            idEquipe: this.$route.query.idEquipe
+          })
           .then((response)=>{ 
               console.log(response.data);
               this.joueurs = response.data;

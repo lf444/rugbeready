@@ -9,14 +9,14 @@ import AfficherData from '../views/AfficherData.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
+const Routes = [
   {
     path: '/',
     name: 'Home',
     component: Home
   },
   {
-    path: '/EquipeVue',
+    path: '/EquipeVue/',
     name: 'EquipeVue',
     component: EquipeVue
   },
@@ -39,9 +39,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+  mode: 'hash',
+  routes: Routes,
 })
 
 export default router

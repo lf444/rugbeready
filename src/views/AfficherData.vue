@@ -25,6 +25,10 @@
 
           ></v-select>
         </v-col>
+          <v-col cols="12" md="4">
+          <v-text-field v-model="idEquipe" label="Equipe" ></v-text-field>
+        </v-col>
+
         <v-btn v-on:click="InsertRecods();AllRecords();clear()"> submit </v-btn>
          <v-btn v-on:click="clear();"> clear</v-btn>
         </v-row>
@@ -43,6 +47,7 @@
     <th class="text-center">Nom</th>
     <th class="text-center">Prénom</th>
     <th class="text-center">Poste</th>
+    <th class="text-center">idEquipe</th>
   </tr>
 </thead>
   <tbody class="text-center">
@@ -50,6 +55,7 @@
       <td>{{ joueur.nom }}</td>
       <td>{{ joueur.prenom }}</td>
       <td>{{ joueur.poste }}</td>
+      <td>{{ joueur.idEquipe }}</td>
       <td>
     </td>
   </tr>
@@ -81,11 +87,14 @@ const axios = require("axios");
                 'Ailier',
                 'Arrière'],
                 selectedPoste:"",
+                idEquipe:"",
         }),
         methods:{
             // Recup les donners depuis la base
             AllRecords(){
-                axios.get("./ajaxfile.php")
+                axios.post("./ajaxfile.php",{
+                  idEquipe: 1
+                })
                 .then((response)=>{ 
                     this.joueurs = response.data;
                 })
@@ -99,7 +108,8 @@ const axios = require("axios");
                 axios.post("./adddata.php",{
                     nom: this.nom,
                     prenom: this.prenom,
-                    poste: this.selectedPoste
+                    poste: this.selectedPoste,
+                    idEquipe: this.idEquipe,
                 
                 })
                 .then(function(error){
@@ -111,6 +121,7 @@ const axios = require("axios");
                this.nom='';
                this.prenom='';
                this.selectedPoste='';
+               this.idEquipe='';
              }
                     
 

@@ -12,61 +12,69 @@
         </v-card-title>
       </v-card>
 
-      <router-link tag="span" to="/EquipeVue/?id=1" style="cursor:pointer">
-        <v-card style="margin-right:3vh !important" class="mx-auto" max-width="344" height="266">
-          <v-img src="https://www.asm-rugby.com/sites/default/files/thumbnails/image/160331-ballon%20%281%29.jpg" height="200px"></v-img>
-          <v-card-title>
-            Equipe 1  
-          </v-card-title>
-        </v-card>
-      </router-link>
 
-      <router-link tag="span" to="/EquipeVue/?id=2" style="cursor:pointer">
-        <v-card style="margin-right:3vh !important" class="mx-auto" max-width="344" height="266">
-          <v-img src="https://www.asm-rugby.com/sites/default/files/thumbnails/image/160331-ballon%20%281%29.jpg" height="200px"></v-img>
-          <v-card-title>
-            Equipe 2
-          </v-card-title>
-        </v-card>
-      </router-link>
+        <tr v-for='equipe in equipes' v-bind:key="equipe.idEquipe">
+         <router-link tag="span" :to=" { path: '/EquipeVue/?idEquipe='+equipe.idEquipe } " v-bind:tooltip="equipe.idEquipe" style="cursor:pointer">
+          <v-card style="margin-right:3vh !important" class="mx-auto" max-width="344" height="266">
+            <v-img src="https://www.asm-rugby.com/sites/default/files/thumbnails/image/160331-ballon%20%281%29.jpg" height="200px"></v-img>
+              <v-card-title>
 
-      <router-link tag="span" to="/EquipeVue/?id=3" style="cursor:pointer">
-        <v-card style="margin-right:3vh !important" class="mx-auto" max-width="344" height="266">
-          <v-img src="https://www.asm-rugby.com/sites/default/files/thumbnails/image/160331-ballon%20%281%29.jpg" height="200px"></v-img>
-          <v-card-title>
-            Equipe 3
-          </v-card-title>
-        </v-card>
-      </router-link>
+              <td>{{ equipe.nom }}</td>
+
+              </v-card-title>
+            </v-card>
+          </router-link>
+        </tr>
+ 
     
   </div>
 </template>
-
-
 <style>
-#liste_equipe{
-  margin-left:10vh;
-  margin-top: 10vh;
-}
-
-.v-btn{
-  border-radius:4px 4px 0px 0px  !important;
-}
-
-.v-card__title{
-  border-top: 2px solid rgba(0,0,0,0.2);
-}
-
-.v-card{
-  margin-right:7vh !important;
-}
-
-</style>
+  #liste_equipe{
+    margin-left:10vh;
+    margin-top: 10vh;
+  }
+  .v-btn{
+    border-radius:4px 4px 0px 0px  !important;
+  }
+  .v-card__title{
+    border-top: 2px solid rgba(0,0,0,0.2);
+  }
+  .v-card{
+    margin-right:7vh !important;
+  }
+  </style>
 
 <script>
+const axios = require("axios");
   export default {
     name: 'ListeEquipes',
-  }
+      data() {
+    return {
+      equipes:[],
+      nom:"",
+   
+    }
+  },
+    methods:{
+      // Recup les donners depuis la base
+      AllRecords(){
+          axios.get("../../afficherequipe.php")
+          .then((response)=>{ 
+              console.log(response.data);
+              this.equipes = response.data;
+          })
+          .catch(function(error){
+              console.log(error);
+          });
+      },
+   },
+
+    created(){
+      this.AllRecords();
+   },
+  };
+
 
   
   

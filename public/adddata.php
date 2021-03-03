@@ -7,11 +7,12 @@
     $data = array(
         ':nom' => $received_data->nom,
         ':poste' => $received_data->poste,
-        ':prenom' => $received_data->prenom
+        ':prenom' => $received_data->prenom,
+        ':idEquipe' => $received_data->idEquipe,
     );
     
-    $req = $linkpdo->prepare('INSERT INTO JOUEUR(nom,poste,prenom) 
-                                VALUES(:nom,:poste,:prenom)'); 
+    $req = $linkpdo->prepare('INSERT INTO JOUEUR(nom,poste,prenom,idEquipe) 
+                                VALUES(:nom,:poste,:prenom,:idEquipe)'); 
     ///Exécution de la requête
     $req->execute($data); 
     

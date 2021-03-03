@@ -3,7 +3,7 @@
     
 
     <v-main>
-      <Equipe/>
+      <Equipe/>  
     </v-main>
   </v-app>
 </template>
