@@ -7,7 +7,7 @@ include "config.php";
 
 
   // 1. On requête la base de données pour sortir les 20 derniers messages
-  $req = $linkpdo->prepare("SELECT * FROM HISTORIQUE_PERF WHERE idJoueur=:idJoueur ORDER BY datePerf DESC LIMIT 1 ");
+  $req = $linkpdo->prepare("SELECT * FROM HISTORIQUE_PERF WHERE idJoueur=:idJoueur ORDER BY 1 DESC LIMIT 1 ");
   
   $req -> execute(['idJoueur'=> $idJoueur]);
   // 2. On traite les résultats
