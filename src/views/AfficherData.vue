@@ -29,7 +29,7 @@
           <v-text-field v-model="idEquipe" label="Equipe" ></v-text-field>
         </v-col>
 
-        <v-btn v-on:click="InsertRecods();AllRecords();clear()"> submit </v-btn>
+        <v-btn v-on:click="InsertRecods();clear();AllRecords()"> submit </v-btn>
          <v-btn v-on:click="clear();"> clear</v-btn>
         </v-row>
     </v-container>
@@ -129,6 +129,9 @@ const axios = require("axios");
 
         created(){
            this.AllRecords();
+        },
+        updated(){
+          this.AllRecords();
         },
 }
 

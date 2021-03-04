@@ -74,9 +74,5 @@ const axios = require("axios");
     created(){
       this.AllRecords();
    },
-  };
-
-
-  
-  
+  }; 
 </script>

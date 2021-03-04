@@ -19,7 +19,11 @@
             <td>{{ joueur.prenom }}</td>
             <td>{{ joueur.poste }}</td>
             <td>En bonne etat</td>
-            <td>
+             <td>
+              <router-link tag="span" :to=" { path: '/ProfilJoueurVue/?idJoueur='+joueur.idJoueur } " v-bind:tooltip="joueur.idJoueur" style="cursor:pointer">
+                <button value="Profil"> Profil </button>
+              </router-link>
+             <p>  |  </p>
             <button value="Delete data" v-on:click="DeleteRecods(joueur.idJoueur);AllRecords();">Delete</button>
             </td>
           </tr>
@@ -27,12 +31,9 @@
  
     </v-simple-table>
     <v-row>
-        <v-col>
-            <v-button style="cursor: pointer; color:red">Annuler</v-button>
-        </v-col>
-        <v-col>
-            <v-button style="cursor: pointer; color:green;">Valider</v-button>
-        </v-col>
+  
+  
+  
     </v-row>
   </v-card>
     </v-main>
