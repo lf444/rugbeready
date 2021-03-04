@@ -83,15 +83,32 @@
     </div>
 
     <div id="perf" hidden=true>
+        <tr v-for='perf in perfs' v-bind:key="perf.idPerf">
       <v-card style="padding-top:25px">
         <div>
+            
+            <div style="display:flex; max-heigth:20px;">
+            <p style="height:100%;margin-right:5px;width:75px;">Date : </p>
+            <input type="text" style="height:100%;color:white"  v-bind:value="perf.datePerf">
+          </div>
+
           <div style="display:flex; max-heigth:20px;">
             <p style="height:100%;margin-right:5px;width:75px;">Squat : </p>
-            <input type="text" style="height:100%;color:white" value="">
+            <input type="text" style="height:100%;color:white"  v-bind:value="perf.squat">
           </div>
+               <div style="display:flex; max-heigth:20px;">
+            <p style="height:100%;margin-right:5px;width:75px;">développer COUCHER  : </p>
+            <input type="text" style="height:100%;color:white"  v-bind:value="perf.dcouche">
+          </div>
+               <div style="display:flex; max-heigth:20px;">
+            <p style="height:100%;margin-right:5px;width:75px;">Tirage horizontal : </p>
+            <input type="text" style="height:100%;color:white"  v-bind:value="perf.tirage">
+          </div>
+
         </div>
 
       </v-card>
+       </tr>
     </div>
 
     <chart :options="chartOptionsBar"></chart>
@@ -128,6 +145,10 @@ export default {
                 dateBlessure:"",
                 typeBlessure:"",
                 contextBlessure:"",
+                perfs:[],
+                squat:"",
+                dcouche:"",
+                tirage:"",
         }),
 
   methods:{
@@ -167,6 +188,20 @@ export default {
           .then((response)=>{ 
               console.log(response.data);
               this.blessures = response.data;
+          })
+          .catch(function(error){
+              console.log(error);
+          });
+      },
+
+       JoueurPerfs(){
+          axios.post("../../afficherJoueurPerfs.php", {
+            //Recup de l'id dans l'url
+            idJoueur: this.$route.query.idJoueur
+          })
+          .then((response)=>{ 
+              console.log(response.data);
+              this.perfs = response.data;
           })
           .catch(function(error){
               console.log(error);
@@ -216,6 +251,7 @@ export default {
       this.AllRecords();
       this.JoueurTaillePoids();
       this.JoueurBlessure();
+      this.JoueurPerfs();
    },
 }
 </script>
