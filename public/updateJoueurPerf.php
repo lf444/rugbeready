@@ -6,7 +6,7 @@
     $data = array();
     $data = array(
         ':tirage' => $received_data->tirage,
-        ':datePerf' => $received_data->datePerf,
+        ':datePerf' =>date("Y-m-d"),
         ':squat' => $received_data->squat,
         ':dcouche' => $received_data->dcouche,
         ':idJoueur' => $received_data->idJoueur,
