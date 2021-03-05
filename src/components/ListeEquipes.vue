@@ -2,11 +2,9 @@
   <div id="liste_equipe" style="display:flex">
     
       <v-card style="margin-right:3vh !important" class="mx-auto" width="344" height="266">
-        <router-link tag="span" to="/EquipeCreationVue">
-          <v-btn height="200" width="100%">
+          <v-btn height="200" width="100%" v-on:click="InsertRecods();AllRecords()">
             <p style="font-size:225px">+</p>
           </v-btn>
-        </router-link>
         <v-card-title>
           Ajouter une équipe
         </v-card-title>
@@ -70,7 +68,16 @@ const axios = require("axios");
           });
       },
    },
+    InsertRecods() {
+      axios
+        .post("../../addEquipe.php", {
+          nom: nouvelle,
 
+        })
+        .then(function (error) {
+          console.log(error);
+        });
+    },
     created(){
       this.AllRecords();
    },

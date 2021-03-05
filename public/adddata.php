@@ -17,6 +17,7 @@
     ///Exécution de la requête
     $req->execute($data); 
     
+    
     $output = array(
         'message' => 'Data Inserted'
     );

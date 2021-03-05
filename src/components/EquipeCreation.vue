@@ -46,15 +46,13 @@
     <th class="text-center">Nom</th>
     <th class="text-center">Prénom</th>
     <th class="text-center">Poste</th>
-    <th class="text-center">idEquipe</th>
   </tr>
 </thead>
   <tbody class="text-center">
-    <tr v-for='joueur in joueurs' v-bind:key="joueur.idJoueur">
-      <td>{{ joueur.nom }}</td><v-button style="cursor: pointer">Delete</v-button>
-      <td>{{ joueur.prenom }}</td><v-button style="cursor: pointer">Delete</v-button>
-      <td>{{ joueur.poste }}</td><v-button style="cursor: pointer">Delete</v-button>
-      <td>{{ joueur.idEquipe }}</td><v-button style="cursor: pointer">Delete</v-button>
+    <tr v-for='joueurselect in joueursSelected' v-bind:key="joueurselect.idJoueur">
+      <td>{{ joueurselect.nom }}</td><v-button style="cursor: pointer">Delete</v-button>
+      <td>{{ joueurselect.prenom }}</td><v-button style="cursor: pointer">Delete</v-button>
+      <td>{{ joueurselect.poste }}</td><v-button style="cursor: pointer">Delete</v-button>
       <td>
     </td>
   </tr>
@@ -73,6 +71,7 @@ const axios = require("axios");
         name:"EquipeCreation",
         data:()=>({
                 joueurs:[],
+                joueursSelected:[],
                 nom:"",
                 prenom:"",
                 selectedJoueur:"",
