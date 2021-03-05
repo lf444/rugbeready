@@ -5,7 +5,7 @@
 
     $data = array();
     $data = array(
-        ':nom' => $received_data->nom,
+        ':nom' => "nouvelle",
 
     );
     
