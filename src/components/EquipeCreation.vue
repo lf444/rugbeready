@@ -82,7 +82,7 @@ const axios = require("axios");
             // Recup les donners depuis la base
             AllRecords(){
                 axios.post("./afficherJoueur.php",{
-                  idEquipe: 1
+                  idEquipe: 99,
                 })
                 .then((response)=>{ 
                     this.joueurs = response.data;

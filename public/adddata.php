@@ -9,10 +9,11 @@
         ':poste' => $received_data->poste,
         ':prenom' => $received_data->prenom,
         ':idEquipe' => $received_data->idEquipe,
+        ':dateNaissance' => $received_data->dateNaissance,
     );
     
-    $req = $linkpdo->prepare('INSERT INTO JOUEUR(nom,poste,prenom,idEquipe) 
-                                VALUES(:nom,:poste,:prenom,:idEquipe)'); 
+    $req = $linkpdo->prepare('INSERT INTO JOUEUR(nom,poste,prenom,idEquipe,dateNaissance) 
+                                VALUES(:nom,:poste,:prenom,:idEquipe,:dateNaissance)'); 
     ///Exécution de la requête
     $req->execute($data); 
     

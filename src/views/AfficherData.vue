@@ -15,6 +15,10 @@
           <v-text-field v-model="prenom" label="Prenom" ></v-text-field>
         </v-col>
 
+        <v-col cols="12" md="4">
+          <input type='date' v-model="dateNaissance" label="Date de naissance" >
+        </v-col>
+
         <v-col cols="12">
           <v-select 
             v-model ="selectedPoste"
@@ -24,10 +28,7 @@
             single-line
 
           ></v-select>
-        </v-col>
-          <v-col cols="12" md="4">
-          <v-text-field v-model="idEquipe" label="Equipe" ></v-text-field>
-        </v-col>
+     </v-col>
 
         <v-btn v-on:click="InsertRecods();clear();AllRecords()"> submit </v-btn>
          <v-btn v-on:click="clear();"> clear</v-btn>
@@ -47,7 +48,7 @@
     <th class="text-center">Nom</th>
     <th class="text-center">Prénom</th>
     <th class="text-center">Poste</th>
-    <th class="text-center">idEquipe</th>
+    
   </tr>
 </thead>
   <tbody class="text-center">
@@ -55,7 +56,6 @@
       <td>{{ joueur.nom }}</td>
       <td>{{ joueur.prenom }}</td>
       <td>{{ joueur.poste }}</td>
-      <td>{{ joueur.idEquipe }}</td>
       <td>
     </td>
   </tr>
@@ -70,71 +70,75 @@
 
 <script>
 const axios = require("axios");
-    export default {
-        name:"AfficherData",
-        data:()=>({
-                joueurs:[],
-                nom:"",
-                prenom:"",
-                poste:[
-                'Pilliers',
-                'Talonneur',
-                'Deuxième ligne',
-                'Troisième ligne',
-                'Demi de mêlée',
-                "Demi d'ouverture",
-                'Trois-quarts',
-                'Ailier',
-                'Arrière'],
-                selectedPoste:"",
-                idEquipe:"",
-        }),
-        methods:{
-            // Recup les donners depuis la base
-            AllRecords(){
-                axios.post("./afficherJoueur.php",{
-                  idEquipe: 1
-                })
-                .then((response)=>{ 
-                    this.joueurs = response.data;
-                })
-                .catch(function(error){
-                    console.log(error);
-                });
-            },
+export default {
+  name: "AfficherData",
+  data: () => ({
+    joueurs: [],
+    nom: "",
+    prenom: "",
+    dateNaissance:"",
+    poste: [
+      "Pilliers",
+      "Talonneur",
+      "Deuxième ligne",
+      "Troisième ligne",
+      "Demi de mêlée",
+      "Demi d'ouverture",
+      "Trois-quarts",
+      "Ailier",
+      "Arrière",
+    ],
+    selectedPoste: "",
+    idEquipe: "",
+    jspecs: [],
+    taille: 0,
+    poids: 0,
+    perfs: [],
+    datePerf: 0,
+    squat: 0,
+    dcouche: 0,
+    tirage: 0,
+  }),
+  methods: {
+    // Recup les donners depuis la base
+    AllRecords() {
+      axios
+        .post("./afficherJoueur.php", {
+          idEquipe: 99,
+        })
+        .then((response) => {
+          this.joueurs = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
 
-             // Insert les donners depuis les champs
-            InsertRecods(){
-                axios.post("./adddata.php",{
-                    nom: this.nom,
-                    prenom: this.prenom,
-                    poste: this.selectedPoste,
-                    idEquipe: this.idEquipe,
-                
-                })
-                .then(function(error){
-                    console.log(error);
-                })
-             },
-            // Nettoye les champs
-             clear(){
-               this.nom='';
-               this.prenom='';
-               this.selectedPoste='';
-               this.idEquipe='';
-             }
-                    
+    // Insert les donners depuis les champs
+    InsertRecods() {
+      axios
+        .post("./adddata.php", {
+          nom: this.nom,
+          prenom: this.prenom,
+          poste: this.selectedPoste,
+          dateNaissance: this.dateNaissance,
+          idEquipe: 99,
+        })
+        .then(function (error) {
+          console.log(error);
+        });
+    },
+    // Nettoye les champs
+    clear() {
+      this.nom = "";
+      this.prenom = "";
+      this.selectedPoste = "";
+      this.idEquipe = "";
+    },
+  },
 
-        },
-
-        created(){
-           this.AllRecords();
-        },
-        updated(){
-          this.AllRecords();
-        },
-}
-
-    
-    
+  created() {
+    this.AllRecords();
+  },
+};
 </script>
