@@ -64,7 +64,7 @@
           </div>
 
             <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Type de blessure : </p>
+            <p style="height:100%;margin-right:5px;width:75px;">Type : </p>
             <input type='text' id="valeurTypeBlessure" style="height:100%;color:white" v-model="blessure.typeBlessure">
           </div>
            
@@ -93,11 +93,11 @@
             <input type="text" id="valeurPerfSquat" style="height:100%;color:white"  v-model="perf.squat">
           </div>
                <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">développer COUCHER  : </p>
+            <p style="height:100%;margin-right:5px;width:75px;">Couché : </p>
             <input type="text" id="valeurPerfDcouche" style="height:100%;color:white"  v-model="perf.dcouche">
           </div>
                <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Tirage horizontal : </p>
+            <p style="height:100%;margin-right:5px;width:75px;">Tirage : </p>
             <input type="text" id="valeurPerfTirage" style="height:100%;color:white"  v-model="perf.tirage">
           </div>
 

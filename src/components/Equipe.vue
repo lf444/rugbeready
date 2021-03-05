@@ -17,19 +17,19 @@
               <td>{{ joueur.nom }}</td>
               <td>{{ joueur.prenom }}</td>
               <td>{{ joueur.poste }}</td>
-              <td>En bonne etat</td>
-              <td>
+              <td>RAS</td>
+              <td style="display: flex">
                 <router-link
                   tag="span"
                   :to="{
                     path: '/ProfilJoueurVue/?idJoueur=' + joueur.idJoueur,
                   }"
                   v-bind:tooltip="joueur.idJoueur"
-                  style="cursor: pointer"
+                  style="display:inherit;cursor:pointer"
                 >
                   <button value="Profil">Profil</button>
                 </router-link>
-                <p>|</p>
+                <p style="display: flex;flex-direction: column;justify-content: center;margin-left: 5px;margin-right: 5px;margin-bottom:none;height:100%">|</p>
                 <button
                   value="Delete data"
                   v-on:click="
@@ -45,7 +45,7 @@
       </v-card>
       <v-form v-model="valid">
         <v-container>
-          <v-row>
+          <v-row style="margin-top:50px">
             <v-col cols="12" md="4">
               <v-text-field v-model="nom" label="Nom"></v-text-field>
             </v-col>
@@ -56,6 +56,7 @@
 
             <v-col cols="12" md="4">
               <input
+                style="color:white"
                 type="date"
                 v-model="dateNaissance"
                 label="Date de naissance"
