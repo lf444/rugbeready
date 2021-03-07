@@ -113,7 +113,8 @@ export default {
       
       // Recup les donners depuis la base
       AllRecords(){
-          axios.post("../../afficherJoueur.php", {
+          axios.post("../../afficherData.php", {
+            request:1,
             //Recup de l'id dans l'url
             idEquipe: this.$route.query.idEquipe
           })
@@ -142,7 +143,8 @@ export default {
     // Insert les donners depuis les champs
     InsertRecods() {
       axios
-        .post("./adddata.php", {
+        .post("./addData.php", {
+          request: 1,
           nom: this.nom,
           prenom: this.prenom,
           poste: this.selectedPoste,

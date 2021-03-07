@@ -144,7 +144,8 @@ export default {
     // Recup les donners depuis la base
     AllRecords() {
       axios
-        .post("../../afficherUnJoueur.php", {
+        .post("../../afficherData.php", {
+          request:2,
           //Recup de l'id dans l'url
           idJoueur: this.$route.query.idJoueur,
         })
@@ -204,7 +205,8 @@ export default {
     UpdateRecord() {
 
       axios
-        .post("../../updateJoueur.php", {
+        .post("../../updateData.php", {
+          request:0,
           idJoueur: this.$route.query.idJoueur,
           nom:    document.getElementById("valeurNom").value,
           prenom: document.getElementById("valeurPrenom").value,
@@ -222,7 +224,8 @@ export default {
     UpdateRecordBlessure() {
 
       axios
-        .post("../../updateJoueurBlessure.php", {
+        .post("../../updateData.php", {
+          request:1,
           idJoueur: this.$route.query.idJoueur,
           dateBlessure:    document.getElementById("valeurDateBlessure").value,
           tempsRepos:    document.getElementById("valeurTempsRepos").value,
@@ -238,7 +241,8 @@ export default {
     UpdateRecordPerf() {
 
       axios
-        .post("../../updateJoueurPerf.php", {
+        .post("../../updateData.php", {
+          request:2,
           idJoueur: this.$route.query.idJoueur,
           datePerf:   document.getElementById("valeurDatePerf").value,
           squat: document.getElementById("valeurPerfSquat").value,

@@ -58,7 +58,9 @@ const axios = require("axios");
     methods:{
       // Recup les donners depuis la base
       AllRecords(){
-          axios.get("../../afficherEquipe.php")
+          axios.post("../../afficherData.php",{
+            request:0,
+          })
           .then((response)=>{ 
               console.log(response.data);
               this.equipes = response.data;
@@ -69,7 +71,8 @@ const axios = require("axios");
       },
           NewEquipe() {
       axios
-        .post("../../addEquipe.php", {
+        .post("../../addData.php", {
+          request: 0,
         })
         .catch(function (error) {
           console.log(error);
