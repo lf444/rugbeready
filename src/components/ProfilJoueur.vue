@@ -72,10 +72,11 @@
             <p style="height:100%;margin-right:5px;width:75px;">Contexte : </p>
             <v-textarea type='text' id="valeurContextBlessure" style="height:100%;color:white" v-model="blessure.contextBlessure">
           </div> 
+          <v-btn v-on:click="UpdateRecordBlessure();"> submit </v-btn>
         </div>
       </v-card>
       </tr>
-      <v-btn v-on:click="UpdateRecordBlessure();"> submit </v-btn>
+      
     </div>
 
     <div id="perf" hidden=true>
@@ -102,10 +103,11 @@
           </div>
 
         </div>
-
+        <v-btn v-on:click="UpdateRecordPerf();"> submit </v-btn>
       </v-card>
+     
        </tr>
-       <v-btn v-on:click="UpdateRecordPerf();"> submit </v-btn>
+       
     </div>
 
     <chart :options="chartOptionsBar"></chart>
