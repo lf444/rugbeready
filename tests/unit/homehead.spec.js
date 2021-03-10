@@ -1,4 +1,5 @@
 import HomeHead from '@/components/HomeHead.vue'
+<<<<<<< master
 import { text } from '@fortawesome/fontawesome-svg-core';
 import { shallowMount,createLocalVue,RouterLinkStub } from '@vue/test-utils'
 //import VueRouter from 'vue-router'
