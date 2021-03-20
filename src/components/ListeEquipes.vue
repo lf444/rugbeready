@@ -1,37 +1,65 @@
 <template>
-  <div id="liste_equipe" style="display:flex">
-    
-      <v-card style="margin-right:3vh !important" class="mx-auto" width="344" height="266">
-          <v-btn height="200" width="100%" v-on:click="NewEquipe();AllRecords()">
-            <p style="font-size:225px">+</p>
-          </v-btn>
-        <v-card-title>
-          Ajouter une équipe
-        </v-card-title>
-      </v-card>
 
+  <v-app>
+    <v-main>
 
-        <tr v-for='equipe in equipes' v-bind:key="equipe.idEquipe">
-          <!-- Route qui sert à transmettre l'id d'une équipe via l'url -->
-         <router-link tag="span" :to=" { path: '/EquipeVue/?idEquipe='+equipe.idEquipe } " v-bind:tooltip="equipe.idEquipe" style="cursor:pointer">
-          <v-card style="margin-right:3vh !important" class="mx-auto" max-width="344" height="266">
-            <v-img src="https://www.asm-rugby.com/sites/default/files/thumbnails/image/160331-ballon%20%281%29.jpg" height="200px"></v-img>
+      <div id="liste_equipe">
+
+        <v-row style="padding-bottom:60px;">
+          <tr v-for='equipe in equipes' v-bind:key="equipe.idEquipe">
+            <router-link tag="span" :to=" { path: '/EquipeVue/?idEquipe='+equipe.idEquipe } " v-bind:tooltip="equipe.idEquipe" style="cursor:pointer">
+              <v-card style="margin-right:15px !important;margin-top: 15px !important;" class="mx-auto" max-width="344" height="266">
+                <v-img src="https://static.lpnt.fr/images/2018/12/13/17747713lpw-17748036-article-rugby-ballon-jpg_5803326_1250x625.jpg" height="200px"></v-img>
+                <v-card-title>
+                  <td>{{ equipe.nom }}</td>
+                </v-card-title>
+              </v-card>
+            </router-link>
+          </tr>
+        </v-row>
+
+        <v-row style="padding-bottom:30px;" justify="start">
+          <v-dialog v-model="dialog" persistent max-width="600px">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn color="primary" dark v-bind="attrs" v-on="on" style="border-radius:4px !important">Ajouter une équipe</v-btn>
+            </template>
+            <v-card style="margin:0px !important">
               <v-card-title>
-
-              <td>{{ equipe.nom }}</td>
-
+                <span class="headline">Ajouter une équipe</span>
               </v-card-title>
+              <v-card-text>
+                <v-container>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-text-field id="nomEquipe" label="Nom" v-model="nom" required></v-text-field>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-card-text>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn color="blue darken-1" text @click="dialog = false">Fermer</v-btn>
+                <v-btn color="blue darken-1" text @click="addEquipe()">Ajouter</v-btn>
+              </v-card-actions>
             </v-card>
-          </router-link>
-        </tr>
- 
-    
-  </div>
+          </v-dialog>
+        </v-row>
+
+      </div>
+
+    </v-main>
+  </v-app>
+
+  
+
+  
 </template>
+
 <style>
   #liste_equipe{
-    margin-left:10vh;
-    margin-top: 10vh;
+    margin-left: 3vw;
+    margin-top: 7vh;
   }
   .v-btn{
     border-radius:4px 4px 0px 0px  !important;
@@ -39,49 +67,57 @@
   .v-card__title{
     border-top: 2px solid rgba(0,0,0,0.2);
   }
-  .v-card{
-    margin-right:7vh !important;
-  }
+
   </style>
 
 <script>
-const axios = require("axios");
+  const axios = require("axios");
   export default {
     name: 'ListeEquipes',
-      data() {
-    return {
-      equipes:[],
-      nom:"",
-   
-    }
-  },
-    methods:{
-      // Recup les donners depuis la base
-      AllRecords(){
-          axios.post("../../afficherData.php",{
-            request:0,
-          })
-          .then((response)=>{ 
-              console.log(response.data);
-              this.equipes = response.data;
-          })
-          .catch(function(error){
-              console.log(error);
-          });
-      },
-          NewEquipe() {
-      axios
-        .post("../../addData.php", {
-          request: 0,
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+    data() {
+      return {
+        dialog: false,
+        equipes:[],
+        nom:"",
+      }
     },
 
-   },
+    methods:{
+
+      getEquipes(){
+        axios.post("../../reqEquipe.php",{
+          request:0,
+        })
+        .then((response)=>{ 
+          console.log(response.data);
+          this.equipes = response.data;
+        })
+        .catch(function(error){
+          console.log(error);
+        });
+      },
+
+
+      addEquipe() {
+        this.dialog = false;
+        axios.post("../../reqEquipe.php", {
+          request: 1,
+          nomEquipe: document.getElementById('nomEquipe').value,
+        }).catch(function (error) {
+          console.log(error);
+        });
+
+        setTimeout(() => {
+          this.getEquipes();
+          document.getElementById('nomEquipe').innerHTML = ""
+        }, 200);
+      },
+
+    },
+
     created(){
-      this.AllRecords();
-   },
+      this.getEquipes();
+    },
+
   }; 
 </script>

@@ -1,9 +1,8 @@
 <template>
   <v-app>
     <v-main >
-        <v-row style="height:100%">
+        
           <ListeEquipes/>
-        </v-row>
         
     </v-main>
   </v-app>

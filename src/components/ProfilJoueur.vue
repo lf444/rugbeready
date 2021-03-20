@@ -1,133 +1,231 @@
 <template>
   <div>
-    <v-card>
-      <v-col style="padding-bottom:0px"> 
-          <v-tabs>
-              <v-tab @click="goToIdentite">Identité</v-tab>
-              <v-tab @click="goToBlessures">Blessures</v-tab>
-              <v-tab @click="goToPerf">Performances</v-tab>
-          </v-tabs>
-      </v-col>
-    </v-card>
- 
-    <div id="identite">
-      <v-card style="padding-top:25px">
 
-        <div>
-           <tr v-for='joueur in joueurs' v-bind:key="joueur.idJoueur">
-          <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Nom : </p>
-             <input type='text' id="valeurNom" style="height:100%;color:white" v-model="joueur.nom" >
-          </div>
+    <v-row justify="center" style="margin-top:60px;">
+      <v-card id="banniere" style="display:flex;flex-direction:column;justify-content:center">
 
-          <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Prénom : </p>
-           <input type='text' id="valeurPrenom" style="height:100%;color:white" v-model="joueur.prenom">
-          </div>
-
-          <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Poste : </p>
-          <input type='text' id="valeurPoste" style="height:100%;color:white" v-model="joueur.poste">
-          </div>
-          </tr>
-
-           <tr v-for='jspec in jspecs' v-bind:key="jspec.idTaillePoids">
-          <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Poids : </p>
-            <input type='text' id="valeurPoids" style="height:100%;color:white" v-model="jspec.poids">
-          </div>
-
-          <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Taille : </p>
-            <input type='text' id="valeurTaille" style="height:100%;color:white" v-model="jspec.taille">
-          </div>
-          </tr>
-          <v-btn v-on:click="UpdateRecord();"> submit </v-btn>
-        </div>
+        <p style="font-size:35px;font-weight:700;color:black;margin-bottom:0">{{prenom}} {{nom}}</p>
+        <p style="font-size:27px;font-weight:500;color:black;margin-bottom:0">{{poste}}</p>
       </v-card>
-     
-    </div>
-
-
-    <div id="blessures" hidden=true>
-      <tr v-for='blessure in blessures' v-bind:key="blessure.idBlessure">
-      <v-card style="padding-top:25px">
-        <div>
-          <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Date : </p>
-            <input type="date" id="valeurDateBlessure" style="height:100%;color:white" v-model="blessure.dateBlessure">
-          </div>
-
-          <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Durée : </p>
-            <input type='text' id="valeurTempsRepos" style="height:100%;color:white" v-model="blessure.tempsRepos">
-          </div>
-
-            <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Type : </p>
-            <input type='text' id="valeurTypeBlessure" style="height:100%;color:white" v-model="blessure.typeBlessure">
-          </div>
-           
-          <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Contexte : </p>
-            <v-textarea type='text' id="valeurContextBlessure" style="height:100%;color:white" v-model="blessure.contextBlessure">
-          </div> 
-          <v-btn v-on:click="UpdateRecordBlessure();"> submit </v-btn>
-        </div>
-      </v-card>
-      </tr>
+    </v-row>
       
-    </div>
 
-    <div id="perf" hidden=true>
-        <tr v-for='perf in perfs' v-bind:key="perf.idPerf">
-      <v-card style="padding-top:25px">
-        <div>
+    <v-row justify="center" style="margin-top:60px;margin-bottom:100px;">
+
+      <v-expansion-panels focusable style="width:90%">
+
+        <v-expansion-panel>
+          <v-expansion-panel-header @click="drawEvolutionTaillePoids()">Taille & Poids</v-expansion-panel-header>
+          <v-expansion-panel-content>
+
+            <v-row justify="center" style="margin-top:40px;margin-bottom:30px">
+              <v-card style="margin-top:20px;width:50%;box-shadow:none;border:none">
+                <canvas id="chartTaillePoids" width="400" height=""></canvas>
+              </v-card>
+            </v-row>
+
+            <v-row justify="center" style="padding-bottom:30px;margin-left:10px !important;padding-top:10px !important;">
+              <v-dialog v-model="dialog1" persistent max-width="600px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="primary" dark v-bind="attrs" v-on="on" style="border-radius:4px !important">Nouveau relevé</v-btn>
+                </template>
+                <v-card style="margin:0px !important">
+                  <v-card-title>
+                    <span class="headline">Nouveau relevé</span>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-container>
+
+                      <v-row>
+                        <v-col cols="12" sm="6">
+                          <v-text-field label="Poids" v-model="poids" required></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-text-field label="Taille" v-model="taille" required></v-text-field>
+                        </v-col>
+                      </v-row>
+
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                        <v-btn color="blue darken-1" text @click="dialog1 = false">Fermer</v-btn>
+                        <v-btn color="blue darken-1" text @click="updateTaillePoidsJoueur()">Mettre à jour</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-row>
             
-            <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Date : </p>
-            <input type="date" id="valeurDatePerf" style="height:100%;color:white"  v-model="perf.datePerf">
-          </div>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
 
-          <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Squat : </p>
-            <input type="text" id="valeurPerfSquat" style="height:100%;color:white"  v-model="perf.squat">
-          </div>
-               <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Couché : </p>
-            <input type="text" id="valeurPerfDcouche" style="height:100%;color:white"  v-model="perf.dcouche">
-          </div>
-               <div style="display:flex; max-heigth:20px;">
-            <p style="height:100%;margin-right:5px;width:75px;">Tirage : </p>
-            <input type="text" id="valeurPerfTirage" style="height:100%;color:white"  v-model="perf.tirage">
-          </div>
+        <v-expansion-panel>
+          <v-expansion-panel-header>Blessures</v-expansion-panel-header>
+          <v-expansion-panel-content style="justify-content:center;">
 
-        </div>
-        <v-btn v-on:click="UpdateRecordPerf();"> submit </v-btn>
-      </v-card>
-     
-       </tr>
-       
-    </div>
+            <!-- tableau blessures -->
+            <v-simple-table dark style="background-color: grey; margin-top:15px;margin-bottom:30px;border-radius:4px !important;">
+              <thead style="background:#2196f3">
+                <tr>
+                  <th style="color:#fff;font-size:15px" class="text-center">Date</th>
+                  <th style="color:#fff;font-size:15px" class="text-center">Durée</th>
+                  <th style="color:#fff;font-size:15px" class="text-center">Type</th>
+                  <th style="color:#fff;font-size:15px" class="text-center">Contexte</th>
+                </tr>
+              </thead>
 
-    <chart :options="chartOptionsBar"></chart>
-  
+              <tbody class="text-center">
+                <tr v-for="blessure in blessures" v-bind:key="blessure.idJoueur">
+                  <td>{{ blessure.dateBlessure }}</td>
+                  <td>{{ blessure.tempsRepos }}</td>
+                  <td>{{ blessure.typeBlessure }}</td>
+                  <td>{{ blessure.contextBlessure }}</td>
+                </tr>
+              </tbody>
+            </v-simple-table>
+
+            <!-- ajout blessure -->
+            <v-row justify="center" style="margin-bottom:4px;">
+              <v-dialog v-model="dialog3" persistent max-width="600px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="primary" dark v-bind="attrs" v-on="on" style="border-radius:4px !important">Déclarer une nouvelle blessure</v-btn>
+                </template>
+                <v-card style="margin:0px !important">
+                  <v-card-title>
+                    <span class="headline">Déclarer une nouvelle blessure</span>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="12" sm="6">
+                          <v-text-field type="date" id="dateBlessure" label="Date" required></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-text-field id="duree" label="Durée" required></v-text-field>
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col cols="12" sm="6">
+                          <v-text-field id="type" label="Type" required></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-text-field id="contexte" label="Contexte"  required></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                        <v-btn color="blue darken-1" text @click="dialog3 = false">Fermer</v-btn>
+                        <v-btn color="blue darken-1" text @click="addBlessure()">Ajouter</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-row>
+
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header @click="drawEvolutionPerf()">Performances</v-expansion-panel-header>
+          <v-expansion-panel-content>
+
+            <v-row justify="center" style="margin-top:40px;margin-bottom:30px">
+              <v-card style="margin-top:20px;width:50%;box-shadow:none;border:none">
+                <canvas id="chartPerf" width="400" height=""></canvas>
+              </v-card>
+            </v-row>
+            
+            
+
+            <v-row justify="center" style="padding-bottom:30px; padding-top:10px !important;">
+              <v-dialog v-model="dialog2" persistent max-width="600px">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="primary" dark v-bind="attrs" v-on="on" style="border-radius:4px !important">Nouveau relevé</v-btn>
+                </template>
+                <v-card style="margin:0px !important">
+                  <v-card-title>
+                    <span class="headline">Modifier</span>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-container>
+                      <v-row>
+                        <v-col cols="12" sm="4">
+                          <v-text-field id="valeurPerfSquat" label="Squat" v-model="squat" required></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="4">
+                          <v-text-field id="valeurPerfDcouche" label="DCouché" v-model="dcouche" required></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="4">
+                          <v-text-field id="valeurPerfTirage" label="Tirage" v-model="tirage" required></v-text-field>
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <v-col cols="12" sm="6">
+                          <v-text-field id="valeurPerfDetente" label="Détente verticale" v-model="detenteVerticale" required></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-text-field type="time" id="valeurPerfSprint" label="Temps sprint" v-model="tempsSprint" required></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-container>
+                  </v-card-text>
+
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click="dialog2 = false">Fermer</v-btn>
+                    <v-btn color="blue darken-1" text @click="updatePerfJoueur()">Mettre à jour</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-row>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+      </v-expansion-panels>
+
+    </v-row>
+
   </div>
   
 </template>
 
+<style>
+  #liste_blessure{
+    margin: 60px 7vh !important;
+  }
+
+  #banniere{
+    height: 330px;
+    width: 90%;
+    background-image: url("https://api.www.ffr.fr/wp-content/uploads/2020/04/Sans-titre-1-1.jpg");
+    background-size: cover;
+    background-position: 0px -162px;
+  }
+
+  .v-tab {
+    padding-bottom: 10px !important;
+  }
+</style>
+
 <script>
+
+const Chart = require("chart.js");
 const axios = require("axios");
 export default {
   name: "ProfileJoueur",
   data: () => ({
-    joueurs: [],
+    chartPerf :"",
+    chartTaillePoids : "",
+    dialog1: false,
+    dialog2: false,
+    dialog3: false,
     nom: "",
     prenom: "",
     poste:"",
-    selectedPoste: "",
     idEquipe: "",
-    jspecs: [],
     taille: "",
     poids: "",
     blessures: [],
@@ -135,167 +233,305 @@ export default {
     dateBlessure: "",
     typeBlessure: "",
     contextBlessure: "",
-    perfs: [],
     datePerf:"",
     squat: "",
     dcouche: "",
     tirage: "",
+    detenteVerticale: "",
+    tempsSprint: "",
+    postes: [
+      "Pilliers","Talonneur","Deuxième ligne","Troisième ligne",
+      "Demi de mêlée","Demi d'ouverture","Trois-quarts","Ailier","Arrière",
+    ],
   }),
 
   methods: {
-    // Recup les donners depuis la base
-    AllRecords() {
+
+    getIdentiteJoueur() {
+      axios.post("../../reqJoueur.php", {
+        request:0,
+        idJoueur: this.$route.query.idJoueur,
+      })
+      .then((response) => {
+        var tab = response.data[0];
+        this.nom = tab.nom
+        this.prenom = tab.prenom
+        this.poste = tab.poste
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+
+    getTaillePoidsJoueur() {
+      axios.post("../../reqJoueur.php", {
+        request: 1,
+        idJoueur: this.$route.query.idJoueur
+      })
+      .then((response) => {
+        var tab = response.data[0];
+        this.taille = tab.taille
+        this.poids = tab.poids
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+
+
+    getBlessuresJoueur() {
+      axios.post("../../reqJoueur.php", {
+        idJoueur: this.$route.query.idJoueur,
+        request: 4
+      })
+      .then((response) => {
+        this.blessures = response.data;
+        this.blessures.forEach(element => {
+          var j = element.dateBlessure.substring(8)
+          var m = element.dateBlessure.substring(5,7)
+          var a = element.dateBlessure.substring(0,4)
+          element.dateBlessure = j + "/" + m + "/" + a
+        });
+
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+
+    getPerfsJoueurs() {
+      axios.post("../../reqJoueur.php", {
+        idJoueur: this.$route.query.idJoueur,
+        request: 5
+      })
+      .then((response) => {
+        var tab = response.data[0];
+        this.squat = tab.squat
+        this.dcouche = tab.dcouche
+        this.tirage = tab.tirage
+        this.detenteVerticale = tab.detenteVerticale
+        this.tempsSprint = tab.tempsSprint
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+
+    updateTaillePoidsJoueur() {
+
+      axios.post("../../reqJoueur.php", {
+        request:3,
+        idJoueur: this.$route.query.idJoueur,
+        poids:  this.poids,
+        taille: this.taille,
+      })
+      .then(function (error) {
+        console.log(error);
+      });
+
+      setTimeout(() => {
+        this.dialog1 = false;
+        this.drawEvolutionTaillePoids();
+      }, 100);
+    },
+
+
+    
+
+    
+    addBlessure() {
+
+      axios.post("../../reqJoueur.php", {
+        request:6,
+        idJoueur: this.$route.query.idJoueur,
+        dateBlessure:    document.getElementById("dateBlessure").value,
+        tempsRepos:    document.getElementById("duree").value,
+        typeBlessure:  document.getElementById("type").value,
+        contextBlessure:  document.getElementById("contexte").value,
+      })
+      .then(function (error) {
+        console.log(error);
+      });
+
+      setTimeout(() => {
+        this.dialog3 = false;
+        this.getBlessuresJoueur();
+      }, 100);
+    },
+
+    
+    updatePerfJoueur() {
+
+      axios.post("../../reqJoueur.php", {
+        request: 2,
+        idJoueur: this.$route.query.idJoueur,
+        datePerf: "",
+        squat: this.squat,
+        dcouche: this.dcouche,
+        tirage: this.tirage,
+        detenteVerticale: this.detenteVerticale,
+        tempsSprint: this.tempsSprint,
+      })
+      .then(function (error) {
+        console.log(error);
+      });
+
+      setTimeout(() => {
+        this.drawEvolutionPerf();
+        this.dialog2 = false;
+      }, 100);
+    },
+
+
+    drawEvolutionTaillePoids(){
+
       axios
-        .post("../../afficherData.php", {
-          request:2,
-          //Recup de l'id dans l'url
+        .post("../../reqHistorique",{
           idJoueur: this.$route.query.idJoueur,
+          request: 0
         })
         .then((response) => {
-        //  console.log(response.data);
-          this.joueurs = response.data;
+          const responData = response.data;
+          //console.log(responData);
+
+          var chartPoids = responData.map((item) => item.poids);
+          var chartTaille = responData.map((item) => item.taille);
+          var chartlabel = responData.map((item) => item.dateTaillePoids);
+
+          for (let index = 0; index < chartlabel.length; index++) {
+            var j = chartlabel[index].substring(8)
+            var m = chartlabel[index].substring(5,7)
+            var a = chartlabel[index].substring(0,4)
+            chartlabel[index] = j + "/" + m + "/" + a
+          }
+
+          const ctx = document.getElementById("chartTaillePoids").getContext("2d");
+          this.chartTaillePoids = new Chart(ctx, {
+            type: "line",
+            data: {
+              labels: chartlabel,
+              datasets: [
+                {
+                  label: "Poids",
+                  fill: false,
+                  data: chartPoids,
+                  backgroundColor: 'red',
+                  borderColor: 'red',
+                },
+                {
+                  label: "Taille",
+                  fill: false,
+                  data: chartTaille,
+                  backgroundColor : 'green',
+                  borderColor: 'green',
+                },
+              ],
+            },
+            options: {
+              responsive:true,
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      beginAtZero: true,
+                    },
+                  },
+                ],
+              },
+              tooltips:{
+                displayColors: false,
+              }
+            },
+          });
         })
         .catch(function (error) {
           console.log(error);
         });
     },
 
-    JoueurTaillePoids() {
+    drawEvolutionPerf() {
       axios
-        .post("../../afficherJoueurSpec.php", {
-          //Recup de l'id dans l'url
+        .post("../../reqHistorique.php", {
           idJoueur: this.$route.query.idJoueur,
+          request: 1,
         })
         .then((response) => {
-         // console.log(response.data);
-          this.jspecs = response.data;
+          const responData = response.data;
+
+          var chartSquat   = responData.map((item) => item.squat);
+          var chartDcouche = responData.map((item) => item.dcouche);
+          var chartTirage  = responData.map((item) => item.tirage);
+          var chartlabel = responData.map((item) => item.datePerf);
+          for (let index = 0; index < chartlabel.length; index++) {
+            var j = chartlabel[index].substring(8)
+            var m = chartlabel[index].substring(5,7)
+            var a = chartlabel[index].substring(0,4)
+            chartlabel[index] = j + "/" + m + "/" + a
+          }
+
+          const ctx = document.getElementById("chartPerf").getContext("2d");
+          this.chartPerf = new Chart(ctx, {
+            type: "line",
+            data: {
+              labels: chartlabel,
+              datasets: [
+                {
+                  label: "Squat",
+                  fill: false,
+                  data: chartSquat,
+                  backgroundColor: 'red',
+                  borderColor: 'red'
+                },
+                {
+                  label: "Développé couché",
+                  fill: false,
+                  data: chartDcouche,
+                  backgroundColor: 'green',
+                  borderColor: 'green'
+                },
+
+                {
+                  label: "Tirage",
+                  fill: false,
+                  data: chartTirage,
+                  backgroundColor: 'blue',
+                  borderColor: 'blue'
+                },
+              ],
+            },
+            options: {
+              responsive:true,
+              scales: {
+                yAxes: [
+                  {
+                    ticks: {
+                      beginAtZero: true,
+                    },
+                  },
+                ],
+              },
+              tooltips:{
+                displayColors: false,
+              }
+            },
+          });
         })
         .catch(function (error) {
-          console.log(error);
-        });
-    },
-    JoueurBlessure() {
-      axios
-        .post("../../afficherJoueurBlessure.php", {
-          //Recup de l'id dans l'url
-          idJoueur: this.$route.query.idJoueur,
-        })
-        .then((response) => {
-         // console.log(response.data);
-          this.blessures = response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-
-    JoueurPerfs() {
-      axios
-        .post("../../afficherJoueurPerfs.php", {
-          //Recup de l'id dans l'url
-          idJoueur: this.$route.query.idJoueur,
-        })
-        .then((response) => {
-         // console.log(response.data);
-          this.perfs = response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-
-    UpdateRecord() {
-
-      axios
-        .post("../../updateData.php", {
-          request:0,
-          idJoueur: this.$route.query.idJoueur,
-          nom:    document.getElementById("valeurNom").value,
-          prenom: document.getElementById("valeurPrenom").value,
-          poste:  document.getElementById("valeurPoste").value,
-          poids:  document.getElementById("valeurPoids").value,
-          taille: document.getElementById("valeurTaille").value,
-
-        })
-        .then(function (error) {
           console.log(error);
         });
     },
 
     
-    UpdateRecordBlessure() {
-
-      axios
-        .post("../../updateData.php", {
-          request:1,
-          idJoueur: this.$route.query.idJoueur,
-          dateBlessure:    document.getElementById("valeurDateBlessure").value,
-          tempsRepos:    document.getElementById("valeurTempsRepos").value,
-          typeBlessure:  document.getElementById("valeurTypeBlessure").value,
-          contextBlessure:  document.getElementById("valeurContextBlessure").value,
-        })
-        .then(function (error) {
-          console.log(error);
-        });
-    },
-
-    
-    UpdateRecordPerf() {
-
-      axios
-        .post("../../updateData.php", {
-          request:2,
-          idJoueur: this.$route.query.idJoueur,
-          datePerf:   document.getElementById("valeurDatePerf").value,
-          squat: document.getElementById("valeurPerfSquat").value,
-          dcouche:  document.getElementById("valeurPerfDcouche").value,
-          tirage:  document.getElementById("valeurPerfTirage").value,
-        })
-        .then(function (error) {
-          console.log(error);
-        });
-    },
-
-    goToIdentite: function () {
-      const tabIdentite = document.getElementById("identite");
-      const tabBlessures = document.getElementById("blessures");
-      const tabPerf = document.getElementById("perf");
-      tabIdentite.hidden = false;
-      tabBlessures.hidden = true;
-      tabPerf.hidden = true;
-    },
-    goToBlessures: function () {
-      const tabIdentite = document.getElementById("identite");
-      const tabBlessures = document.getElementById("blessures");
-      const tabPerf = document.getElementById("perf");
-      tabIdentite.hidden = true;
-      tabBlessures.hidden = false;
-      tabPerf.hidden = true;
-    },
-    goToPerf: function () {
-      const tabIdentite = document.getElementById("identite");
-      const tabBlessures = document.getElementById("blessures");
-      const tabPerf = document.getElementById("perf");
-      tabIdentite.hidden = true;
-      tabBlessures.hidden = true;
-      tabPerf.hidden = false;
-    },
-
-    // les fonctions qui seront executé à la création de la page
   },
+
   created() {
-    this.AllRecords();
-    this.JoueurTaillePoids();
-    this.JoueurBlessure();
-    this.JoueurPerfs();
+    this.getIdentiteJoueur();
+    this.getTaillePoidsJoueur();
+    this.getBlessuresJoueur();
+    this.getPerfsJoueurs();
   },
 };
 </script>
 
-<style>
-.v-tab {
-  padding-bottom: 10px !important;
-}
-</style>
 
      

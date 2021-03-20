@@ -1,8 +1,8 @@
 <?php
 
-$host = "localhost";    /* Host name */
-$user = "root";         /* User */
-$password = "";         /* Password */
+$host = "rugbergroot.mysql.db";    /* Host name */
+$user = "rugbergroot";         /* User */
+$password = "NgpvyJZN3YFdvpy";         /* Password */
 $dbname = "rugbergroot";   /* Database name */
 
     try {
