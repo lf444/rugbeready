@@ -29,7 +29,6 @@ jobs:
       - name: Run a multi-line script
         run: |
               npm install
-              npm run test:unit homehead.spec.js        
-          
+              npm run test:unit homehead.spec.js                  
           
           
