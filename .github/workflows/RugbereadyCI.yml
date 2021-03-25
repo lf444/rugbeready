@@ -29,12 +29,13 @@ jobs:
       - name: Run a multi-line script
         run: |
               npm install
-              npm run test:unit homehead.spec.js   
+              npm run test:unit homehead.spec.js
+              npm run build
         env:
           OVH_HOSTING_USER: ${{ secrets.OVH_HOSTING_USER }}
           OVH_HOSTING_PASSWORD: ${{ secrets.OVH_HOSTING_PASSWORD }}
           OVH_HOSTING_DOMAIN: ftp.cluster030.hosting.ovh.net
           REPOSITORY_NAME: rugbeready
-          REPOSITORY_URL: https://github.com/lf444/rugbeready
+          REPOSITORY_URL: https://github.com/lf444/dist
           
           
