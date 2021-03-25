@@ -1,0 +1,30 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. 
+on:
+  push:
+  # Triggers the workflow on push or pull request events but only for the master branch
+    tags:
+      - 'v*'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Upload ftp
+      uses: sebastianpopp/ftp-action@releases/v2
+      with:
+        host: ftp.cluster030.hosting.ovh.net
+        user: ${{ secrets.OVH_HOSTING_USER }}
+        password: ${{ secrets.OVH_HOSTING_PASSWORD }}
+        localDir: "dist"
+        remoteDir: "www"
+        options: "--delete --asci"
