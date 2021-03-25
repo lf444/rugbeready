@@ -113,6 +113,10 @@
     },
 
     methods:{
+
+      test(){
+
+      },
       
       getJoueursFromEquipe(){
         axios.post("../../reqEquipe.php", {
