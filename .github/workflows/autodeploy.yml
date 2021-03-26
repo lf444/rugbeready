@@ -19,7 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
     - uses: actions/checkout@v2
-    - run: npm run build
+    - run:
+        npm install
+        npm run build
     - name: Upload ftp
       uses: sebastianpopp/ftp-action@releases/v2
       with:
