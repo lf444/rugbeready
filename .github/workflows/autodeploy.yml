@@ -17,7 +17,8 @@ jobs:
   build:
     name: Deploy
     runs-on: ubuntu-latest
-    steps:
+    steps: 
+    - run: npm run build
     - uses: actions/checkout@v2
     - name: Upload ftp
       uses: sebastianpopp/ftp-action@releases/v2
@@ -28,3 +29,4 @@ jobs:
         localDir: "dist"
         remoteDir: "www"
         options: "--delete --asci"
+        
