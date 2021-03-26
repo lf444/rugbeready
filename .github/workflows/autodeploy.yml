@@ -21,6 +21,7 @@ jobs:
     - uses: actions/checkout@v2
     - run:
         npm install
+    - run:
         npm run build
     - name: Upload ftp
       uses: sebastianpopp/ftp-action@releases/v2
