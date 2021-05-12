@@ -22,7 +22,7 @@
               <td>{{ joueur.dateFinBlessure}}</td>
               <td style="display: flex;justify-content: center">
                 <router-link tag="span" :to="{path: '/ProfilJoueurVue/?idJoueur=' + joueur.idJoueur,}" v-bind:tooltip="joueur.idJoueur" style="display:inherit;cursor:pointer">
-                  <button value="Profil">Profil</button>
+                  <button value="Profil"><font-awesome-icon icon="user"/></button>
                 </router-link>
                 <p style="display: flex;flex-direction: column;justify-content: center;margin-left: 5px;margin-right: 5px;margin-bottom:none;height:100%">|</p>
                 <button value="Delete data" v-on:click="delJoueurFromEquipe(joueur.idJoueur);">Supprimer</button>
