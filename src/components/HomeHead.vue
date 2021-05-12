@@ -13,7 +13,7 @@
             </v-list-item>
           </router-link>
 
-          <router-link tag="span" to="/Calendrier">
+          <router-link tag="span" to="/CalendrierVue">
             <v-list-item link>
               <v-list-item-icon style="display:inline">
                 <font-awesome-icon icon="calendar-plus"/>

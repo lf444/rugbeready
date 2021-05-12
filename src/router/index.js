@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import EquipeVue from '../views/EquipeVue.vue'
 import ProfilJoueurVue from '../views/ProfilJoueurVue.vue'
-
+import CalendrierVue from '../views/CalendrierVue.vue'
 
 
 Vue.use(VueRouter)
@@ -24,7 +24,13 @@ const Routes = [
     path: '/ProfilJoueurVue',
     name: 'ProfilJoueurVue',
     component: ProfilJoueurVue
-},
+  },
+
+  {
+    path: '/CalendrierVue',
+    name: 'CalendrierVue',
+    component: CalendrierVue
+  }
 
   
 ]

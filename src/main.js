@@ -11,6 +11,12 @@ import 'echarts/lib/chart/line';
 
 Vue.component('chart', echarts);
 
+import VCalendar from 'v-calendar';
+
+Vue.use(VCalendar, {
+  componentPrefix: 'vc'
+})
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faUsers } from '@fortawesome/free-solid-svg-icons'
 import { faCalendarPlus } from '@fortawesome/free-solid-svg-icons'

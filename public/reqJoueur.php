@@ -75,7 +75,7 @@ if($request==0){
 
 }elseif($request==4){
 
-    $req = $linkpdo->prepare("SELECT * FROM BLESSURE WHERE idJoueur=:idJoueur ORDER BY dateBlessure DESC");
+    $req = $linkpdo->prepare("SELECT * FROM HISTORIQUE_BLESSURE WHERE idJoueur=:idJoueur ORDER BY dateBlessure DESC");
     $req -> execute(['idJoueur'=> $idJoueur]);
 
 }elseif($request==5){
@@ -93,9 +93,19 @@ if($request==0){
         ':idJoueur' => $received_data->idJoueur,
     );
     
-    $req = $linkpdo->prepare('INSERT INTO BLESSURE(dateBlessure,tempsRepos,typeBlessure,contextBlessure,idJoueur) VALUES(:dateBlessure,:tempsRepos,:typeBlessure,:contextBlessure,:idJoueur)'); 
-    $req->execute($data); 
+    $req = $linkpdo->prepare('INSERT INTO HISTORIQUE_BLESSURE(dateBlessure,tempsRepos,typeBlessure,contextBlessure,idJoueur) VALUES(:dateBlessure,:tempsRepos,:typeBlessure,:contextBlessure,:idJoueur)'); 
+    $req->execute($data);
 
+    
+
+}elseif($request==7){
+    $data = array(
+        ':dateBlessure' => $received_data->dateBlessure,
+        ':tempsRepos' => $received_data->tempsRepos,
+        ':idJoueur' => $received_data->idJoueur,
+    );
+    $req = $linkpdo->prepare('UPDATE BLESSURE SET dateBlessure=:dateBlessure, tempsRepos=:tempsRepos WHERE idJoueur=:idJoueur'); 
+    $req->execute($data);
 }
 
 

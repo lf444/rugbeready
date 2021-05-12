@@ -1,18 +1,36 @@
 <template>
   <div>
 
-    <v-row justify="center" style="margin-top:60px;">
+    <!-- <v-row justify="center" style="margin-top:60px;">
       <v-card id="banniere" style="display:flex;flex-direction:column;justify-content:center">
 
         <p style="font-size:35px;font-weight:700;color:black;margin-bottom:0">{{prenom}} {{nom}}</p>
         <p style="font-size:27px;font-weight:500;color:black;margin-bottom:0">{{poste}}</p>
       </v-card>
-    </v-row>
+    </v-row> -->
       
 
     <v-row justify="center" style="margin-top:60px;margin-bottom:100px;">
 
-      <v-expansion-panels focusable style="width:90%">
+      <v-expansion-panels v-model="panel" multiple focusable style="width:90%">
+
+        <v-expansion-panel>
+          <v-expansion-panel-header>Informations générales</v-expansion-panel-header>
+          <v-expansion-panel-content>
+
+            <v-row style="margin-top:40px;margin-bottom:30px">
+              <v-card class="d-flex flex-column col-10" style="font-size:15px;box-shadow:none;border:none;padding-left:35px">
+                <span style="margin-bottom:5px;text-align:start">Prénom : {{prenom}}</span>
+                <span style="margin-bottom:5px;text-align:start">Nom : {{nom}}</span>
+                <span style="margin-bottom:5px;text-align:start">Age : {{age}} ans</span>
+                <span style="margin-bottom:7px;text-align:start">Poste : {{poste}}</span>
+                <span style="margin-bottom:5px;text-align:start">Email : {{email}}</span>
+                <span style="margin-bottom:5px;text-align:start">Tél : {{telephone}}</span>
+              </v-card>
+            </v-row>
+            
+          </v-expansion-panel-content>
+        </v-expansion-panel>
 
         <v-expansion-panel>
           <v-expansion-panel-header @click="drawEvolutionTaillePoids()">Taille & Poids</v-expansion-panel-header>
@@ -38,10 +56,10 @@
 
                       <v-row>
                         <v-col cols="12" sm="6">
-                          <v-text-field label="Poids" v-model="poids" required></v-text-field>
+                          <v-text-field label="Poids (kg)" v-model="poids" @keypress="isNumber($event)" required></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6">
-                          <v-text-field label="Taille" v-model="taille" required></v-text-field>
+                          <v-text-field label="Taille (cm)" v-model="taille" @keypress="isNumber($event)" required></v-text-field>
                         </v-col>
                       </v-row>
 
@@ -61,7 +79,7 @@
         </v-expansion-panel>
 
         <v-expansion-panel>
-          <v-expansion-panel-header>Blessures</v-expansion-panel-header>
+          <v-expansion-panel-header >Blessures</v-expansion-panel-header>
           <v-expansion-panel-content style="justify-content:center;">
 
             <!-- tableau blessures -->
@@ -99,18 +117,18 @@
                     <v-container>
                       <v-row>
                         <v-col cols="12" sm="6">
-                          <v-text-field type="date" id="dateBlessure" label="Date" required></v-text-field>
+                          <v-text-field v-model="dateDuJour" type="date" id="dateBlessure" label="Date" ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6">
-                          <v-text-field id="duree" label="Durée" required></v-text-field>
+                          <v-text-field id="duree" @keypress="isNumber($event)" label="Durée (jours)"></v-text-field>
                         </v-col>
                       </v-row>
                       <v-row>
                         <v-col cols="12" sm="6">
-                          <v-text-field id="type" label="Type" required></v-text-field>
+                          <v-text-field id="type" label="Type"></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6">
-                          <v-text-field id="contexte" label="Contexte"  required></v-text-field>
+                          <v-text-field id="context" label="Contexte"></v-text-field>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -222,9 +240,12 @@ export default {
     dialog1: false,
     dialog2: false,
     dialog3: false,
-    nom: "",
-    prenom: "",
+    nom:"",
+    prenom:"",
     poste:"",
+    age:"",
+    email:"",
+    telephone:"",
     idEquipe: "",
     taille: "",
     poids: "",
@@ -243,9 +264,22 @@ export default {
       "Pilliers","Talonneur","Deuxième ligne","Troisième ligne",
       "Demi de mêlée","Demi d'ouverture","Trois-quarts","Ailier","Arrière",
     ],
+    dateDuJour: new Date().toISOString().substr(0, 10),
+    panel: [0]
   }),
 
   methods: {
+
+    isNumber: function(evt) {
+      evt = (evt) ? evt : window.event;
+      var charCode = (evt.which) ? evt.which : evt.keyCode;
+      if ((charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
+        evt.preventDefault();
+      } else {
+        return true;
+      }
+    },
+    
 
     getIdentiteJoueur() {
       axios.post("../../reqJoueur.php", {
@@ -257,6 +291,9 @@ export default {
         this.nom = tab.nom
         this.prenom = tab.prenom
         this.poste = tab.poste
+        this.age = new Date(new Date() - new Date(tab.dateNaissance)).getFullYear() - 1970;
+        this.email = tab.email
+        this.telephone = tab.telephone
       })
       .catch(function (error) {
         console.log(error);
@@ -333,6 +370,7 @@ export default {
         this.dialog1 = false;
         this.drawEvolutionTaillePoids();
       }, 100);
+
     },
 
 
@@ -340,23 +378,36 @@ export default {
 
     
     addBlessure() {
+      if(document.getElementById("duree").value != "" && document.getElementById("type").value != "" && document.getElementById("context").value != ""){
 
-      axios.post("../../reqJoueur.php", {
-        request:6,
-        idJoueur: this.$route.query.idJoueur,
-        dateBlessure:    document.getElementById("dateBlessure").value,
-        tempsRepos:    document.getElementById("duree").value,
-        typeBlessure:  document.getElementById("type").value,
-        contextBlessure:  document.getElementById("contexte").value,
-      })
-      .then(function (error) {
-        console.log(error);
-      });
+        axios.post("../../reqJoueur.php", {
+          request:6,
+          idJoueur: this.$route.query.idJoueur,
+          dateBlessure:    document.getElementById("dateBlessure").value,
+          tempsRepos:    document.getElementById("duree").value,
+          typeBlessure:  document.getElementById("type").value,
+          contextBlessure:  document.getElementById("context").value,
+        })
+        .then(function (error) {
+          console.log(error);
+        });
 
-      setTimeout(() => {
-        this.dialog3 = false;
-        this.getBlessuresJoueur();
-      }, 100);
+        setTimeout(() => {
+          this.dialog3 = false;
+          this.getBlessuresJoueur();
+        }, 100);
+
+        axios.post("../../reqJoueur.php", {
+          request:7,
+          idJoueur: this.$route.query.idJoueur,
+          dateBlessure:    document.getElementById("dateBlessure").value,
+          tempsRepos:    document.getElementById("duree").value,
+        })
+        .then(function (error) {
+          console.log(error);
+        });
+
+      }
     },
 
     
@@ -384,7 +435,7 @@ export default {
 
 
     drawEvolutionTaillePoids(){
-
+      
       axios
         .post("../../reqHistorique",{
           idJoueur: this.$route.query.idJoueur,
@@ -412,14 +463,14 @@ export default {
               labels: chartlabel,
               datasets: [
                 {
-                  label: "Poids",
+                  label: "Poids (kg)",
                   fill: false,
                   data: chartPoids,
                   backgroundColor: 'red',
                   borderColor: 'red',
                 },
                 {
-                  label: "Taille",
+                  label: "Taille (cm)",
                   fill: false,
                   data: chartTaille,
                   backgroundColor : 'green',
@@ -476,14 +527,14 @@ export default {
               labels: chartlabel,
               datasets: [
                 {
-                  label: "Squat",
+                  label: "Squat (kg)",
                   fill: false,
                   data: chartSquat,
                   backgroundColor: 'red',
                   borderColor: 'red'
                 },
                 {
-                  label: "Développé couché",
+                  label: "Développé couché (kg)",
                   fill: false,
                   data: chartDcouche,
                   backgroundColor: 'green',
@@ -491,7 +542,7 @@ export default {
                 },
 
                 {
-                  label: "Tirage",
+                  label: "Tirage (kg)",
                   fill: false,
                   data: chartTirage,
                   backgroundColor: 'blue',
