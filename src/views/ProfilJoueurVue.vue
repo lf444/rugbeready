@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width:100%">
     <v-row justify="center" style="margin-top: 60px; margin-bottom: 100px">
       <v-expansion-panels v-model="panel" multiple focusable style="width: 90%">
         <v-expansion-panel>
