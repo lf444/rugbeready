@@ -4,7 +4,6 @@
     <v-main>
 
       <div id="liste_equipe">
-
         <v-row style="padding-bottom:60px;">
           <tr v-for='equipe in equipes' v-bind:key="equipe.idEquipe">
             <router-link tag="span" :to=" { path: '/EquipeVue/?idEquipe='+equipe.idEquipe } " v-bind:tooltip="equipe.idEquipe" style="cursor:pointer">
@@ -31,7 +30,7 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12">
-                      <v-text-field id="nomEquipe" label="Nom" v-model="nom" required></v-text-field>
+                      <v-text-field label="Nom" v-model="nomEquipe" required></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -78,7 +77,7 @@
       return {
         dialog: false,
         equipes:[],
-        nom:"",
+        nomEquipe:"",
       }
     },
 
@@ -89,7 +88,6 @@
           request:0,
         })
         .then((response)=>{ 
-          console.log(response.data);
           this.equipes = response.data;
         })
         .catch(function(error){
@@ -102,14 +100,14 @@
         this.dialog = false;
         axios.post("../../reqEquipe.php", {
           request: 1,
-          nomEquipe: document.getElementById('nomEquipe').value,
+          nomEquipe: this.nomEquipe,
         }).catch(function (error) {
           console.log(error);
         });
 
         setTimeout(() => {
           this.getEquipes();
-          document.getElementById('nomEquipe').innerHTML = ""
+          this.nomEquipe="";
         }, 200);
       },
 

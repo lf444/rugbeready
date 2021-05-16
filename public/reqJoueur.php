@@ -10,12 +10,16 @@ if($request==0){
     //recup l'identite d'un joueur
     $req = $linkpdo->prepare("SELECT * FROM JOUEUR WHERE idJoueur=:idJoueur");
     $req -> execute(['idJoueur'=> $idJoueur]);
+    $messages = $req->fetchAll();
+echo json_encode($messages);
 
 }elseif($request==1){
 
     //recup la taille et le poids d'un joueur
     $req = $linkpdo->prepare("SELECT * FROM HISTORIQUE_TAILLE_POIDS WHERE idJoueur=:idJoueur ORDER BY dateTaillePoids DESC LIMIT 1 ");
     $req -> execute(['idJoueur'=> $idJoueur]);
+    $messages = $req->fetchAll();
+echo json_encode($messages);
 
 }elseif($request==2){
 
@@ -59,6 +63,7 @@ if($request==0){
     $reqLastDate -> execute(['idJoueur'=> $idJoueur]);
     $lastDate = $reqLastDate->fetch(PDO::FETCH_ASSOC);
 
+
     if(date("Y-m-d") != $lastDate['dateTaillePoids']){
         //insert new row
         $req = $linkpdo->prepare('INSERT INTO HISTORIQUE_TAILLE_POIDS(taille,poids,dateTaillePoids,idJoueur) VALUES(:taille,:poids,:dateTaillePoids,:idJoueur)'); 
@@ -77,11 +82,15 @@ if($request==0){
 
     $req = $linkpdo->prepare("SELECT * FROM HISTORIQUE_BLESSURE WHERE idJoueur=:idJoueur ORDER BY dateBlessure DESC");
     $req -> execute(['idJoueur'=> $idJoueur]);
+    $messages = $req->fetchAll();
+echo json_encode($messages);
 
 }elseif($request==5){
 
     $req = $linkpdo->prepare("SELECT * FROM HISTORIQUE_PERF WHERE idJoueur=:idJoueur ORDER BY datePerf DESC LIMIT 1");
     $req -> execute(['idJoueur'=> $idJoueur]);
+    $messages = $req->fetchAll();
+echo json_encode($messages);
 
 }elseif($request==6){
 
@@ -108,7 +117,4 @@ if($request==0){
     $req->execute($data);
 }
 
-
-$messages = $req->fetchAll();
-echo json_encode($messages);
 exit;

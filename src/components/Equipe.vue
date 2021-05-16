@@ -166,7 +166,6 @@
           idEquipe: this.$route.query.idEquipe
         })
         .then((response)=>{ 
-          console.log(response.data);
           this.joueurs = response.data;
           this.joueurs.forEach(element => {
             if(element.dateFinBlessure != null){
@@ -174,7 +173,6 @@
               var date2 = new Date()
               var diff = (date1 - date2);
               var diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
-              console.log(diffDays)
               if(diffDays>0){
                 element.dateFinBlessure = "Blessé ("+diffDays+" jours restants)"
               }else{
@@ -209,7 +207,6 @@
             request: 6,
           })
           .then((response)=>{
-            console.log(response.data[0].idJoueur)
             axios.post("../../reqEquipe.php", {
               request: 7,
               id: response.data[0].idJoueur
@@ -227,8 +224,6 @@
       },
 
       addJoueurExistantToEquipe(){
-        console.log(this.joueur)
-        console.log(document.getElementById('joueurExistant'))
         this.dialog = false;
         axios.post("../../reqEquipe.php", {
           idEquipe: this.$route.query.idEquipe,
