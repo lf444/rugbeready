@@ -87,7 +87,7 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="Close()">Fermer</v-btn>
+              <v-btn color="blue darken-1" text @click="this.dialog3 = false;">Fermer</v-btn>
               <v-btn color="blue darken-1" text @click="addBlessure()"
                 >Ajouter</v-btn
               >
@@ -114,9 +114,6 @@ export default {
   }),
 
   methods: {
-    Close() {
-      this.dialog3 = false;
-    },
     isNumber: function (evt) {
       evt = evt ? evt : window.event;
       var charCode = evt.which ? evt.which : evt.keyCode;
@@ -169,8 +166,8 @@ export default {
           .then(function (error) {
             console.log(error);
           });
-            setTimeout(() => {
-          this.Close();
+        setTimeout(() => {
+          this.dialog3 = false;
           this.getBlessuresJoueur();
         }, 100);
 

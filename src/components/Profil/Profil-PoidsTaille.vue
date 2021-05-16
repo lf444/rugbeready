@@ -95,9 +95,6 @@ export default {
 
   methods: {
 
-        Close(){
-      this.dialog1=false;
-    },
     isNumber: function (evt) {
       evt = evt ? evt : window.event;
       var charCode = evt.which ? evt.which : evt.keyCode;
@@ -205,7 +202,7 @@ export default {
         });
 
       setTimeout(() => {
-        this.close();
+        this.dialog2 = false;
         this.drawEvolutionTaillePoids();
       }, 100);
 

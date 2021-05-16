@@ -72,10 +72,6 @@ export default {
 
   methods: {
 
-    Close(){
-      this.dialog2=false;
-    },
-
     getPerfsJoueurs() {
       axios.post("../../../reqJoueur.php", {
         idJoueur: this.$route.query.idJoueur,
@@ -182,7 +178,7 @@ export default {
         console.log(error);
       });
 
-         setTimeout(() => {
+      setTimeout(() => {
         this.drawEvolutionPerf();
         this.dialog2 = false;
       }, 100);
