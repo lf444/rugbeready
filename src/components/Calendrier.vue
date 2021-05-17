@@ -71,9 +71,6 @@
                 <v-list-item @click="type = 'month'">
                   <v-list-item-title>Mois</v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="type = '4day'">
-                  <v-list-item-title>4 jours</v-list-item-title>
-                </v-list-item>
               </v-list>
             </v-menu>
           </v-toolbar>
@@ -89,6 +86,8 @@
             :events="events"
             :event-color="getEventColor"
             :type="type"
+            :first-interval= 6
+            :interval-count= 15
             @click:event="showEvent"
             @click:more="viewDay"
             @click:date="viewDay"
@@ -195,10 +194,9 @@
       focus: '',
       type: 'month',
       typeToLabel: {
-        month: 'Month',
-        week: 'Week',
-        day: 'Day',
-        '4day': '4 Days',
+        month: 'Mois',
+        week: 'Semaine',
+        day: 'Jour',
       },
       selectedEvent: {},
       selectedElement: null,
@@ -257,7 +255,7 @@
         console.log(max)
 
         const first = new Date('2021-05-20T15:30:00')
-        const second = new Date('2021-05-21T16:00:00')
+        const second = new Date('2021-05-20T17:00:00')
         console.log(first)
         console.log(second)
 
@@ -279,6 +277,7 @@
               var str = width.substring(0, width.length - 1);
               var x = parseInt(str) + 5
               item.style.width = String(x + "%")
+              item.setAttribute('style', 'border:1px solid white !important');
           }
         }, 100);
 
@@ -301,12 +300,21 @@
   margin-left: 1px !important;
   margin-top: 4px !important;
   border-radius: 0px !important;
+}
 
+
+.v-event-timed{
+  width: 101% !important;
+  border-radius: 0px !important;
 }
 
 .v-card__text{
   color : black !important;
   text-align: start
+}
+
+.v-calendar-daily__pane{
+  overflow-x: hidden;
 }
 
 </style>
