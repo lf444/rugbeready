@@ -256,13 +256,13 @@
         console.log(min)
         console.log(max)
 
-        const first = new Date('2021-05-20T15:00:00')
+        const first = new Date('2021-05-20T15:30:00')
         const second = new Date('2021-05-21T16:00:00')
         console.log(first)
         console.log(second)
 
         events.push({
-          name: '- Event',
+          name: 'Match',
           details: 'Une description',
           start: first,
           end: second,
@@ -282,7 +282,7 @@
           }
         }, 100);
 
-        
+        console.log(this.events)
       },
 
       rnd (a, b) {
