@@ -20,23 +20,23 @@
                     <v-container>
                       <v-row>
                         <v-col cols="12" sm="4">
-                          <v-text-field label="Squat" v-model="squat" required></v-text-field>
+                          <v-text-field label="Squat (kg)" v-model="squat" required></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="4">
-                          <v-text-field  label="DCouché" v-model="dcouche" required></v-text-field>
+                          <v-text-field  label="Développé couché (kg)" v-model="dcouche" required></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="4">
-                          <v-text-field  label="Tirage" v-model="tirage" required></v-text-field>
+                          <v-text-field  label="Tirage (kg)" v-model="tirage" required></v-text-field>
                         </v-col>
                       </v-row>
-                      <v-row>
+                      <!-- <v-row>
                         <v-col cols="12" sm="6">
                           <v-text-field  label="Détente verticale" v-model="detenteVerticale" required></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6">
                           <v-text-field type="time" label="Temps sprint" v-model="tempsSprint" required></v-text-field>
                         </v-col>
-                      </v-row>
+                      </v-row> -->
                     </v-container>
                   </v-card-text>
 

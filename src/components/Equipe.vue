@@ -74,7 +74,7 @@
         </v-dialog>
       </v-row>
 
-      <v-row justify="center">
+      <!-- <v-row justify="center">
         <v-dialog v-model="dialog2" persistent max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn color="primary" dark v-bind="attrs" v-on="on" style="border-radius:4px !important">Ajouter un joueur existant</v-btn>
@@ -87,11 +87,6 @@
               <v-container>
                 <v-row>
                   <v-col cols="12" sm="6">
-
-                    <!-- <select style="color:white;background:blue" label="Joueur" id="categories" v-model="selected">
-                      <option style="color:black" v-for="test in tests" :key="test.id" :value="test.id">{{ test.nom }}</option>
-                    </select>
-                    Selected Value: {{selected}} -->
 
                     <v-select v-model="selected" label="Joueur" :items="joueursNoEquipe" :item-text="text"></v-select>
                     Selected Value: {{selected}}
@@ -107,7 +102,7 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-      </v-row>
+      </v-row> -->
 
 
 
