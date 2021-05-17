@@ -61,7 +61,7 @@
                 <v-row>
                   <v-col cols="12" sm="6">
                     <v-text-field
-                      v-model="dateDuJour"
+                      v-model="dateBlessure"
                       type="date"
                       label="Date"
                     ></v-text-field>
@@ -106,10 +106,9 @@ export default {
     dialog3: false,
     blessures: [],
     tempsRepos: "",
-    dateBlessure: "",
+    dateBlessure:  new Date().toISOString().substr(0, 10),
     typeBlessure: "",
     contextBlessure: "",
-    dateDuJour: new Date().toISOString().substr(0, 10),
     panel: [0],
   }),
 
@@ -130,10 +129,7 @@ export default {
 
     getBlessuresJoueur() {
       axios
-        .post("../../../reqJoueur.php", {
-          idJoueur: this.$route.query.idJoueur,
-          request: 4,
-        })
+        .get(`http://localhost:3000/blessures/${this.$route.query.idJoueur}`)
         .then((response) => {
           this.blessures = response.data;
           this.blessures.forEach((element) => {
@@ -155,8 +151,7 @@ export default {
        this.typeBlessure != ""
       ) {
         axios
-          .post("../../../reqJoueur.php", {
-            request: 6,
+          .post(`http://localhost:3000/blessures/${this.$route.query.idJoueur}`, {
             idJoueur: this.$route.query.idJoueur,
             dateBlessure: this.dateBlessure,
             tempsRepos: this.tempsRepos,
@@ -171,10 +166,8 @@ export default {
           this.getBlessuresJoueur();
         }, 100);
 
-        axios
-          .post("../../../reqJoueur.php", {
-            request: 7,
-            idJoueur: this.$route.query.idJoueur,
+         axios
+          .put(`http://localhost:3000/blessures/${this.$route.query.idJoueur}`, {
             dateBlessure:this.dateBlessure,
             tempsRepos: this.tempsRepos,
           })

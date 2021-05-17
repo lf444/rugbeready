@@ -4,16 +4,7 @@ include "config.php";
 $received_data = json_decode(file_get_contents("php://input"));
 $request = $received_data->request;
 $idJoueur = $received_data->idJoueur;
-
-if($request==0){
-
-    //recup l'identite d'un joueur
-    $req = $linkpdo->prepare("SELECT * FROM JOUEUR WHERE idJoueur=:idJoueur");
-    $req -> execute(['idJoueur'=> $idJoueur]);
-    $messages = $req->fetchAll();
-echo json_encode($messages);
-
-}elseif($request==1){
+if($request==1){
 
     //recup la taille et le poids d'un joueur
     $req = $linkpdo->prepare("SELECT * FROM HISTORIQUE_TAILLE_POIDS WHERE idJoueur=:idJoueur ORDER BY dateTaillePoids DESC LIMIT 1 ");
@@ -90,31 +81,7 @@ echo json_encode($messages);
     $req = $linkpdo->prepare("SELECT * FROM HISTORIQUE_PERF WHERE idJoueur=:idJoueur ORDER BY datePerf DESC LIMIT 1");
     $req -> execute(['idJoueur'=> $idJoueur]);
     $messages = $req->fetchAll();
-echo json_encode($messages);
-
-}elseif($request==6){
-
-    $data = array(
-        ':dateBlessure' => $received_data->dateBlessure,
-        ':tempsRepos' => $received_data->tempsRepos,
-        ':typeBlessure' => $received_data->typeBlessure,
-        ':contextBlessure' => $received_data->contextBlessure,
-        ':idJoueur' => $received_data->idJoueur,
-    );
-    
-    $req = $linkpdo->prepare('INSERT INTO HISTORIQUE_BLESSURE(dateBlessure,tempsRepos,typeBlessure,contextBlessure,idJoueur) VALUES(:dateBlessure,:tempsRepos,:typeBlessure,:contextBlessure,:idJoueur)'); 
-    $req->execute($data);
-
-    
-
-}elseif($request==7){
-    $data = array(
-        ':dateBlessure' => $received_data->dateBlessure,
-        ':tempsRepos' => $received_data->tempsRepos,
-        ':idJoueur' => $received_data->idJoueur,
-    );
-    $req = $linkpdo->prepare('UPDATE BLESSURE SET dateBlessure=:dateBlessure, tempsRepos=:tempsRepos WHERE idJoueur=:idJoueur'); 
-    $req->execute($data);
+    echo json_encode($messages);
 }
 
 exit;

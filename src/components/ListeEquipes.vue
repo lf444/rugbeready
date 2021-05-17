@@ -84,9 +84,7 @@
     methods:{
 
       getEquipes(){
-        axios.post("../../reqEquipe.php",{
-          request:0,
-        })
+        axios.get("http://localhost:3000/equipes")
         .then((response)=>{ 
           this.equipes = response.data;
         })
@@ -98,9 +96,8 @@
 
       addEquipe() {
         this.dialog = false;
-        axios.post("../../reqEquipe.php", {
-          request: 1,
-          nomEquipe: this.nomEquipe,
+        axios.post("http://localhost:3000/equipes", {
+          nom: this.nomEquipe,
         }).catch(function (error) {
           console.log(error);
         });

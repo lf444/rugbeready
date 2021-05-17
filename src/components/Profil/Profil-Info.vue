@@ -35,18 +35,15 @@ export default {
   methods: {
 
     getIdentiteJoueur() {
-      axios.post("../../../reqJoueur.php", {
-        request:0,
-        idJoueur: this.$route.query.idJoueur,
-      })
+      axios.get(`http://localhost:3000/joueurs/${this.$route.query.idJoueur}`)
       .then((response) => {
-        var tab = response.data[0];
-        this.nom = tab.nom
-        this.prenom = tab.prenom
-        this.poste = tab.poste
-        this.age = new Date(new Date() - new Date(tab.dateNaissance)).getFullYear() - 1970;
-        this.email = tab.email
-        this.telephone = tab.telephone
+        console.log(response.data);
+        this.nom = response.data.nom;
+        this.prenom = response.data.prenom;
+        this.poste = response.data.poste;
+        this.age = new Date(new Date() - new Date(response.data.dateNaissance)).getFullYear() - 1970;
+        this.email = response.data.email;
+        this.telephone = response.data.telephone;
       })
       .catch(function (error) {
         console.log(error);

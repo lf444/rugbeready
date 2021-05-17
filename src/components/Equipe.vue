@@ -143,6 +143,8 @@
           "Ailier",
           "Arrière",
         ],
+        email:"",
+        telephone:"",
         dateFinBlessure:"",
         selectedPoste:"",
         joueursNoEquipe:[],
@@ -152,14 +154,9 @@
     },
 
     methods:{
-
       text: item => item.nom + " " + item.prenom + " ("+item.idJoueur+")",
-
       getJoueursFromEquipe(){
-        axios.post("../../reqEquipe.php", {
-          request:2,
-          idEquipe: this.$route.query.idEquipe
-        })
+        axios.get(`http://localhost:3000/equipes/${this.$route.query.idEquipe}`,)
         .then((response)=>{ 
           this.joueurs = response.data;
           this.joueurs.forEach(element => {
@@ -186,26 +183,22 @@
       addJoueurToEquipe() {
         if(this.nom != "" && this.prenom != "" && this.poste != "" && this.dateNaissance != ""){
           this.dialog = false;
-          axios.post("../../reqEquipe.php", {
-            request: 3,
+          axios.post("http://localhost:3000/joueurs", {
             nom: this.nom,
             prenom: this.prenom,
             poste: this.selectedPoste,
             dateNaissance: this.dateNaissance,
+            email: "Anthonny fait ton travail merci ",
+            telephone: " 0767 ",
             idEquipe: this.$route.query.idEquipe,
           })
           .catch(function (error) {
             console.log(error);
           });
 
-          axios.post("../../reqEquipe.php", {
-            request: 6,
-          })
+          axios.get("http://localhost:3000/equipes/last")
           .then((response)=>{
-            axios.post("../../reqEquipe.php", {
-              request: 7,
-              id: response.data[0].idJoueur
-            })
+            axios.post(`http://localhost:3000/joueurs/${response.data[0].idJoueur}/blessure`,)
           })
           .catch(function (error) {
             console.log(error);
@@ -218,26 +211,8 @@
         }
       },
 
-      addJoueurExistantToEquipe(){
-        this.dialog = false;
-        axios.post("../../reqEquipe.php", {
-          idEquipe: this.$route.query.idEquipe,
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-
-        setTimeout(() => {
-          this.clear();
-          this.getJoueursFromEquipe();
-        }, 100);
-      },
-
       delJoueurFromEquipe(id){
-        axios.post("../../reqEquipe.php", {
-          request: 4,
-          id: id,
-        })
+        axios.delete(`http://localhost:3000/joueurs/${id}`)
         .catch(function (error) {
           console.log(error);
         });
@@ -245,18 +220,6 @@
         setTimeout(() => {
           this.getJoueursFromEquipe();
         }, 100);
-      },
-
-      getJoueursNoEquipe(){
-        axios.post("../../reqEquipe.php", {
-          request:5,
-        })
-        .then((response)=>{ 
-          this.joueursNoEquipe = response.data
-        })
-        .catch(function(error){
-          console.log(error);
-        });
       },
 
     
@@ -276,7 +239,6 @@
 
     created(){
       this.getJoueursFromEquipe();
-      this.getJoueursNoEquipe();
     }
 
   };
