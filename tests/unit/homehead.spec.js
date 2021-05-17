@@ -16,7 +16,7 @@ describe("HomeHead.vue",()=> {
         expect(wrapper.findAll("v-list-item-title").at(1).text()).toBe("Calendrier")
     })
 
-    it("regarde si lorsqu'on clique sur messagerie, on va la-bas",()=>{
-        wrapper.findAll("router-link").at(2).trigger("click")
-    })
+    // it("regarde si lorsqu'on clique sur messagerie, on va la-bas",()=>{
+    //     wrapper.findAll("router-link").at(2).trigger("click")
+    // })
 })
