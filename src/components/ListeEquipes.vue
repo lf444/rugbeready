@@ -84,7 +84,7 @@
     methods:{
 
       getEquipes(){
-        axios.get("http://localhost:3000/equipes")
+        axios.get("http://api.rugbeready.fr:3000/equipes")
         .then((response)=>{ 
           this.equipes = response.data;
         })
@@ -96,7 +96,7 @@
 
       addEquipe() {
         this.dialog = false;
-        axios.post("http://localhost:3000/equipes", {
+        axios.post("http://api.rugbeready.fr:3000/equipes", {
           nom: this.nomEquipe,
         }).catch(function (error) {
           console.log(error);

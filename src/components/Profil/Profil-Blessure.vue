@@ -129,7 +129,7 @@ export default {
 
     getBlessuresJoueur() {
       axios
-        .get(`http://localhost:3000/blessures/${this.$route.query.idJoueur}`)
+        .get(`http://api.rugbeready.fr:3000/blessures/${this.$route.query.idJoueur}`)
         .then((response) => {
           this.blessures = response.data;
           this.blessures.forEach((element) => {
@@ -151,7 +151,7 @@ export default {
        this.typeBlessure != ""
       ) {
         axios
-          .post(`http://localhost:3000/blessures/${this.$route.query.idJoueur}`, {
+          .post(`http://api.rugbeready.fr:3000/blessures/${this.$route.query.idJoueur}`, {
             idJoueur: this.$route.query.idJoueur,
             dateBlessure: this.dateBlessure,
             tempsRepos: this.tempsRepos,
@@ -167,7 +167,7 @@ export default {
         }, 100);
 
          axios
-          .put(`http://localhost:3000/blessures/${this.$route.query.idJoueur}`, {
+          .put(`http://api.rugbeready.fr:3000/blessures/${this.$route.query.idJoueur}`, {
             dateBlessure:this.dateBlessure,
             tempsRepos: this.tempsRepos,
           })

@@ -10,7 +10,7 @@ if($request==1){
     $req = $linkpdo->prepare("SELECT * FROM HISTORIQUE_TAILLE_POIDS WHERE idJoueur=:idJoueur ORDER BY dateTaillePoids DESC LIMIT 1 ");
     $req -> execute(['idJoueur'=> $idJoueur]);
     $messages = $req->fetchAll();
-echo json_encode($messages);
+    echo json_encode($messages);
 
 }elseif($request==2){
 
@@ -74,8 +74,7 @@ echo json_encode($messages);
     $req = $linkpdo->prepare("SELECT * FROM HISTORIQUE_BLESSURE WHERE idJoueur=:idJoueur ORDER BY dateBlessure DESC");
     $req -> execute(['idJoueur'=> $idJoueur]);
     $messages = $req->fetchAll();
-echo json_encode($messages);
-
+    echo json_encode($messages);
 }elseif($request==5){
 
     $req = $linkpdo->prepare("SELECT * FROM HISTORIQUE_PERF WHERE idJoueur=:idJoueur ORDER BY datePerf DESC LIMIT 1");

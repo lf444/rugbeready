@@ -156,7 +156,7 @@
     methods:{
       text: item => item.nom + " " + item.prenom + " ("+item.idJoueur+")",
       getJoueursFromEquipe(){
-        axios.get(`http://localhost:3000/equipes/${this.$route.query.idEquipe}`,)
+        axios.get(`http://api.rugbeready.fr:3000/equipes/${this.$route.query.idEquipe}`,)
         .then((response)=>{ 
           this.joueurs = response.data;
           this.joueurs.forEach(element => {
@@ -183,7 +183,7 @@
       addJoueurToEquipe() {
         if(this.nom != "" && this.prenom != "" && this.poste != "" && this.dateNaissance != ""){
           this.dialog = false;
-          axios.post("http://localhost:3000/joueurs", {
+          axios.post("http://api.rugbeready.fr:3000/joueurs", {
             nom: this.nom,
             prenom: this.prenom,
             poste: this.selectedPoste,
@@ -196,9 +196,9 @@
             console.log(error);
           });
 
-          axios.get("http://localhost:3000/equipes/last")
+          axios.get("http://api.rugbeready.fr:3000/last")
           .then((response)=>{
-            axios.post(`http://localhost:3000/joueurs/${response.data[0].idJoueur}/blessure`,)
+            axios.post(`http://api.rugbeready.fr:3000/joueurs/${response.data[0].idJoueur}/blessure`,)
           })
           .catch(function (error) {
             console.log(error);
@@ -212,7 +212,7 @@
       },
 
       delJoueurFromEquipe(id){
-        axios.delete(`http://localhost:3000/joueurs/${id}`)
+        axios.delete(`http://api.rugbeready.fr:3000/joueurs/${id}`)
         .catch(function (error) {
           console.log(error);
         });
