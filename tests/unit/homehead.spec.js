@@ -16,7 +16,6 @@ describe("HomeHead.vue",()=> {
     beforeEach(() => {
         wrapper = shallowMount(HomeHead,{
             stubs: { RouterLink: RouterLinkStub, },
-             //['router-link','v-list','font-awesome-icon','v-navigation-drawer','v-list-item','v-list-item-icon','v-list-item-title']
         })
     })
     it("regarde si l'onglet equipes existe",()=>{

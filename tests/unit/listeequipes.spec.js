@@ -1,25 +1,45 @@
 import ListeEquipes from '@/components/ListeEquipes.vue'
-import { text } from '@fortawesome/fontawesome-svg-core';
 import { shallowMount,createLocalVue,RouterLinkStub } from '@vue/test-utils'
 //import VueRouter from 'vue-router'
 import Vue from 'vue'
+//import Vuetify from 'vuetify'
 
-describe("ListeEquipes.vue",()=> {
+describe("ListeEquipes.vue", async()=> {
+    Vue.config.silent = true;
+
     let wrapper;
-    beforeEach(() => {
+   /*let vuetify = new Vuetify();
+    const localVue = createLocalVue();
+    localVue.use(VueRouter);*/
+
+    beforeEach( () => {
         wrapper = shallowMount(ListeEquipes,{
-            data() {
-                return {
-                    equipes:[],
-                    nom:"",
-                }
-              }
+           /** propsData: { 
+                equipes:[],
+                nom:"" }*/
+              //  methods : {getEquipes: () =>{}}
+              /*slots: {
+                default: ListeEquipes,
+
+              }*/
+              /*localVue,
+              vuetify,
+                stubs: {
+                  //VHover: '<slot></slot>',
+                  VTooltip: '<v-tooltip-stub><slot></slot><slot name="activator"></slot></v-tooltip-stub>',
+              },*/
             
         })
     })
 
+    it('contains the right information',()=> {
+        // columns and items are defined above
+        // first cell in the header
+        expect(wrapper.exists()).toBe(true);
+    })
     it("regarde si il y a un bouton d'ajout d'équipe",()=>{
-        expect(wrapper.find("#Equipes").exists()).toBe(true);
+        //await wrapper.setData({ nom: 10 })
+        //expect(wrapper.find("v-btn").text());
         
     })
 
