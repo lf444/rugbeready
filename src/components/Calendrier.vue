@@ -262,11 +262,12 @@
         console.log(second)
 
         events.push({
-          name: 'Event',
+          name: '- Event',
           details: 'Une description',
           start: first,
           end: second,
           color: 'blue',
+          timed: true
         })
 
         this.events = events
