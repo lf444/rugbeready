@@ -1,14 +1,14 @@
 <?php
 
-// $host = "rugbergroot.mysql.db";
-// $user = "rugbergroot";
-// $password = "NgpvyJZN3YFdvpy";
-// $dbname = "rugbergroot";
+$host = "rugbergroot.mysql.db";
+$user = "rugbergroot";
+$password = "NgpvyJZN3YFdvpy";
+$dbname = "rugbergroot";
 
-$host = "217.69.7.161";
-$user = "root";
-$password = "123";
-$dbname = "uers";
+// $host = "217.69.7.161";
+// $user = "root";
+// $password = "123";
+// $dbname = "uers";
 
     try {
 
