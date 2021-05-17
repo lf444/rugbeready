@@ -23,14 +23,14 @@
           </router-link>
 
 
-          <router-link tag="span" to="/Messagerie">
+          <!-- <router-link tag="span" to="/Messagerie">
             <v-list-item link>
               <v-list-item-icon style="display:inline">
                 <font-awesome-icon icon="comments"/>
               </v-list-item-icon>
               <v-list-item-title style="font-size:14px">Messagerie</v-list-item-title>
             </v-list-item>
-          </router-link>
+          </router-link> -->
 
   
         </v-list>
