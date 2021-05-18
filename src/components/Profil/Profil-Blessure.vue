@@ -133,10 +133,8 @@ export default {
         .then((response) => {
           this.blessures = response.data;
           this.blessures.forEach((element) => {
-            var j = element.dateBlessure.substring(8);
-            var m = element.dateBlessure.substring(5, 7);
-            var a = element.dateBlessure.substring(0, 4);
-            element.dateBlessure = j + "/" + m + "/" + a;
+
+            element.dateBlessure = element.dateBlessure.substring(0,10);
           });
         })
         .catch(function (error) {

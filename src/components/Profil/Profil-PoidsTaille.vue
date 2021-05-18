@@ -88,6 +88,7 @@ export default {
   data: () => ({
     chartTaillePoids: "",
     dialog1: false,
+    dateTaillePoids: new Date().toISOString().substr(0, 10),
     taille: "",
     poids: "",
     panel: [0],
@@ -111,14 +112,12 @@ export default {
 
     getTaillePoidsJoueur() {
       axios
-        .post("../../../reqJoueur.php", {
-          request: 1,
-          idJoueur: this.$route.query.idJoueur,
-        })
+        .get(`http://api.rugbeready.fr:3000/tp/${this.$route.query.idJoueur}/one`)
         .then((response) => {
-          var tab = response.data[0];
-          this.taille = tab.taille;
-          this.poids = tab.poids;
+          this.i
+          this.dateTaillePoids = response.data.dateTaillePoids,
+          this.taille =  response.data.taille;
+          this.poids =  response.data.poids;
         })
         .catch(function (error) {
           console.log(error);
@@ -127,23 +126,19 @@ export default {
 
     drawEvolutionTaillePoids(){    
       axios
-        .post(".././../reqHistorique",{
-          idJoueur: this.$route.query.idJoueur,
-          request: 0
-        })
+        .get(`http://api.rugbeready.fr:3000/tp/${this.$route.query.idJoueur}/all`)
         .then((response) => {
-          const responData = response.data;
 
-          var chartPoids = responData.map((item) => item.poids);
-          var chartTaille = responData.map((item) => item.taille);
-          var chartlabel = responData.map((item) => item.dateTaillePoids);
+          var chartPoids = response.data.map((item) => item.poids);
+          var chartTaille = response.data.map((item) => item.taille);
+          var chartlabel = response.data.map((item) => item.dateTaillePoids.substring(0,10));
 
-          for (let index = 0; index < chartlabel.length; index++) {
+        /*   for (let index = 0; index < chartlabel.length; index++) {
             var j = chartlabel[index].substring(8)
             var m = chartlabel[index].substring(5,7)
             var a = chartlabel[index].substring(0,4)
             chartlabel[index] = j + "/" + m + "/" + a
-          }
+          } */
 
           const ctx = document.getElementById("chartTaillePoids").getContext("2d");
           this.chartTaillePoids = new Chart(ctx, {
@@ -191,9 +186,9 @@ export default {
 
     updateTaillePoidsJoueur() {
       axios
-        .post("../../../reqJoueur.php", {
-          request: 3,
-          idJoueur: this.$route.query.idJoueur,
+        .post(`http://api.rugbeready.fr:3000/tp/${this.$route.query.idJoueur}/`, {
+          idJoueur: this.$route.query.idJoueur, 
+          dateTaillePoids: new Date().toISOString().substr(0, 10),
           poids: this.poids,
           taille: this.taille,
         })

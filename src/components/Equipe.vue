@@ -195,20 +195,23 @@
           .catch(function (error) {
             console.log(error);
           });
-
-          axios.get("http://api.rugbeready.fr:3000/last")
-          .then((response)=>{
-            axios.post(`http://api.rugbeready.fr:3000/joueurs/${response.data[0].idJoueur}/blessure`,)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-
+      
           setTimeout(() => {
             this.clear();
-            this.getJoueursFromEquipe();
-          }, 100);
+            this.AddBlessureToLastJoueur();
+          }, 1000);
         }
+      },
+
+      AddBlessureToLastJoueur(){
+            axios.get("http://api.rugbeready.fr:3000/equipes/last")
+            .then((response)=>{
+              axios.post(`http://api.rugbeready.fr:3000/joueurs/${response.data[0].idJoueur }/blessure`);
+               this.getJoueursFromEquipe();
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
       },
 
       delJoueurFromEquipe(id){
@@ -239,7 +242,6 @@
 
     created(){
       this.getJoueursFromEquipe();
-    }
-
+    },
   };
 </script>

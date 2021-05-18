@@ -29,14 +29,14 @@
                           <v-text-field  label="Tirage (kg)" v-model="tirage" required></v-text-field>
                         </v-col>
                       </v-row>
-                      <!-- <v-row>
+                      <v-row>
                         <v-col cols="12" sm="6">
                           <v-text-field  label="Détente verticale" v-model="detenteVerticale" required></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6">
                           <v-text-field type="time" label="Temps sprint" v-model="tempsSprint" required></v-text-field>
                         </v-col>
-                      </v-row> -->
+                      </v-row> 
                     </v-container>
                   </v-card-text>
 
@@ -61,7 +61,7 @@ export default {
   data: () => ({
     chartPerf :"",
     dialog2: false,
-    datePerf:"",
+    datePerf:new Date().toISOString().substr(0, 10),
     squat: "",
     dcouche: "",
     tirage: "",
@@ -73,17 +73,13 @@ export default {
   methods: {
 
     getPerfsJoueurs() {
-      axios.post("../../../reqJoueur.php", {
-        idJoueur: this.$route.query.idJoueur,
-        request: 5
-      })
+      axios.get(`http://api.rugbeready.fr:3000/perfomances/${this.$route.query.idJoueur}/one`)
       .then((response) => {
-        var tab = response.data[0];
-        this.squat = tab.squat
-        this.dcouche = tab.dcouche
-        this.tirage = tab.tirage
-        this.detenteVerticale = tab.detenteVerticale
-        this.tempsSprint = tab.tempsSprint
+        this.squat =  response.data.squat
+        this.dcouche =  response.data.dcouche
+        this.tirage =  response.data.tirage
+        this.detenteVerticale =  response.data.detenteVerticale
+        this.tempsSprint =  response.data.tempsSprint
       })
       .catch(function (error) {
         console.log(error);
@@ -92,23 +88,18 @@ export default {
 
     drawEvolutionPerf() {
       axios
-        .post("../../../reqHistorique.php", {
-          idJoueur: this.$route.query.idJoueur,
-          request: 1,
-        })
+        .get(`http://api.rugbeready.fr:3000/perfomances/${this.$route.query.idJoueur}/all`)
         .then((response) => {
-          const responData = response.data;
-
-          var chartSquat   = responData.map((item) => item.squat);
-          var chartDcouche = responData.map((item) => item.dcouche);
-          var chartTirage  = responData.map((item) => item.tirage);
-          var chartlabel = responData.map((item) => item.datePerf);
-          for (let index = 0; index < chartlabel.length; index++) {
+          var chartSquat   = response.data.map((item) => item.squat);
+          var chartDcouche = response.data.map((item) => item.dcouche);
+          var chartTirage  = response.data.map((item) => item.tirage);
+          var chartlabel = response.data.map((item) => item.datePerf.substring(0,10));
+        /*    for (let index = 0; index < chartlabel.length; index++) {
             var j = chartlabel[index].substring(8)
             var m = chartlabel[index].substring(5,7)
             var a = chartlabel[index].substring(0,4)
             chartlabel[index] = j + "/" + m + "/" + a
-          }
+          } */
 
           const ctx = document.getElementById("chartPerf").getContext("2d");
           this.chartPerf = new Chart(ctx, {
@@ -163,11 +154,9 @@ export default {
     },
 
     updatePerfJoueur() {
-
-      axios.post("../../../reqJoueur.php", {
-        request: 2,
+      axios.post(`http://api.rugbeready.fr:3000/perfomances/${this.$route.query.idJoueur}/`, {
         idJoueur: this.$route.query.idJoueur,
-        datePerf: "",
+        datePerf: this.datePerf,
         squat: this.squat,
         dcouche: this.dcouche,
         tirage: this.tirage,
