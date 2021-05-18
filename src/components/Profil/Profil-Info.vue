@@ -29,7 +29,6 @@ export default {
     age:"",
     email:"",
     telephone:"",
-    panel: [0]
   }),
 
   methods: {

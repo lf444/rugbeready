@@ -54,5 +54,8 @@ export default {
     ProfilBlessure,
     ProfilPerf,
   },
+  data:()=>({
+    panel:[0]
+  })
 };
 </script>

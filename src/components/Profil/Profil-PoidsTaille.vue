@@ -21,7 +21,7 @@
             padding-top: 10px !important;
           "
         >
-          <v-dialog v-model="dialog1" persistent max-width="600px">
+          <v-dialog v-model="dialog" max-width="600px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 color="primary"
@@ -29,12 +29,12 @@
                 v-bind="attrs"
                 v-on="on"
                 style="border-radius: 4px !important"
-                >Nouveau relevé</v-btn
+                >Nouveau relevé taille & poids</v-btn
               >
             </template>
             <v-card style="margin: 0px !important">
               <v-card-title>
-                <span class="headline">Nouveau relevé</span>
+                <span class="headline">Nouveau relevé taille & poids</span>
               </v-card-title>
               <v-card-text>
                 <v-container>
@@ -61,14 +61,14 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="dialog1 = false"
+                <!-- <v-btn color="blue darken-1" text @click="dialog = false"
                   >Fermer</v-btn
-                >
+                > -->
                 <v-btn
                   color="blue darken-1"
                   text
                   @click="updateTaillePoidsJoueur()"
-                  >Mettre à jour</v-btn
+                  >Ajouter</v-btn
                 >
               </v-card-actions>
             </v-card>
@@ -87,11 +87,10 @@ export default {
 
   data: () => ({
     chartTaillePoids: "",
-    dialog1: false,
+    dialog: false,
     dateTaillePoids: new Date().toISOString().substr(0, 10),
     taille: "",
     poids: "",
-    panel: [0],
   }),
 
   methods: {
@@ -114,10 +113,10 @@ export default {
       axios
         .get(`http://api.rugbeready.fr:3000/tp/${this.$route.query.idJoueur}/one`)
         .then((response) => {
-          this.i
-          this.dateTaillePoids = response.data.dateTaillePoids,
-          this.taille =  response.data.taille;
-          this.poids =  response.data.poids;
+          console.log(response.data[0])
+          this.dateTaillePoids = response.data[0].dateTaillePoids,
+          this.taille =  response.data[0].taille;
+          this.poids =  response.data[0].poids;
         })
         .catch(function (error) {
           console.log(error);
@@ -131,14 +130,13 @@ export default {
 
           var chartPoids = response.data.map((item) => item.poids);
           var chartTaille = response.data.map((item) => item.taille);
-          var chartlabel = response.data.map((item) => item.dateTaillePoids.substring(0,10));
-
-        /*   for (let index = 0; index < chartlabel.length; index++) {
-            var j = chartlabel[index].substring(8)
+          var chartlabel = response.data.map((item) => item.dateTaillePoids);
+          for (let index = 0; index < chartlabel.length; index++) {
+            var j = chartlabel[index].substring(8,10)
             var m = chartlabel[index].substring(5,7)
             var a = chartlabel[index].substring(0,4)
             chartlabel[index] = j + "/" + m + "/" + a
-          } */
+          }
 
           const ctx = document.getElementById("chartTaillePoids").getContext("2d");
           this.chartTaillePoids = new Chart(ctx, {
@@ -169,9 +167,21 @@ export default {
                   {
                     ticks: {
                       beginAtZero: true,
+                      callback: function(value) {
+                        if(value!=0){
+                          return  value;
+                        }
+                      }
                     },
                   },
                 ],
+                xAxes: [
+                  {
+                    ticks: {
+                      maxTicksLimit: 7,
+                    },
+                  }
+                ]
               },
               tooltips:{
                 displayColors: false,
@@ -182,31 +192,40 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
+        
+        Chart.Legend.prototype.afterFit = function() {
+          this.height = this.height + 25;
+        };
     },
 
     updateTaillePoidsJoueur() {
-      axios
-        .post(`http://api.rugbeready.fr:3000/tp/${this.$route.query.idJoueur}/`, {
-          idJoueur: this.$route.query.idJoueur, 
-          dateTaillePoids: new Date().toISOString().substr(0, 10),
-          poids: this.poids,
-          taille: this.taille,
-        })
-        .then(function (error) {
-          console.log(error);
-        });
+      if (
+       this.taille != "" &&
+       this.poids != ""
+      ){
+        axios
+          .post(`http://api.rugbeready.fr:3000/tp/${this.$route.query.idJoueur}/`, {
+            idJoueur: this.$route.query.idJoueur, 
+            dateTaillePoids: new Date().toISOString().substr(0, 10),
+            poids: this.poids,
+            taille: this.taille,
+          })
+          .then(function (error) {
+            console.log(error);
+          });
 
-      setTimeout(() => {
-        this.dialog2 = false;
-        this.drawEvolutionTaillePoids();
-      }, 100);
+          setTimeout(() => {
+            this.dialog = false;
+            this.drawEvolutionTaillePoids();
+          }, 100);
 
+        }
+      }
     },
-  },
 
-  created() {
-    this.getTaillePoidsJoueur();
-  },
+    created() {
+      this.getTaillePoidsJoueur();
+    },
 
 
 };

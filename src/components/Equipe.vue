@@ -38,7 +38,7 @@
 
 
       <v-row justify="center" class="mb-5">
-        <v-dialog v-model="dialog" persistent max-width="600px">
+        <v-dialog v-model="dialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn color="primary" dark v-bind="attrs" v-on="on" style="border-radius:4px !important">Ajouter un nouveau joueur</v-btn>
           </template>
@@ -67,45 +67,12 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="dialog = false;clear()">Fermer</v-btn>
+              <!-- <v-btn color="blue darken-1" text @click="dialog = false;clear()">Fermer</v-btn> -->
               <v-btn color="blue darken-1" text @click="addJoueurToEquipe()">Ajouter</v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
       </v-row>
-
-      <!-- <v-row justify="center">
-        <v-dialog v-model="dialog2" persistent max-width="600px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn color="primary" dark v-bind="attrs" v-on="on" style="border-radius:4px !important">Ajouter un joueur existant</v-btn>
-          </template>
-          <v-card style="margin:0px !important">
-            <v-card-title>
-              <span class="headline">Ajouter un joueur existant</span>
-            </v-card-title>
-            <v-card-text>
-              <v-container>
-                <v-row>
-                  <v-col cols="12" sm="6">
-
-                    <v-select v-model="selected" label="Joueur" :items="joueursNoEquipe" :item-text="text"></v-select>
-                    Selected Value: {{selected}}
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card-text>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="dialog2 = false;clear()">Fermer</v-btn>
-              <v-btn color="blue darken-1" text @click="addJoueurExistantToEquipe()">Ajouter</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </v-row> -->
-
-
-
     </v-main>
   </v-app>
 </template>
@@ -127,7 +94,6 @@
     data() {
       return {
         dialog: false,
-        dialog2: false,
         joueurs:[],
         nom:"",
         prenom:"",
@@ -188,8 +154,8 @@
             prenom: this.prenom,
             poste: this.selectedPoste,
             dateNaissance: this.dateNaissance,
-            email: "Anthonny fait ton travail merci ",
-            telephone: " 0767 ",
+            email: "email de test",
+            telephone: "0707070707",
             idEquipe: this.$route.query.idEquipe,
           })
           .catch(function (error) {
@@ -197,6 +163,7 @@
           });
       
           setTimeout(() => {
+            this.dialog = false;
             this.clear();
             this.AddBlessureToLastJoueur();
           }, 1000);
@@ -207,7 +174,9 @@
             axios.get("http://api.rugbeready.fr:3000/equipes/last")
             .then((response)=>{
               axios.post(`http://api.rugbeready.fr:3000/joueurs/${response.data[0].idJoueur }/blessure`);
-               this.getJoueursFromEquipe();
+                setTimeout(() => {
+                  this.getJoueursFromEquipe();
+                }, 100);
             })
             .catch(function (error) {
               console.log(error);

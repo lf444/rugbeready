@@ -18,7 +18,7 @@
         </v-row>
 
         <v-row style="padding-bottom:30px;" justify="start">
-          <v-dialog v-model="dialog" persistent max-width="600px">
+          <v-dialog v-model="dialog"  max-width="600px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn color="primary" dark v-bind="attrs" v-on="on" style="border-radius:4px !important">Ajouter une équipe</v-btn>
             </template>
@@ -38,7 +38,7 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="dialog = false">Fermer</v-btn>
+                <!-- <v-btn color="blue darken-1" text @click="dialog = false">Fermer</v-btn> -->
                 <v-btn color="blue darken-1" text @click="addEquipe()">Ajouter</v-btn>
               </v-card-actions>
             </v-card>
@@ -103,6 +103,7 @@
         });
 
         setTimeout(() => {
+          this.dialog = false
           this.getEquipes();
           this.nomEquipe="";
         }, 200);

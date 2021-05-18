@@ -18,7 +18,7 @@
               Date
             </th>
             <th style="color: #fff; font-size: 15px" class="text-center">
-              Durée
+              Durée (jours)
             </th>
             <th style="color: #fff; font-size: 15px" class="text-center">
               Type
@@ -41,7 +41,7 @@
 
       <!-- ajout blessure -->
       <v-row justify="center" style="margin-bottom: 4px">
-        <v-dialog v-model="dialog3" persistent max-width="600px">
+        <v-dialog v-model="dialog"  max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               color="primary"
@@ -49,12 +49,12 @@
               v-bind="attrs"
               v-on="on"
               style="border-radius: 4px !important"
-              >Déclarer une nouvelle blessure</v-btn
+              >Nouvelle blessure</v-btn
             >
           </template>
           <v-card style="margin: 0px !important">
             <v-card-title>
-              <span class="headline">Déclarer une nouvelle blessure</span>
+              <span class="headline">Nouvelle blessure</span>
             </v-card-title>
             <v-card-text>
               <v-container>
@@ -87,7 +87,7 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="blue darken-1" text @click="this.dialog3 = false;">Fermer</v-btn>
+              <!-- <v-btn color="blue darken-1" text @click="this.dialog = false;">Fermer</v-btn> -->
               <v-btn color="blue darken-1" text @click="addBlessure()"
                 >Ajouter</v-btn
               >
@@ -103,13 +103,12 @@ const axios = require("axios");
 export default {
   name: "ProfilBlessure",
   data: () => ({
-    dialog3: false,
+    dialog: false,
     blessures: [],
     tempsRepos: "",
     dateBlessure:  new Date().toISOString().substr(0, 10),
     typeBlessure: "",
     contextBlessure: "",
-    panel: [0],
   }),
 
   methods: {
@@ -131,10 +130,13 @@ export default {
       axios
         .get(`http://api.rugbeready.fr:3000/blessures/${this.$route.query.idJoueur}`)
         .then((response) => {
+          console.log(response.data)
           this.blessures = response.data;
           this.blessures.forEach((element) => {
-
-            element.dateBlessure = element.dateBlessure.substring(0,10);
+            var j = element.dateBlessure.substring(8,10)
+            var m = element.dateBlessure.substring(5,7)
+            var a = element.dateBlessure.substring(0,4)
+            element.dateBlessure = j + "/" + m + "/" + a
           });
         })
         .catch(function (error) {
@@ -160,7 +162,11 @@ export default {
             console.log(error);
           });
         setTimeout(() => {
-          this.dialog3 = false;
+          this.dialog = false;
+          this.dateBlessure = new Date().toISOString().substr(0, 10)
+          this.tempsRepos = ''
+          this.typeBlessure = ''
+          this.contextBlessure = ''
           this.getBlessuresJoueur();
         }, 100);
 
