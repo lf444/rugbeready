@@ -3,10 +3,14 @@ import { shallowMount,createLocalVue,RouterLinkStub } from '@vue/test-utils'
 //import VueRouter from 'vue-router'
 import Vue from 'vue'
 //import Vuetify from 'vuetify'
+import axios from 'axios';
 
-describe("ListeEquipes.vue", async()=> {
+jest.mock('axios', () => ({
+    get: Promise.resolve('value')
+  }))
+  
+describe("ListeEquipes.vue", ()=> {
     Vue.config.silent = true;
-
     let wrapper;
    /*let vuetify = new Vuetify();
     const localVue = createLocalVue();
@@ -14,28 +18,17 @@ describe("ListeEquipes.vue", async()=> {
 
     beforeEach( () => {
         wrapper = shallowMount(ListeEquipes,{
-           /** propsData: { 
-                equipes:[],
-                nom:"" }*/
-              //  methods : {getEquipes: () =>{}}
-              /*slots: {
-                default: ListeEquipes,
-
-              }*/
-              /*localVue,
-              vuetify,
-                stubs: {
-                  //VHover: '<slot></slot>',
-                  VTooltip: '<v-tooltip-stub><slot></slot><slot name="activator"></slot></v-tooltip-stub>',
-              },*/
-            
+            methods: {
+                getEquipes: ()=> {}
+            },
+        })
+        wrapper.setData({ nomEquipe:"AntwiTeam",
         })
     })
 
     it('contains the right information',()=> {
         // columns and items are defined above
         // first cell in the header
-        expect(wrapper.exists()).toBe(true);
     })
     it("regarde si il y a un bouton d'ajout d'équipe",()=>{
         //await wrapper.setData({ nom: 10 })
@@ -43,17 +36,7 @@ describe("ListeEquipes.vue", async()=> {
         
     })
 
-    /**it("regarde si il y a une d'équipe",()=>{
-            // n'accepte pas un `username` de moins de 7 caractères, exclut les espaces
-        wrapper.setData({ username: " ".repeat(7) });
+    test("regarde si il y a une d'équipe",()=>{
 
-        // vérifie que `error` est restituée
-        expect(wrapper.find(".error").exists()).toBe(true);
-
-        // met à jour `username` afin qu'il soit suffisamment long
-        wrapper.setData({ username: 'Lachlan' })
-
-        // vérifie que `error` n'est plus restituée
-        expect(wrapper.find(".error").exists()).toBe(false);
-    })*/
+    })
 })
