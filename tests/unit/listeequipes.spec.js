@@ -37,6 +37,7 @@ describe("ListeEquipes.vue", ()=> {
     })
 
     test("regarde si il y a une d'équipe",()=>{
+        expect(wrapper.vm.$data.nom).toEqual("AntwiTeam");
 
     })
 })
