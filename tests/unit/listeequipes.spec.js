@@ -17,18 +17,21 @@ describe("ListeEquipes.vue", ()=> {
     localVue.use(VueRouter);*/
 
     beforeEach( () => {
+        const localVue = createLocalVue();
         wrapper = shallowMount(ListeEquipes,{
+            localVue,
             methods: {
-                getEquipes: ()=> {}
+                getEquipes: ()=> {},
+                addEquipe: ()=> {}
             },
         })
-        wrapper.setData({ nomEquipe:"AntwiTeam",
+        wrapper.setData({ equipes:[{nom: 'Soldats' },{nom: 'Stade Toulousain'},]
         })
+        
     })
 
-    it('contains the right information',()=> {
-        // columns and items are defined above
-        // first cell in the header
+    it('regarde si il y a des equipes',()=> {
+        expect(wrapper.vm.$data.equipes).toEqual([{"nom": "Soldats"}, {"nom": "Stade Toulousain"}]);
     })
     it("regarde si il y a un bouton d'ajout d'équipe",()=>{
         //await wrapper.setData({ nom: 10 })
@@ -36,8 +39,18 @@ describe("ListeEquipes.vue", ()=> {
         
     })
 
-    test("regarde si il y a une d'équipe",()=>{
-        expect(wrapper.vm.$data.nom).toEqual("AntwiTeam");
+    it("regarde si il y a une équipe à ajouter",()=>{
+        wrapper.setData({ nomEquipe:"AntwiTeam"
+        })
+        expect(wrapper.vm.$data.nomEquipe).toEqual("AntwiTeam");
+
+    })
+
+    it("regarde si il y a une équipe ajouté",()=>{
+        wrapper.addData({ equipes:[{nom: 'AntwiTeam' }]})
+        //wrapper.vm.addEquipe();
+
+        expect(wrapper.vm.$data.equipes).toEqual([{"nom": "Soldats"}, {"nom": "Stade Toulousain"},{nom: 'AntwiTeam' }]);
 
     })
 })
