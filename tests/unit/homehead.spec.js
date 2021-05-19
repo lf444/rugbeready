@@ -23,7 +23,4 @@ describe("HomeHead.vue",()=> {
        expect(wrapper.findAll("span").at(1).props().to).toBe("/CalendrierVue")
      })
 
-    // it("regarde si lorsqu'on clique sur messagerie, on va la-bas",()=>{
-    //     wrapper.findAll("router-link").at(2).trigger("click")
-    // })
 })
