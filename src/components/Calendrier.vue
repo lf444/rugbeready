@@ -142,7 +142,7 @@
     </v-row>
 
     <v-row justify="center" style="margin-bottom: 45px">
-      <v-dialog v-model="dialog" persistent max-width="600px">
+      <v-dialog v-model="dialog" max-width="600px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             color="primary"
@@ -163,13 +163,33 @@
                 <v-col cols="12" sm="6">
                   <v-text-field
                     type="datetime-local"
-                    label="Date"
+                    label="Date début"
+                    v-model="dateTimeDebut"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-text-field
                     type="datetime-local"
-                    label="Date"
+                    label="Date fin"
+                    v-model="dateTimeFin"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    type="text"
+                    label="Nom evenement"
+                    v-model="nom"
+                    autocomplete="off"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-text-field
+                    type="text"
+                    label="Description"
+                    v-model="description"
+                    autocomplete="off"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -178,8 +198,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="this.dialog=false;">Fermer</v-btn>
-            <v-btn color="blue darken-1" text 
+            <v-btn color="blue darken-1" text @click="addEvenements()"
               >Ajouter</v-btn
             >
           </v-card-actions>
@@ -189,6 +208,7 @@
   </div>
 </template>
 <script>
+  const axios = require("axios");
   export default {
     data: () => ({
       focus: '',
@@ -205,6 +225,11 @@
       colors: ['blue', 'indigo', 'deep-purple', 'cyan', 'green', 'orange', 'grey darken-1'],
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
       dialog: false,
+      evenements: [],
+      dateTimeDebut:"",
+      dateTimeFin:"",
+      nom:"",
+      description:"",
     }),
     mounted () {
       this.$refs.calendar.checkChange()
@@ -245,29 +270,28 @@
 
 
 
-      updateRange ({ start, end }) {
+      updateRange () {
         const events = []
 
         // date début mois + fin mois
-        const min = new Date(`${start.date}T00:00:00`)
-        const max = new Date(`${end.date}T23:59:59`)
-        console.log(min)
-        console.log(max)
+        // const min = new Date(`${start.date}T00:00:00`)
+        // const max = new Date(`${end.date}T23:59:59`)
+        // console.log(min + " -- " + max)
 
-        const first = new Date('2021-05-20T15:30:00')
-        const second = new Date('2021-05-20T17:00:00')
-        console.log(first)
-        console.log(second)
+        this.evenements.forEach(element => {
+            const first = new Date(element.dateTimeDebut)
+            const second = new Date(element.dateTimeFin)
 
-        events.push({
-          name: 'Match',
-          details: 'Une description',
-          start: first,
-          end: second,
-          color: 'blue',
-          timed: true
-        })
-
+            events.push({
+              name: element.nom,
+              details: element.description,
+              start: first,
+              end: second,
+              color: 'blue',
+              timed: true
+            })
+          });
+        
         this.events = events
 
         setTimeout(() => {
@@ -287,7 +311,47 @@
       rnd (a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a
       },
+
+      getEvenements(){
+        axios.get(`http://api.rugbeready.fr:3000/evenements`,)
+          .then((response)=>{
+            this.evenements = response.data
+            console.log(this.evenements)
+          })
+          .catch(function(error){
+            console.log(error)
+          })
+
+          setTimeout(() => {
+            this.updateRange();
+          }, 350);
+      },
+
+      addEvenements(){
+        axios.post(`http://api.rugbeready.fr:3000/evenements`,{
+          nom: this.nom,
+          description: this.description,
+          dateTimeDebut: this.dateTimeDebut,
+          dateTimeFin: this.dateTimeFin
+        }).catch(function(error){
+            console.log(error)
+        })
+        this.dialog = false
+        this.nom = "",
+        this.description = "",
+        this.dateTimeDebut = "",
+        this.dateTimeFin = ""
+
+        setTimeout(() => {
+          this.getEvenements();
+        }, 100);
+      }
+
     },
+
+    created(){
+      this.getEvenements();
+    }
   }
 </script>
 
