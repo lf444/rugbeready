@@ -32,7 +32,6 @@
               </td>
             </tr>
           </tbody>
-
         </v-simple-table>
       </v-card>
 
@@ -41,6 +40,7 @@
         <v-dialog v-model="dialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn color="primary" dark v-bind="attrs" v-on="on" style="border-radius:4px !important">Ajouter un nouveau joueur</v-btn>
+               <v-btn color="blue darken-1" text @click="deleteEquipe()">Supprimer Equipe</v-btn>
           </template>
           <v-card style="margin:0px !important">
             <v-card-title>
@@ -70,6 +70,7 @@
               <!-- <v-btn color="blue darken-1" text @click="dialog = false;clear()">Fermer</v-btn> -->
               <v-btn color="blue darken-1" text @click="addJoueurToEquipe()">Ajouter</v-btn>
             </v-card-actions>
+
           </v-card>
         </v-dialog>
       </v-row>
@@ -192,6 +193,19 @@
 
         setTimeout(() => {
           this.getJoueursFromEquipe();
+        }, 100);
+      },
+
+
+      deleteEquipe(){
+        axios.delete(`http://api.rugbeready.fr:3000/equipes/${this.$route.params.idEquipe}`)
+        .catch(function (error) {
+          console.log(error);
+        });
+
+        
+        setTimeout(() => {
+            this.$router.push('/');
         }, 100);
       },
 

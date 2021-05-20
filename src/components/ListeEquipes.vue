@@ -8,11 +8,11 @@
           <tr v-for='equipe in equipes' v-bind:key="equipe.idEquipe">
             <router-link tag="span" :to="{ name : 'EquipeVue', params: { idEquipe: equipe.idEquipe } }" v-bind:tooltip="equipe.idEquipe" style="cursor:pointer">
               <v-card style="margin-right:15px !important;margin-top: 15px !important;" class="mx-auto" max-width="344" height="266">
-                <v-img src="https://static.lpnt.fr/images/2018/12/13/17747713lpw-17748036-article-rugby-ballon-jpg_5803326_1250x625.jpg" height="200px"></v-img>
+                <v-img v-bind:src="equipe.image" height="200px"></v-img>
                 <v-card-title>
                   <td>{{ equipe.nom }}</td>
                 </v-card-title>
-              </v-card>
+              </v-card> 
             </router-link>
           </tr>
         </v-row>
@@ -31,6 +31,7 @@
                   <v-row>
                     <v-col cols="12">
                       <v-text-field label="Nom" v-model="nomEquipe" required></v-text-field>
+                      <v-text-field label="url" v-model="ImgAdded" required></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -78,6 +79,7 @@
         dialog: false,
         equipes:[],
         nomEquipe:"",
+        ImgAdded:"",
       }
     },
 
@@ -96,8 +98,10 @@
 
       addEquipe() {
         this.dialog = false;
+        console.log(this.ImgAdded),
         axios.post("http://api.rugbeready.fr:3000/equipes", {
           nom: this.nomEquipe,
+          image:this.ImgAdded
         }).catch(function (error) {
           console.log(error);
         });
