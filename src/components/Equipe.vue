@@ -21,7 +21,7 @@
               <td>{{ joueur.poste }}</td>
               <td>{{ joueur.dateFinBlessure}}</td>
               <td style="display: flex;justify-content: center">
-                <router-link class="d-flex flex-column" tag="span" :to="{path: '/ProfilJoueurVue/?idJoueur=' + joueur.idJoueur,}" v-bind:tooltip="joueur.idJoueur" style="cursor:pointer;justify-content:center">
+                <router-link class="d-flex flex-column" tag="span" :to="{name:'ProfilJoueurVue', params:{idJoueur:joueur.idJoueur}}" v-bind:tooltip="joueur.idJoueur" style="cursor:pointer;justify-content:center">
                   <button style="background:#2196f3;width:25px;height:25px;border-radius:4px" value="Profil"><font-awesome-icon icon="user"/></button>
                 </router-link>
                 <p style="display: flex;flex-direction: column;justify-content: center;margin-left: 5px;margin-right: 5px;margin-bottom:none;height:100%"></p>
@@ -122,7 +122,7 @@
     methods:{
       text: item => item.nom + " " + item.prenom + " ("+item.idJoueur+")",
       getJoueursFromEquipe(){
-        axios.get(`http://api.rugbeready.fr:3000/equipes/${this.$route.query.idEquipe}`,)
+        axios.get(`http://api.rugbeready.fr:3000/equipes/${this.$route.params.idEquipe}`,)
         .then((response)=>{ 
           this.joueurs = response.data;
           this.joueurs.forEach(element => {
@@ -156,7 +156,7 @@
             dateNaissance: this.dateNaissance,
             email: "email de test",
             telephone: "0707070707",
-            idEquipe: this.$route.query.idEquipe,
+            idEquipe: this.$route.params.idEquipe,
           })
           .catch(function (error) {
             console.log(error);
@@ -166,15 +166,16 @@
             this.dialog = false;
             this.clear();
             this.AddBlessureToLastJoueur();
-          }, 1000);
+          }, 100);
         }
       },
 
       AddBlessureToLastJoueur(){
             axios.get("http://api.rugbeready.fr:3000/equipes/last")
             .then((response)=>{
-              axios.post(`http://api.rugbeready.fr:3000/joueurs/${response.data[0].idJoueur }/blessure`);
-                setTimeout(() => {
+              setTimeout(() => {
+                 this.getJoueursFromEquipe();
+                  axios.post(`http://api.rugbeready.fr:3000/joueurs/${response.data[0].idJoueur }/blessure`);
                   this.getJoueursFromEquipe();
                 }, 100);
             })

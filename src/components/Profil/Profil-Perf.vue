@@ -84,7 +84,7 @@ export default {
       }
     },
     getPerfsJoueurs() {
-      axios.get(`http://api.rugbeready.fr:3000/perfomances/${this.$route.query.idJoueur}/one`)
+      axios.get(`http://api.rugbeready.fr:3000/perfomances/${this.$route.params.idJoueur}/one`)
       .then((response) => {
         console.log(response.data[0])
         this.squat =  response.data[0].squat
@@ -100,7 +100,7 @@ export default {
 
     drawEvolutionPerf() {
       axios
-        .get(`http://api.rugbeready.fr:3000/perfomances/${this.$route.query.idJoueur}/all`)
+        .get(`http://api.rugbeready.fr:3000/perfomances/${this.$route.params.idJoueur}/all`)
         .then((response) => {
           var chartSquat   = response.data.map((item) => item.squat);
           var chartDcouche = response.data.map((item) => item.dcouche);
@@ -191,8 +191,8 @@ export default {
        this.tempsSprint != ""
       ){
 
-        axios.post(`http://api.rugbeready.fr:3000/perfomances/${this.$route.query.idJoueur}/`, {
-          idJoueur: this.$route.query.idJoueur,
+        axios.post(`http://api.rugbeready.fr:3000/perfomances/${this.$route.params.idJoueur}/`, {
+          idJoueur: this.$route.params.idJoueur,
           datePerf: this.datePerf,
           squat: this.squat,
           dcouche: this.dcouche,

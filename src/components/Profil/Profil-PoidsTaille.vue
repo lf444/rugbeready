@@ -111,7 +111,7 @@ export default {
 
     getTaillePoidsJoueur() {
       axios
-        .get(`http://api.rugbeready.fr:3000/tp/${this.$route.query.idJoueur}/one`)
+        .get(`http://api.rugbeready.fr:3000/tp/${this.$route.params.idJoueur}/one`)
         .then((response) => {
           console.log(response.data[0])
           this.dateTaillePoids = response.data[0].dateTaillePoids,
@@ -125,7 +125,7 @@ export default {
 
     drawEvolutionTaillePoids(){    
       axios
-        .get(`http://api.rugbeready.fr:3000/tp/${this.$route.query.idJoueur}/all`)
+        .get(`http://api.rugbeready.fr:3000/tp/${this.$route.params.idJoueur}/all`)
         .then((response) => {
 
           var chartPoids = response.data.map((item) => item.poids);
@@ -204,8 +204,8 @@ export default {
        this.poids != ""
       ){
         axios
-          .post(`http://api.rugbeready.fr:3000/tp/${this.$route.query.idJoueur}/`, {
-            idJoueur: this.$route.query.idJoueur, 
+          .post(`http://api.rugbeready.fr:3000/tp/${this.$route.params.idJoueur}/`, {
+            idJoueur: this.$route.params.idJoueur, 
             dateTaillePoids: new Date().toISOString().substr(0, 10),
             poids: this.poids,
             taille: this.taille,

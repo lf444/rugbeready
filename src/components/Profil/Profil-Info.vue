@@ -34,7 +34,7 @@ export default {
   methods: {
 
     getIdentiteJoueur() {
-      axios.get(`http://api.rugbeready.fr:3000/joueurs/${this.$route.query.idJoueur}`)
+      axios.get(`http://api.rugbeready.fr:3000/joueurs/${this.$route.params.idJoueur}`)
       .then((response) => {
         console.log(response.data);
         this.nom = response.data.nom;

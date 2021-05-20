@@ -15,13 +15,13 @@ const Routes = [
     component: Home
   },
   {
-    path: '/EquipeVue/',
+    path: '/Equipe/:idEquipe',
     name: 'EquipeVue',
     component: EquipeVue
   },
 
   {
-    path: '/ProfilJoueurVue',
+    path: '/Equipe/:idEquipe/Profil/:idJoueur',
     name: 'ProfilJoueurVue',
     component: ProfilJoueurVue
   },

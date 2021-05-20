@@ -6,7 +6,7 @@
       <div id="liste_equipe">
         <v-row style="padding-bottom:60px;">
           <tr v-for='equipe in equipes' v-bind:key="equipe.idEquipe">
-            <router-link tag="span" :to=" { path: '/EquipeVue/?idEquipe='+equipe.idEquipe } " v-bind:tooltip="equipe.idEquipe" style="cursor:pointer">
+            <router-link tag="span" :to="{ name : 'EquipeVue', params: { idEquipe: equipe.idEquipe } }" v-bind:tooltip="equipe.idEquipe" style="cursor:pointer">
               <v-card style="margin-right:15px !important;margin-top: 15px !important;" class="mx-auto" max-width="344" height="266">
                 <v-img src="https://static.lpnt.fr/images/2018/12/13/17747713lpw-17748036-article-rugby-ballon-jpg_5803326_1250x625.jpg" height="200px"></v-img>
                 <v-card-title>
