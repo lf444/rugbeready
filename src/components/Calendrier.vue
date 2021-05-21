@@ -208,7 +208,7 @@
   </div>
 </template>
 <script>
-  const axios = require("axios");
+  import servicesCalendrier from "../services/servicesCalendrier";
   export default {
     data: () => ({
       focus: '',
@@ -268,83 +268,54 @@
         nativeEvent.stopPropagation()
       },
 
-
-
       updateRange () {
         const events = []
-
-        // date début mois + fin mois
-        // const min = new Date(`${start.date}T00:00:00`)
-        // const max = new Date(`${end.date}T23:59:59`)
-        // console.log(min + " -- " + max)
-
         this.evenements.forEach(element => {
-            const first = new Date(element.dateTimeDebut)
-            const second = new Date(element.dateTimeFin)
+          
 
-            events.push({
-              name: element.nom,
-              details: element.description,
-              start: first,
-              end: second,
-              color: 'blue',
-              timed: true
-            })
-          });
+          events.push({
+            name: element.nom,
+            details: element.description,
+            start: new Date(element.dateTimeDebut),
+            end: new Date(element.dateTimeFin),
+            color: 'blue',
+            timed: true
+          })
+        });
         
         this.events = events
-
-        setTimeout(() => {
-          var list = document.getElementsByClassName("v-event");
-          for (let item of list) {
-              var width = item.style.width
-              var str = width.substring(0, width.length - 1);
-              var x = parseInt(str) + 5
-              item.style.width = String(x + "%")
-              item.setAttribute('style', 'border:1px solid white !important');
-          }
-        }, 100);
-
         console.log(this.events)
-      },
 
-      rnd (a, b) {
-        return Math.floor((b - a + 1) * Math.random()) + a
+        // setTimeout(() => {
+        //   var list = document.getElementsByClassName("v-event");
+        //   for (let item of list) {
+        //       var str = item.style.width.substring(0, item.style.width.length - 1);
+        //       var x = parseInt(str) + 5
+        //       item.setAttribute('style', 'width:' + x + '%')
+        //       item.setAttribute('style', 'border:1px solid white !important');
+        //   }
+        // }, 500);
+
       },
 
       getEvenements(){
-        axios.get(`http://api.rugbeready.fr:3000/evenements`,)
-          .then((response)=>{
-            this.evenements = response.data
-            console.log(this.evenements)
-          })
-          .catch(function(error){
-            console.log(error)
-          })
-
-          setTimeout(() => {
-            this.updateRange();
-          }, 350);
+        servicesCalendrier.getEvenements().then((result) => {
+          this.evenements = result
+          this.updateRange();
+        })
       },
 
       addEvenements(){
-        axios.post(`http://api.rugbeready.fr:3000/evenements`,{
-          nom: this.nom,
-          description: this.description,
-          dateTimeDebut: this.dateTimeDebut,
-          dateTimeFin: this.dateTimeFin
-        }).catch(function(error){
-            console.log(error)
-        })
-        this.dialog = false
-        this.nom = "",
-        this.description = "",
-        this.dateTimeDebut = "",
-        this.dateTimeFin = ""
-
-        setTimeout(() => {
-          this.getEvenements();
-        }, 100);
+        if(this.nom != "" && this.description != "" && this.dateTimeDebut != "" && this.dateTimeFin != ""){
+          servicesCalendrier.addEvenements(this.nom, this.description, this.dateTimeDebut, this.dateTimeFin).then(() => {
+            this.getEvenements();
+          })
+          this.dialog = false
+          this.nom = "",
+          this.description = "",
+          this.dateTimeDebut = "",
+          this.dateTimeFin = ""
+        }
       }
 
     },
@@ -364,6 +335,7 @@
   margin-left: 1px !important;
   margin-top: 4px !important;
   border-radius: 0px !important;
+  border: 1px solid white !important;
 }
 
 

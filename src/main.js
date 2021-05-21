@@ -20,17 +20,9 @@ Vue.use(VCalendar, {
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { faUsers } from '@fortawesome/free-solid-svg-icons'
-import { faUser } from '@fortawesome/free-solid-svg-icons'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import { faCalendarPlus } from '@fortawesome/free-solid-svg-icons'
-import { faComments } from '@fortawesome/free-solid-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faUsers)
-library.add(faUser)
-library.add(faCalendarPlus)
-library.add(faComments)
-library.add(faTrash)
+library.add(fas)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

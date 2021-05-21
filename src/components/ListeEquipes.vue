@@ -6,14 +6,16 @@
       <div id="liste_equipe">
         <v-row style="padding-bottom:60px;">
           <tr v-for='equipe in equipes' v-bind:key="equipe.idEquipe">
-            <router-link tag="span" :to="{ name : 'EquipeVue', params: { idEquipe: equipe.idEquipe } }" v-bind:tooltip="equipe.idEquipe" style="cursor:pointer">
               <v-card style="margin-right:15px !important;margin-top: 15px !important;" class="mx-auto" max-width="344" height="266">
-                <v-img v-bind:src="equipe.image" height="200px"></v-img>
+                <router-link tag="span" :to="{ name : 'EquipeVue', params: { idEquipe: equipe.idEquipe } }" v-bind:tooltip="equipe.idEquipe" style="cursor:pointer">
+                  <v-img v-bind:src="equipe.image" height="200px"></v-img>
+                </router-link>
                 <v-card-title>
                   <td>{{ equipe.nom }}</td>
+                  <button @click="dialog2 = true" style="position:absolute;right:15px;font-size:19px"><font-awesome-icon icon="pencil-alt"/></button>
                 </v-card-title>
               </v-card> 
-            </router-link>
+            
           </tr>
         </v-row>
 
@@ -31,7 +33,7 @@
                   <v-row>
                     <v-col cols="12">
                       <v-text-field label="Nom" v-model="nomEquipe" required></v-text-field>
-                      <v-text-field label="url" v-model="ImgAdded" required></v-text-field>
+                      <v-text-field label="Url (optionel)" v-model="imgAdded" required></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -39,7 +41,6 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <!-- <v-btn color="blue darken-1" text @click="dialog = false">Fermer</v-btn> -->
                 <v-btn color="blue darken-1" text @click="addEquipe()">Ajouter</v-btn>
               </v-card-actions>
             </v-card>
@@ -56,6 +57,52 @@
   
 </template>
 
+<script>
+  import servicesEquipe from "../services/servicesEquipe";
+
+  export default {
+    name: 'ListeEquipes',
+    data() {
+      return {
+        dialog: false,
+        dialog2: false,
+        equipes:[],
+        nomEquipe:"",
+        imgAdded:"",
+        imgDefault:"https://static.lpnt.fr/images/2018/12/13/17747713lpw-17748036-article-rugby-ballon-jpg_5803326_1250x625.jpg"
+      }
+    },
+
+    methods:{
+
+      getEquipes(){
+        servicesEquipe.getEquipes().then((result)=>{
+          this.equipes = result
+        })
+      },
+
+      addEquipe(){
+        this.dialog = false;
+        if(this.imgAdded == ""){
+          this.imgAdded = this.imgDefault
+        }
+        servicesEquipe.addEquipe(this.nomEquipe,this.imgAdded).then(() => {
+          this.getEquipes()
+          this.nomEquipe = ""
+          this.imgAdded = ""
+        })
+      }
+
+    },
+
+    created(){
+      this.getEquipes();
+    }
+
+  };
+</script>
+
+
 <style>
   #liste_equipe{
     margin-left: 3vw;
@@ -68,56 +115,7 @@
     border-top: 2px solid rgba(0,0,0,0.2);
   }
 
-  </style>
-
-<script>
-  const axios = require("axios");
-  export default {
-    name: 'ListeEquipes',
-    data() {
-      return {
-        dialog: false,
-        equipes:[],
-        nomEquipe:"",
-        ImgAdded:"",
-      }
-    },
-
-    methods:{
-
-      getEquipes(){
-        axios.get("http://api.rugbeready.fr:3000/equipes")
-        .then((response)=>{ 
-          this.equipes = response.data;
-        })
-        .catch(function(error){
-          console.log(error);
-        });
-      },
-
-
-      addEquipe() {
-        this.dialog = false;
-        console.log(this.ImgAdded),
-        axios.post("http://api.rugbeready.fr:3000/equipes", {
-          nom: this.nomEquipe,
-          image:this.ImgAdded
-        }).catch(function (error) {
-          console.log(error);
-        });
-
-        setTimeout(() => {
-          this.dialog = false
-          this.getEquipes();
-          this.nomEquipe="";
-        }, 200);
-      },
-
-    },
-
-    created(){
-      this.getEquipes();
-    },
-
-  }; 
-</script>
+  .v-image__image{
+    border-radius: 4px 4px 0 0 !important;
+  }
+</style>

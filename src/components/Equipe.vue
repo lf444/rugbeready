@@ -26,7 +26,7 @@
                 </router-link>
                 <p style="display: flex;flex-direction: column;justify-content: center;margin-left: 5px;margin-right: 5px;margin-bottom:none;height:100%"></p>
                 <span class="d-flex flex-column" style="cursor:pointer;justify-content:center">
-                  <button style="background:#2196f3;width:25px;height:25px;border-radius:4px" value="Delete data" v-on:click="delJoueurFromEquipe(joueur.idJoueur);"><font-awesome-icon icon="trash"/></button>
+                  <button style="background:#2196f3;width:25px;height:25px;border-radius:4px" value="Delete data" v-on:click="delJoueur(joueur.idJoueur);"><font-awesome-icon icon="trash"/></button>
                 </span>
                 
               </td>
@@ -40,7 +40,6 @@
         <v-dialog v-model="dialog" max-width="600px">
           <template v-slot:activator="{ on, attrs }">
             <v-btn color="primary" dark v-bind="attrs" v-on="on" style="border-radius:4px !important">Ajouter un nouveau joueur</v-btn>
-               <v-btn color="blue darken-1" text @click="deleteEquipe()">Supprimer Equipe</v-btn>
           </template>
           <v-card style="margin:0px !important">
             <v-card-title>
@@ -67,38 +66,65 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <!-- <v-btn color="blue darken-1" text @click="dialog = false;clear()">Fermer</v-btn> -->
               <v-btn color="blue darken-1" text @click="addJoueurToEquipe()">Ajouter</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+
+      <v-row justify="center" class="mb-5">
+        <v-dialog v-model="dialog2" max-width="600px">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn color="red" dark v-bind="attrs" v-on="on" style="border-radius:4px !important">Supprimer l'équipe</v-btn>
+          </template>
+          <v-card style="margin:0px !important">
+            <v-card-title>
+              <span class="headline">Supprimer l'équipe</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <span style="color:white;font-size:16px">Êtes-vous sur de vouloir supprimer cette équipe ?</span>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="red darken-1" text @click="deleteEquipe()">Supprimer</v-btn>
             </v-card-actions>
 
           </v-card>
         </v-dialog>
       </v-row>
+
+      
+
     </v-main>
   </v-app>
 </template>
 
 
-<style>
 
-#listeJoueur{
-  margin: 60px 7vh !important;
-  border-radius: 0px !important;
-}
-
-</style>
 
 <script>
-  const axios = require("axios");
+  import servicesJoueur from "../services/servicesJoueur";
+  import servicesEquipe from "../services/servicesEquipe";
   export default {
     name: 'Equipe',
     data() {
       return {
         dialog: false,
+        dialog2: false,
         joueurs:[],
         nom:"",
         prenom:"",
         dateNaissance:"",
+        email:"",
+        telephone:"",
+        selectedPoste:"",
         poste: [
           "Pilliers",
           "Talonneur",
@@ -109,118 +135,60 @@
           "Trois-quarts",
           "Ailier",
           "Arrière",
-        ],
-        email:"",
-        telephone:"",
-        dateFinBlessure:"",
-        selectedPoste:"",
-        joueursNoEquipe:[],
-        selected: null,
-        
+        ]
       }
     },
 
     methods:{
+
       text: item => item.nom + " " + item.prenom + " ("+item.idJoueur+")",
-      getJoueursFromEquipe(){
-        axios.get(`http://api.rugbeready.fr:3000/equipes/${this.$route.params.idEquipe}`,)
-        .then((response)=>{ 
-          this.joueurs = response.data;
-          this.joueurs.forEach(element => {
-            if(element.dateFinBlessure != null){
-              var date1 = new Date(element.dateFinBlessure)
-              var date2 = new Date()
-              var diff = (date1 - date2);
+      
+      getJoueursFromEquipe() {
+        servicesJoueur.getJoueursFromEquipe(this.$route.params.idEquipe).then((result) => {
+          this.joueurs = result
+          this.joueurs.forEach(joueur => {
+            if (joueur.dateFinBlessure != null) {
+              var diff = (new Date(joueur.dateFinBlessure) - new Date());
               var diffDays = Math.ceil(diff / (1000 * 60 * 60 * 24));
-              if(diffDays>0){
-                element.dateFinBlessure = "Blessé ("+diffDays+" jours restants)"
-              }else{
-                element.dateFinBlessure ="RAS"
-              }
-            }else{
-              element.dateFinBlessure ="RAS"
-            }
-          });
+              (diffDays > 0) ? joueur.dateFinBlessure = "Blessé ("+diffDays+" jours restants)" : joueur.dateFinBlessure ="RAS"
+            }else{ joueur.dateFinBlessure ="RAS" }
+          })
         })
-        .catch(function(error){
-          console.log(error);
-        });
       },
 
       addJoueurToEquipe() {
-        if(this.nom != "" && this.prenom != "" && this.poste != "" && this.dateNaissance != ""){
-          this.dialog = false;
-          axios.post("http://api.rugbeready.fr:3000/joueurs", {
-            nom: this.nom,
-            prenom: this.prenom,
-            poste: this.selectedPoste,
-            dateNaissance: this.dateNaissance,
-            email: "email de test",
-            telephone: "0707070707",
-            idEquipe: this.$route.params.idEquipe,
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      
-          setTimeout(() => {
+        if(this.nom != "" && this.prenom != "" && this.poste != "" && this.dateNaissance != "") {
+          servicesJoueur.addJoueurToEquipe(this.nom, this.prenom, this.selectedPoste, this.dateNaissance, "email de test", "0707070707", this.$route.params.idEquipe)
+          .then(() => {
             this.dialog = false;
-            this.clear();
-            this.AddBlessureToLastJoueur();
-          }, 100);
+            this.nom = "";
+            this.prenom = "";
+            this.selectedPoste = "";
+            this.dateNaissance = "";
+            this.addBlessureToLastJoueur();
+          })
         }
       },
 
-      AddBlessureToLastJoueur(){
-            axios.get("http://api.rugbeready.fr:3000/equipes/last")
-            .then((response)=>{
-              setTimeout(() => {
-                 this.getJoueursFromEquipe();
-                  axios.post(`http://api.rugbeready.fr:3000/joueurs/${response.data[0].idJoueur }/blessure`);
-                  this.getJoueursFromEquipe();
-                }, 100);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
+      addBlessureToLastJoueur(){
+        servicesJoueur.addBlessureToLastJoueur()
+        setTimeout(() => {
+          this.getJoueursFromEquipe()
+        }, 100);
       },
 
-      delJoueurFromEquipe(id){
-        axios.delete(`http://api.rugbeready.fr:3000/joueurs/${id}`)
-        .catch(function (error) {
-          console.log(error);
-        });
-
-        setTimeout(() => {
+      delJoueur(idJoueur){
+        servicesJoueur.deleteJoueur(idJoueur).then(() => {
           this.getJoueursFromEquipe();
-        }, 100);
+        })
       },
 
 
       deleteEquipe(){
-        axios.delete(`http://api.rugbeready.fr:3000/equipes/${this.$route.params.idEquipe}`)
-        .catch(function (error) {
-          console.log(error);
-        });
-
-        
-        setTimeout(() => {
-            this.$router.push('/');
-        }, 100);
-      },
-
-    
-      clear() {
-        this.nom = "";
-        this.prenom = "";
-        this.selectedPoste = "";
-        this.dateNaissance = "";
-        this.selected = "";
+        servicesEquipe.deleteEquipe(this.$route.params.idEquipe).then(() => {
+          this.$router.push('/');
+        })
       }
-
-    },
-
-    computed:{
 
     },
 
@@ -229,3 +197,12 @@
     },
   };
 </script>
+
+<style>
+
+  #listeJoueur{
+    margin: 60px 7vh !important;
+    border-radius: 0px !important;
+  }
+
+</style>
