@@ -84,4 +84,18 @@ exports.deleteJoueur = async(idJoueur) => {
     }
 }
 
+/**
+ * Retrieve the identity of a Joueur
+ * @param {*} idJoueur 
+ * @returns 
+ */
+exports.getIdentiteJoueur = async(idJoueur) => {
+    try {
+        const {data:response} = await axios.get("http://api.rugbeready.fr:3000/joueurs/" + idJoueur)
+        return response
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export default exports;

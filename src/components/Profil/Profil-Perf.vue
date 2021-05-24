@@ -42,8 +42,7 @@
 
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <!-- <v-btn color="blue darken-1" text @click="dialog = false">Fermer</v-btn> -->
-                    <v-btn color="blue darken-1" text @click="updatePerfJoueur()">Ajouter</v-btn>
+                    <v-btn color="blue darken-1" text @click="updatePerfsJoueur()">Ajouter</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -55,7 +54,7 @@
 
 <script>
 const Chart = require("chart.js");
-const axios = require("axios");
+import servicesPerf from "../../services/servicesPerf";
 export default {
   name: "ProfilPerf",
   data: () => ({
@@ -83,139 +82,112 @@ export default {
         return true;
       }
     },
-    getPerfsJoueurs() {
-      axios.get(`http://api.rugbeready.fr:3000/perfomances/${this.$route.params.idJoueur}/one`)
-      .then((response) => {
-        console.log(response.data[0])
-        this.squat =  response.data[0].squat
-        this.dcouche =  response.data[0].dcouche
-        this.tirage =  response.data[0].tirage
-        this.detenteVerticale =  response.data[0].detenteVerticale
-        this.tempsSprint =  response.data[0].tempsSprint
+    
+    getPerfsJoueur() {
+
+      servicesPerf.getPerfsJoueur(this.$route.params.idJoueur).then((result) => {
+        var perfs = result[0]
+        this.squat =  perfs.squat
+        this.dcouche =  perfs.dcouche
+        this.tirage =  perfs.tirage
+        this.detenteVerticale =  perfs.detenteVerticale
+        this.tempsSprint =  perfs.tempsSprint
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+      
     },
 
     drawEvolutionPerf() {
-      axios
-        .get(`http://api.rugbeready.fr:3000/perfomances/${this.$route.params.idJoueur}/all`)
-        .then((response) => {
-          var chartSquat   = response.data.map((item) => item.squat);
-          var chartDcouche = response.data.map((item) => item.dcouche);
-          var chartTirage  = response.data.map((item) => item.tirage);
-          var chartlabel = response.data.map((item) => item.datePerf);
-          for (let index = 0; index < chartlabel.length; index++) {
-            var j = chartlabel[index].substring(8,10)
-            var m = chartlabel[index].substring(5,7)
-            var a = chartlabel[index].substring(0,4)
-            chartlabel[index] = j + "/" + m + "/" + a
-          }
-          console.log(chartlabel)
+      servicesPerf.getAllPerfsJoueur(this.$route.params.idJoueur).then((result) => {
+        var chartSquat   = result.map((item) => item.squat);
+        var chartDcouche = result.map((item) => item.dcouche);
+        var chartTirage  = result.map((item) => item.tirage);
+        var chartlabel = result.map((item) => item.datePerf);
+        for (let index = 0; index < chartlabel.length; index++) {
+          var j = chartlabel[index].substring(8,10)
+          var m = chartlabel[index].substring(5,7)
+          var a = chartlabel[index].substring(0,4)
+          chartlabel[index] = j + "/" + m + "/" + a
+        }
 
-          const ctx = document.getElementById("chartPerf").getContext("2d");
-          this.chartPerf = new Chart(ctx, {
-            type: "line",
-            data: {
-              labels: chartlabel,
-              datasets: [
-                {
-                  label: "Squat (kg)",
-                  fill: false,
-                  data: chartSquat,
-                  backgroundColor: 'red',
-                  borderColor: 'red'
-                },
-                {
-                  label: "Développé couché (kg)",
-                  fill: false,
-                  data: chartDcouche,
-                  backgroundColor: 'green',
-                  borderColor: 'green'
-                },
+        const ctx = document.getElementById("chartPerf").getContext("2d");
+        this.chartPerf = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: chartlabel,
+            datasets: [
+              {
+                label: "Squat (kg)",
+                fill: false,
+                data: chartSquat,
+                backgroundColor: 'red',
+                borderColor: 'red'
+              },
+              {
+                label: "Développé couché (kg)",
+                fill: false,
+                data: chartDcouche,
+                backgroundColor: 'green',
+                borderColor: 'green'
+              },
 
+              {
+                label: "Tirage (kg)",
+                fill: false,
+                data: chartTirage,
+                backgroundColor: 'blue',
+                borderColor: 'blue'
+              },
+            ],
+          },
+          options: {
+            responsive:true,
+            scales: {
+              yAxes: [
                 {
-                  label: "Tirage (kg)",
-                  fill: false,
-                  data: chartTirage,
-                  backgroundColor: 'blue',
-                  borderColor: 'blue'
+                  ticks: {
+                    beginAtZero: true,
+                    callback: function(value) {
+                      if(value!=0){
+                        return  value + ' kg';
+                      }
+                    }
+                  },
                 },
               ],
-            },
-            options: {
-              responsive:true,
-              scales: {
-                yAxes: [
-                  {
-                    ticks: {
-                      beginAtZero: true,
-                      callback: function(value) {
-                        if(value!=0){
-                          return  value + ' kg';
-                        }
-                      }
-                    },
+              xAxes: [
+                {
+                  ticks: {
+                    maxTicksLimit: 7,
                   },
-                ],
-                xAxes: [
-                  {
-                    ticks: {
-                      maxTicksLimit: 7,
-                    },
-                  }
-                ]
-              },
-              tooltips:{
-                displayColors: false,
-              }
+                }
+              ]
             },
-          });
-        })
-        .catch(function (error) {
-          console.log(error);
+            tooltips:{
+              displayColors: false,
+            }
+          },
         });
-        
-        Chart.Legend.prototype.afterFit = function() {
-          this.height = this.height + 25;
-        };
+
+      })
+      Chart.Legend.prototype.afterFit = function() {
+        this.height = this.height + 25;
+      };
     },
 
-    updatePerfJoueur() {
-      if (
-       this.squat != "" &&
-       this.dcouche != "" &&
-       this.tirage != "" &&
-       this.detenteVerticale != "" &&
-       this.tempsSprint != ""
-      ){
-
-        axios.post(`http://api.rugbeready.fr:3000/perfomances/${this.$route.params.idJoueur}/`, {
-          idJoueur: this.$route.params.idJoueur,
-          datePerf: this.datePerf,
-          squat: this.squat,
-          dcouche: this.dcouche,
-          tirage: this.tirage,
-          detenteVerticale : this.detenteVerticale,
-          tempsSprint : this.tempsSprint,
-        })
-        .then(function (error) {
-          console.log(error);
-        });
-
-        setTimeout(() => {
+    updatePerfsJoueur() {
+      if (this.squat != "" && this.dcouche != "" && this.tirage != "" && this.detenteVerticale != "" && this.tempsSprint != ""){
+        servicesPerf.updatePerfsJoueur(this.$route.params.idJoueur, this.datePerf, this.squat, this.dcouche, this.tirage, this.detenteVerticale, this.tempsSprint).then(() => {
           this.drawEvolutionPerf();
-          this.getPerfsJoueurs();
+          this.getPerfsJoueur();
           this.dialog = false;
-        }, 100);
+        });
       }
     },
     
   },
 
   created() {
-    this.getPerfsJoueurs();
+    this.getPerfsJoueur();
   },
 };
 </script>

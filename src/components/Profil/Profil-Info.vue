@@ -18,8 +18,8 @@
   
 </template>
 <script>
-const axios = require("axios");
-export default {
+  import servicesJoueur from "../../services/servicesJoueur";
+  export default {
   name: "ProfilInfo",
   
   data: () => ({
@@ -34,19 +34,14 @@ export default {
   methods: {
 
     getIdentiteJoueur() {
-      axios.get(`http://api.rugbeready.fr:3000/joueurs/${this.$route.params.idJoueur}`)
-      .then((response) => {
-        console.log(response.data);
-        this.nom = response.data.nom;
-        this.prenom = response.data.prenom;
-        this.poste = response.data.poste;
-        this.age = new Date(new Date() - new Date(response.data.dateNaissance)).getFullYear() - 1970;
-        this.email = response.data.email;
-        this.telephone = response.data.telephone;
+      servicesJoueur.getIdentiteJoueur(this.$route.params.idJoueur).then((result) => {
+        this.nom = result.nom;
+        this.prenom = result.prenom;
+        this.poste = result.poste;
+        this.age = new Date(new Date() - new Date(result.dateNaissance)).getFullYear() - 1970;
+        this.email = result.email;
+        this.telephone = result.telephone;
       })
-      .catch(function (error) {
-        console.log(error);
-      });
     },    
   },
 
