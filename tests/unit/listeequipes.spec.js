@@ -4,10 +4,7 @@ import { shallowMount,createLocalVue,RouterLinkStub } from '@vue/test-utils'
 import Vue from 'vue'
 //import Vuetify from 'vuetify'
 import axios from 'axios';
-
-jest.mock('axios', () => ({
-    get: Promise.resolve('value')
-  }))
+jest.mock('axios');
   
 describe("ListeEquipes.vue", ()=> {
     Vue.config.silent = true;
@@ -25,7 +22,7 @@ describe("ListeEquipes.vue", ()=> {
                 addEquipe: ()=> {}
             },
         })
-        wrapper.setData({ equipes:[{nom: 'Soldats' },{nom: 'Stade Toulousain'},]
+        wrapper.setData({ equipes:[{nom: 'Soldats' },{nom: 'Stade Toulousain'}]
         })
         
     })
@@ -46,11 +43,15 @@ describe("ListeEquipes.vue", ()=> {
 
     })
 
-    it("regarde si il y a une équipe ajouté",()=>{
-        wrapper.addData({ equipes:[{nom: 'AntwiTeam' }]})
-        //wrapper.vm.addEquipe();
-
-        expect(wrapper.vm.$data.equipes).toEqual([{"nom": "Soldats"}, {"nom": "Stade Toulousain"},{nom: 'AntwiTeam' }]);
-
+    it("regarde si il y a une équipe ajouté",async()=>{
+        //wrapper.setData({ equipes:[{nom: 'AntwiTeam' }]})
+        wrapper.setData({ nomEquipe:"AntwiTeam"
+        })
+        const btn = wrapper.find("v-btn")
+        await btn.trigger('click')
+        await wrapper.vm.$nextTick(() => {
+           expect(wrapper.text()).toBe('value');
+           done()
+        })
     })
 })
