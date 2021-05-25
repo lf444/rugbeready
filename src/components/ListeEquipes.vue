@@ -12,7 +12,7 @@
                 </router-link>
                 <v-card-title>
                   <td>{{ equipe.nom }}</td>
-                  <button @click="dialog2 = true" style="position:absolute;right:15px;font-size:19px"><font-awesome-icon icon="pencil-alt"/></button>
+                  
                 </v-card-title>
               </v-card> 
             
