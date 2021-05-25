@@ -97,7 +97,7 @@ export default {
         (value) => !!value || "Required.",
         (value) => value != "" || "Required.",
         (value) => (value || "").length > 2 || "min 3 characters",
-        (value) => (value || "").length <= 20 || "Max 40 characters",
+        (value) => (value || "").length <= 40 || "Max 40 characters",
       ],
     };
   },
