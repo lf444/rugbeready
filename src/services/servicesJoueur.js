@@ -65,7 +65,7 @@ exports.addBlessureToLastJoueur = async() => {
     var idJoueur
     exports.getLastJoueur().then((result) => {
         idJoueur = result[0].idJoueur
-        axios.post("http://api.rugbeready.fr:3000/joueurs/" + idJoueur + "/blessure").catch(function (error) {
+        axios.post(`http://api.rugbeready.fr:3000/joueurs/${idJoueur}/blessure`).catch(function (error) {
             console.log(error)
         });
     })
