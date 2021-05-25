@@ -8,6 +8,7 @@
               style="margin-right: 15px !important; margin-top: 15px !important"
               class="mx-auto"
               max-width="344"
+              min-width="344"
               height="266"
             >
               <router-link
@@ -57,7 +58,6 @@
                       <v-text-field
                         label="Url (optionel)"
                         v-model="imgAdded"
-                        :rules="urlRules"
                         required
                       ></v-text-field>
                     </v-col>
@@ -111,7 +111,7 @@ export default {
 
     ValidatiorName() {
       if (this.nomEquipe.length >= 3 && this.nomEquipe.length <= 40) {
-        this.urlUrlValidator();
+        this.UrlValidator();
         this.addEquipe();
       } else {
         this.dialog = true;
@@ -119,11 +119,13 @@ export default {
     },
 
     UrlValidator(){
-      const pattern = new RegExp (`/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$`);
+
+     var expression = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+var regex = new RegExp(expression);
       if (this.imgAdded == "") {
         this.imgAdded = this.imgDefault;
       }
-      if(!pattern.test(this.imgAdded)){
+      if(!regex.test(this.imgAdded)){
         this.imgAdded = this.imgDefault;
       }
     },
