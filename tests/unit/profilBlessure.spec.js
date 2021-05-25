@@ -17,39 +17,31 @@ describe("Profil-Blessure.vue",()=> {
         wrapper = shallowMount(ProfilBlessure,{
             //stubs: { RouterLink: RouterLinkStub, },
             methods: {
-                getIdentiteJoueur: ()=> {}
+                getBlessuresJoueur: ()=> {}
             },
         })
-        wrapper.setData({ nom:"Antwi",
-        prenom:"Daniel",
-        poste:"Ailier",
-        age:"21",
-        email:"p@gmail.com",
-        telephone:"0000000000",})
+        wrapper.setData({ blessures:[{tempsRepos: "200",
+        dateBlessure:  "24/05/2021",
+        typeBlessure: "Ligaments croisés",
+        contextBlessure: "Match",},{nom: 'Stade Toulousain'}] })
     })
 
-    it("regarde si les données du joueur sont vraies",()=>{
-       
-        /**expect(wrapper.vm.$data.nom).toEqual("Antwi");
-        expect(wrapper.vm.$data.prenom).toEqual("Daniel");
-        expect(wrapper.vm.$data.poste).toEqual("Ailier");
-        expect(wrapper.vm.$data.age).toEqual("21");
-        expect(wrapper.vm.$data.email).toEqual("p@gmail.com");
-        expect(wrapper.vm.$data.telephone).toEqual("0000000000");*/
-        expect(wrapper.text()).toContain('00');
+    it("regarde si les données d'une blessure sont vraies",()=>{
+        expect(wrapper.text()).toContain('24/05/2021 200 Ligaments croisés Match');
         //expect(getIdentiteJoueur).toBeCalledTimes(1);
 
     })
 
-    it("regarde si le telephone et l'age sont des entiers",()=>{
-        expect(isNumber(wrapper.vm.$data.telephone)).toBe(true);
-        expect(isNumber(wrapper.vm.$data.age)).toBe(true);
-    })
+   /**it("regarde si le telephone et l'age sont des entiers",()=>{
+        //expect(isNumber(wrapper.vm.$data.telephone)).toBe(true);
+        //expect(isNumber(wrapper.vm.$data.age)).toBe(true);
+        
+    })*/
 
-    it("regarde si tout sauf le telephone et l'age ne sont pas des entiers",()=>{
+    /**it("regarde si tout sauf le telephone et l'age ne sont pas des entiers",()=>{
         expect(isNumber(wrapper.vm.$data.nom)).toBe(false);
         expect(isNumber(wrapper.vm.$data.prenom)).toBe(false);
         expect(isNumber(wrapper.vm.$data.poste)).toBe(false);
         expect(isNumber(wrapper.vm.$data.mail)).toBe(false);
-    })
+    })*/
 })
