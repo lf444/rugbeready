@@ -111,17 +111,25 @@ export default {
 
     ValidatiorName() {
       if (this.nomEquipe.length >= 3 && this.nomEquipe.length <= 40) {
+        this.urlUrlValidator();
         this.addEquipe();
       } else {
         this.dialog = true;
       }
     },
 
-    addEquipe() {
-      this.dialog = false;
+    UrlValidator(){
+      const pattern = new RegExp (`/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$`);
       if (this.imgAdded == "") {
         this.imgAdded = this.imgDefault;
       }
+      if(!pattern.test(this.imgAdded)){
+        this.imgAdded = this.imgDefault;
+      }
+    },
+
+    addEquipe() {
+      this.dialog = false;
       servicesEquipe.addEquipe(this.nomEquipe, this.imgAdded).then(() => {
         this.getEquipes();
         this.nomEquipe = "";
