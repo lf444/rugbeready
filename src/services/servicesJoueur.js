@@ -98,4 +98,35 @@ exports.getIdentiteJoueur = async(idJoueur) => {
     }
 }
 
+exports.getTaillePoidsJoueur = async(idJoueur) => {
+    try {
+        const {data:response} = await axios.get("http://api.rugbeready.fr:3000/tp/" + idJoueur + "/one")
+        return response
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+exports.getAllTaillePoidsJoueur = async(idJoueur) => {
+    try {
+        const {data:response} = await axios.get("http://api.rugbeready.fr:3000/tp/" + idJoueur + "/all")
+        return response
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+exports.updateTaillePoidsJoueur = async(idJoueur, poids, taille) => {
+    try {
+        await axios.post("http://api.rugbeready.fr:3000/tp/" + idJoueur + "/", {
+            idJoueur: idJoueur, 
+            dateTaillePoids: new Date().toISOString().substr(0, 10),
+            poids: poids,
+            taille: taille,
+        })
+    } catch (error) {
+        console.log(error)
+    }
+};
+
 export default exports;

@@ -37,4 +37,14 @@ exports.addEvenements = async(nom, description, dateTimeDebut, dateTimeFin) => {
 };
 
 
+exports.deleteEvenement = async(idEvenement) => {
+    try {
+        await axios.delete("http://api.rugbeready.fr:3000/evenements/" + idEvenement)
+    }
+    catch (error) {
+        console.log(error);
+    }
+};
+
+
 export default exports;

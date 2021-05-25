@@ -144,11 +144,15 @@ export default {
             scales: {
               yAxes: [
                 {
+                  scaleLabel:{
+                    display:true,
+                    labelString:'Charge en kg soulevée pour une rép'
+                  },
                   ticks: {
                     beginAtZero: true,
                     callback: function(value) {
                       if(value!=0){
-                        return  value + ' kg';
+                        return  value;
                       }
                     }
                   },

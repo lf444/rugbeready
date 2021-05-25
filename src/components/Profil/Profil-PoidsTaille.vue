@@ -81,7 +81,7 @@
 <script>
 
 const Chart = require("chart.js");
-const axios = require("axios");
+import servicesJoueur from "../../services/servicesJoueur";
 export default {
   name: "ProfilTaillePoids",
 
@@ -110,123 +110,125 @@ export default {
     },
 
     getTaillePoidsJoueur() {
-      axios
-        .get(`http://api.rugbeready.fr:3000/tp/${this.$route.params.idJoueur}/one`)
-        .then((response) => {
-          console.log(response.data[0])
-          this.dateTaillePoids = response.data[0].dateTaillePoids,
-          this.taille =  response.data[0].taille;
-          this.poids =  response.data[0].poids;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      servicesJoueur.getTaillePoidsJoueur(this.$route.params.idJoueur).then((result) => {
+        console.log(result[0])
+        var taillePoids = result[0]
+        this.dateTaillePoids = taillePoids.dateTaillePoids,
+        this.taille =  taillePoids.taille;
+        this.poids =  taillePoids.poids;
+      })
     },
 
     drawEvolutionTaillePoids(){    
-      axios
-        .get(`http://api.rugbeready.fr:3000/tp/${this.$route.params.idJoueur}/all`)
-        .then((response) => {
+      servicesJoueur.getAllTaillePoidsJoueur(this.$route.params.idJoueur).then((result) => {
+        var chartPoids = result.map((item) => item.poids);
+        var chartTaille = result.map((item) => item.taille);
+        var chartlabel = result.map((item) => item.dateTaillePoids);
 
-          var chartPoids = response.data.map((item) => item.poids);
-          var chartTaille = response.data.map((item) => item.taille);
-          var chartlabel = response.data.map((item) => item.dateTaillePoids);
-          for (let index = 0; index < chartlabel.length; index++) {
-            var j = chartlabel[index].substring(8,10)
-            var m = chartlabel[index].substring(5,7)
-            var a = chartlabel[index].substring(0,4)
-            chartlabel[index] = j + "/" + m + "/" + a
-          }
+        for (let index = 0; index < chartlabel.length; index++) {
+          var j = chartlabel[index].substring(8,10)
+          var m = chartlabel[index].substring(5,7)
+          var a = chartlabel[index].substring(0,4)
+          chartlabel[index] = j + "/" + m + "/" + a
+        }
 
-          const ctx = document.getElementById("chartTaillePoids").getContext("2d");
-          this.chartTaillePoids = new Chart(ctx, {
-            type: "line",
-            data: {
-              labels: chartlabel,
-              datasets: [
-                {
-                  label: "Poids (kg)",
-                  fill: false,
-                  data: chartPoids,
-                  backgroundColor: 'red',
-                  borderColor: 'red',
-                },
-                {
-                  label: "Taille (cm)",
-                  fill: false,
-                  data: chartTaille,
-                  backgroundColor : 'green',
-                  borderColor: 'green',
-                },
-              ],
-            },
-            options: {
-              responsive:true,
-              scales: {
-                yAxes: [
-                  {
-                    ticks: {
-                      beginAtZero: true,
-                      callback: function(value) {
-                        if(value!=0){
-                          return  value;
-                        }
-                      }
-                    },
-                  },
-                ],
-                xAxes: [
-                  {
-                    ticks: {
-                      maxTicksLimit: 7,
-                    },
-                  }
-                ]
+        const ctx = document.getElementById("chartTaillePoids").getContext("2d");
+        this.chartTaillePoids = new Chart(ctx, {
+          type: "line",
+          data: {
+            labels: chartlabel,
+            datasets: [
+              {
+                label: "Poids (kg)",
+                fill: false,
+                data: chartPoids,
+                backgroundColor: 'red',
+                borderColor: 'red',
+                yAxisID: 'poids',
               },
-              tooltips:{
-                displayColors: false,
-              }
+              {
+                label: "Taille (cm)",
+                fill: false,
+                data: chartTaille,
+                backgroundColor : 'green',
+                borderColor: 'green',
+                yAxisID: 'taille',
+              },
+            ],
+          },
+          options: {
+            responsive:true,
+            scales: {
+              yAxes: [
+                {
+                  scaleLabel:{
+                    display:true,
+                    labelString:'Poids en kg'
+                  },
+                  id: 'poids',
+                  position: 'left',
+                  ticks: {
+                    max: 140,
+                    beginAtZero: true,
+                    callback: function(value) {
+                      if(value!=0){
+                        return  value;
+                      }
+                    }
+                  },
+                },
+                {
+                  scaleLabel:{
+                    display:true,
+                    labelString:'Taille en cm',
+                  },
+                  id: 'taille',
+                  position: 'right',
+                  ticks: {
+                    max: 200,
+                    beginAtZero: true,
+                    callback: function(value) {
+                      if(value!=0){
+                        return  value;
+                      }
+                    }
+                  },
+                }
+              ],
+              xAxes: [
+                {
+                  ticks: {
+                    maxTicksLimit: 7,
+                  },
+                }
+              ]
             },
-          });
-        })
-        .catch(function (error) {
-          console.log(error);
+            tooltips:{
+              displayColors: false,
+            }
+          },
         });
-        
-        Chart.Legend.prototype.afterFit = function() {
-          this.height = this.height + 25;
-        };
+      })
+      Chart.Legend.prototype.afterFit = function() {
+        this.height = this.height + 25;
+      };
     },
 
     updateTaillePoidsJoueur() {
-      if (
-       this.taille != "" &&
-       this.poids != ""
-      ){
-        axios
-          .post(`http://api.rugbeready.fr:3000/tp/${this.$route.params.idJoueur}/`, {
-            idJoueur: this.$route.params.idJoueur, 
-            dateTaillePoids: new Date().toISOString().substr(0, 10),
-            poids: this.poids,
-            taille: this.taille,
-          })
-          .then(function (error) {
-            console.log(error);
-          });
-
-          setTimeout(() => {
-            this.dialog = false;
-            this.drawEvolutionTaillePoids();
-          }, 100);
-
-        }
+      if (this.taille != "" && this.poids != "" ) {
+        servicesJoueur.updateTaillePoidsJoueur(this.$route.params.idJoueur, this.poids, this.taille).then(() => {
+          this.dialog = false;
+          this.drawEvolutionTaillePoids();
+          this.getTaillePoidsJoueur();
+        })
       }
-    },
+    }
 
-    created() {
-      this.getTaillePoidsJoueur();
-    },
+  },
 
+  created() {
+    this.getTaillePoidsJoueur();
+  }
 
 };
 </script>

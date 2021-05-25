@@ -119,7 +119,7 @@
                 <v-btn icon>
                   <v-icon>mdi-dots-vertical</v-icon>
                 </v-btn> -->
-                <v-btn icon>
+                <v-btn @click="deleteEvenement(selectedEvent.id)" icon>
                   <font-awesome-icon style="width:16px;height:22px" icon="trash"/>
                 </v-btn>
               </v-toolbar>
@@ -268,12 +268,13 @@
         nativeEvent.stopPropagation()
       },
 
+      
+
       updateRange () {
         const events = []
         this.evenements.forEach(element => {
-          
-
           events.push({
+            id: element.idEvenement,
             name: element.nom,
             details: element.description,
             start: new Date(element.dateTimeDebut),
@@ -316,7 +317,15 @@
           this.dateTimeDebut = "",
           this.dateTimeFin = ""
         }
-      }
+      },
+
+      deleteEvenement(id){
+        console.log(id)
+        servicesCalendrier.deleteEvenement(id).then(() => {
+          this.getEvenements()
+          this.selectedOpen = false
+        })
+      },
 
     },
 

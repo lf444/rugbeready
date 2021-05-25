@@ -67,7 +67,7 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="ValidatiorName()"
+                <v-btn color="blue darken-1" text @click="nameValidator()"
                   >Ajouter</v-btn
                 >
               </v-card-actions>
@@ -96,7 +96,7 @@ export default {
       rules: [
         (value) => !!value || "Required.",
         (value) => value != "" || "Required.",
-        (value) => (value || "").length > 2 || "min 3 characters",
+        (value) => (value || "").length > 2 || "Min 3 characters",
         (value) => (value || "").length <= 40 || "Max 40 characters",
       ],
     };
@@ -109,19 +109,18 @@ export default {
       });
     },
 
-    ValidatiorName() {
+    nameValidator() {
       if (this.nomEquipe.length >= 3 && this.nomEquipe.length <= 40) {
-        this.UrlValidator();
+        this.urlValidator();
         this.addEquipe();
       } else {
         this.dialog = true;
       }
     },
 
-    UrlValidator(){
-
-     var expression = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
-var regex = new RegExp(expression);
+    urlValidator(){
+      var expression = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+      var regex = new RegExp(expression);
       if (this.imgAdded == "") {
         this.imgAdded = this.imgDefault;
       }

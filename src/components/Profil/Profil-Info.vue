@@ -9,8 +9,8 @@
                 <span style="margin-bottom:5px;text-align:start">Nom : {{nom}}</span>
                 <span style="margin-bottom:5px;text-align:start">Age : {{age}} ans</span>
                 <span style="margin-bottom:7px;text-align:start">Poste : {{poste}}</span>
-                <span style="margin-bottom:5px;text-align:start">Email : {{email}}</span>
-                <span style="margin-bottom:5px;text-align:start">Tél : {{telephone}}</span>
+                <!-- <span style="margin-bottom:5px;text-align:start">Email : {{email}}</span>
+                <span style="margin-bottom:5px;text-align:start">Tél : {{telephone}}</span> -->
               </v-card>
             </v-row>
           </v-expansion-panel-content>
