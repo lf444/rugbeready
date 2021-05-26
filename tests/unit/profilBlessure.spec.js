@@ -2,11 +2,9 @@ import ProfilBlessure from '@/components/Profil/Profil-Blessure.vue'
 import { text } from '@fortawesome/fontawesome-svg-core';
 import { shallowMount,RouterLinkStub } from '@vue/test-utils'
 import Vue from 'vue'
-//import axios from 'axios';
+import axios from 'axios';
 
-jest.mock('axios', () => ({
-    get: Promise.resolve()
-  }))
+jest.mock('axios');
 
 function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
 
