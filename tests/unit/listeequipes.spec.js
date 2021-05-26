@@ -19,14 +19,13 @@ describe("ListeEquipes.vue", ()=> {
     })
 
     it('regarde si il y a des equipes',()=> {
-        //expect(wrapper.vm.$data.equipes).toEqual([{"nom": "Soldats"}, {"nom": "Stade Toulousain"}]);
+        //expect(wrapper.vm.$data.equipes).toEqual([{idEquipe:1,nom: 'Soldats' },{idEquipe:2,nom: 'Stade Toulousain'}]);
         expect(wrapper.text()).toBe('Soldats Stade Toulousain  Ajouter une équipe    Ajouter')
     })
 
     it("regarde si il y a un bouton pour cliquer sur une équipe",()=>{
        expect(wrapper.findAll("span").at(0).props().to.name).toBe("EquipeVue")
         expect(wrapper.findAll("span").at(0).props().to.params.idEquipe).toBe(1)
-        expect(wrapper.findAll("span").at(1).props().to.params.idEquipe).toBe(2)
     })
 
 

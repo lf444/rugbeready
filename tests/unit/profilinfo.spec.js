@@ -30,14 +30,8 @@ describe("Profil-Info.vue",()=> {
 
     it("regarde si les données du joueur sont vraies",()=>{
        
-        /**expect(wrapper.vm.$data.nom).toEqual("Antwi");
-        expect(wrapper.vm.$data.prenom).toEqual("Daniel");
-        expect(wrapper.vm.$data.poste).toEqual("Ailier");
-        expect(wrapper.vm.$data.age).toEqual("21");
-        expect(wrapper.vm.$data.email).toEqual("p@gmail.com");
-        expect(wrapper.vm.$data.telephone).toEqual("0000000000");*/
-        expect(wrapper.text()).toContain('Informations générales Prénom : Daniel Nom : Antwi Age : 21 ans Poste : Ailier Email : p@gmail.com Tél : 0000000000');
-        //expect(getIdentiteJoueur).toBeCalledTimes(1);
+
+        expect(wrapper.text()).toContain('Informations générales Prénom : Daniel Nom : Antwi Age : 21 ans Poste : Ailier');
 
     })
 

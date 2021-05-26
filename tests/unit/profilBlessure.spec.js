@@ -26,8 +26,6 @@ describe("Profil-Blessure.vue",()=> {
 
     it("regarde si les données d'une blessure sont vraies",()=>{
         expect(wrapper.text()).toContain('24/05/2021 200 Ligaments croisés Match');
-        //expect(getIdentiteJoueur).toBeCalledTimes(1);
-
     })
 
 })

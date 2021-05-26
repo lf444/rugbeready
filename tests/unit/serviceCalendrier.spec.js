@@ -20,14 +20,5 @@ test('should fetch events', async() => {
 });
 
 test('should add event', async() => {
-   /* const users = [{idEquipe:1, nom: 'A'}];
-    const resp = {data: users};
-    //axios.get.mockResolvedValue(resp);
-    axios.post.mockResolvedValue(resp);
-    // or you could use the following depending on your use case:
-    // axios.get.mockImplementation(() => Promise.resolve(resp))
-    //Users.getEquipes().then(data => expect(data).toEqual(users))
-    await Users.addEvenements(1)
-    expect(axios.post).toHaveBeenCalledTimes(1)
-    return Users.addEvenements(1).then(data => expect(data).toEqual("users"));*/
-  });
+
+});

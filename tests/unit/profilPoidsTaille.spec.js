@@ -23,21 +23,11 @@ describe("Profil-Taille.vue",()=> {
 
     it("regarde si c'est bien initialisé",()=>{
        
-        /**expect(wrapper.vm.$data.nom).toEqual("Antwi");
-        expect(wrapper.vm.$data.prenom).toEqual("Daniel");
-        expect(wrapper.vm.$data.poste).toEqual("Ailier");
-        expect(wrapper.vm.$data.age).toEqual("21");
-        expect(wrapper.vm.$data.email).toEqual("p@gmail.com");
-        expect(wrapper.vm.$data.telephone).toEqual("0000000000");*/
-        //axios.get
+
         expect(wrapper.text()).toContain('Taille & Poids   Nouveau relevé taille & poids    Ajouter');
-        //expect(getIdentiteJoueur).toBeCalledTimes(1);
+
 
     })
 
-    /*it("regarde si le telephone et l'age sont des entiers",()=>{
-        expect(isNumber(wrapper.vm.$data.telephone)).toBe(true);
-        expect(isNumber(wrapper.vm.$data.age)).toBe(true);
-    })*/
 
 })
