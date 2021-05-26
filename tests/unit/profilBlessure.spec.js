@@ -21,7 +21,7 @@ describe("Profil-Blessure.vue",()=> {
         wrapper.setData({ blessures:[{tempsRepos: "200",
         dateBlessure:  "24/05/2021",
         typeBlessure: "Ligaments croisés",
-        contextBlessure: "Match",},{nom: 'Stade Toulousain'}] })
+        contextBlessure: "Match",}] })
     })
 
     it("regarde si les données d'une blessure sont vraies",()=>{
@@ -30,16 +30,4 @@ describe("Profil-Blessure.vue",()=> {
 
     })
 
-   /**it("regarde si le telephone et l'age sont des entiers",()=>{
-        //expect(isNumber(wrapper.vm.$data.telephone)).toBe(true);
-        //expect(isNumber(wrapper.vm.$data.age)).toBe(true);
-        
-    })*/
-
-    /**it("regarde si tout sauf le telephone et l'age ne sont pas des entiers",()=>{
-        expect(isNumber(wrapper.vm.$data.nom)).toBe(false);
-        expect(isNumber(wrapper.vm.$data.prenom)).toBe(false);
-        expect(isNumber(wrapper.vm.$data.poste)).toBe(false);
-        expect(isNumber(wrapper.vm.$data.mail)).toBe(false);
-    })*/
 })

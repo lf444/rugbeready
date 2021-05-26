@@ -29,6 +29,7 @@ test('should fetch all perfs', async() => {
   expect(axios.get).toHaveBeenLastCalledWith("http://api.rugbeready.fr:3000/perfomances/47/all")
   return Users.getAllPerfsJoueur(47).then(data => expect(data).toEqual(users));  
 });
+
 test('should update perf', async() => {
     
   });

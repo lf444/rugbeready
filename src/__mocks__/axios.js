@@ -1,7 +1,7 @@
 module.exports = {
     get: jest.fn(() => Promise.resolve({ data: {} })),
     
-    post: jest.fn((url) => {
+    /**post: jest.fn((url) => {
         if (url === '/something') {
             return Promise.resolve({
                 data: 'data'
@@ -15,5 +15,5 @@ module.exports = {
     }),
     create: jest.fn(function () {
         return this;
-    })
+    })*/
 };

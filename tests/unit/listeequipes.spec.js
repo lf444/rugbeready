@@ -2,39 +2,33 @@ import ListeEquipes from '@/components/ListeEquipes.vue'
 import { shallowMount,createLocalVue,RouterLinkStub } from '@vue/test-utils'
 //import VueRouter from 'vue-router'
 import Vue from 'vue'
-//import Vuetify from 'vuetify'
-import axios from 'axios';
-jest.mock('axios');
   
 describe("ListeEquipes.vue", ()=> {
     Vue.config.silent = true;
     let wrapper;
-   /*let vuetify = new Vuetify();
-    const localVue = createLocalVue();
-    localVue.use(VueRouter);*/
-
     beforeEach( () => {
-        const localVue = createLocalVue();
         wrapper = shallowMount(ListeEquipes,{
-            localVue,
             methods: {
-                getEquipes: ()=> {},
-                addEquipe: ()=> {}
+                getEquipes: ()=> {}
             },
+            stubs: { RouterLink: RouterLinkStub, },
         })
-        wrapper.setData({ equipes:[{nom: 'Soldats' },{nom: 'Stade Toulousain'}]
+        wrapper.setData({ equipes:[{idEquipe:1,nom: 'Soldats' },{idEquipe:2,nom: 'Stade Toulousain'}]
         })
         
     })
 
     it('regarde si il y a des equipes',()=> {
-        expect(wrapper.vm.$data.equipes).toEqual([{"nom": "Soldats"}, {"nom": "Stade Toulousain"}]);
+        //expect(wrapper.vm.$data.equipes).toEqual([{"nom": "Soldats"}, {"nom": "Stade Toulousain"}]);
+        expect(wrapper.text()).toBe('Soldats Stade Toulousain  Ajouter une équipe    Ajouter')
     })
-    it("regarde si il y a un bouton d'ajout d'équipe",()=>{
-        //await wrapper.setData({ nom: 10 })
-        //expect(wrapper.find("v-btn").text());
-        
+
+    it("regarde si il y a un bouton pour cliquer sur une équipe",()=>{
+       expect(wrapper.findAll("span").at(0).props().to.name).toBe("EquipeVue")
+        expect(wrapper.findAll("span").at(0).props().to.params.idEquipe).toBe(1)
+        expect(wrapper.findAll("span").at(1).props().to.params.idEquipe).toBe(2)
     })
+
 
     it("regarde si il y a une équipe à ajouter",()=>{
         wrapper.setData({ nomEquipe:"AntwiTeam"
@@ -43,15 +37,4 @@ describe("ListeEquipes.vue", ()=> {
 
     })
 
-    it("regarde si il y a une équipe ajouté",async()=>{
-        //wrapper.setData({ equipes:[{nom: 'AntwiTeam' }]})
-        wrapper.setData({ nomEquipe:"AntwiTeam"
-        })
-        const btn = wrapper.find("v-btn")
-        await btn.trigger('click')
-        await wrapper.vm.$nextTick(() => {
-           expect(wrapper.text()).toBe('value');
-           done()
-        })
-    })
 })

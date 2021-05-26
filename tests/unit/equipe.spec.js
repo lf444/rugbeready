@@ -6,30 +6,27 @@ import Vue from 'vue'
 
 describe("Equipe.vue",()=> {
     Vue.config.silent = true;
-
     let wrapper;
    /*let vuetify = new Vuetify();
     const localVue = createLocalVue();
     localVue.use(VueRouter);*/
 
     beforeEach(() => {
-        wrapper = shallowMount(Equipe,{
-           /** propsData: { 
-                equipes:[],
-                nom:"" }*/
-              //  methods : {getEquipes: () =>{}}
-              /**slots: {
-                default: ListeEquipes,
+        const $route = { path: 'http://rugbeready.fr/#/Equipe/', params :{ idEquipe: 2 } }
 
-              }*/
-              /**localVue,
-              vuetify,
-                stubs: {
-                  //VHover: '<slot></slot>',
-                  VTooltip: '<v-tooltip-stub><slot></slot><slot name="activator"></slot></v-tooltip-stub>',
-              },*/
-            
+        wrapper = shallowMount(Equipe,{
+            stubs: { RouterLink: RouterLinkStub, },
+
+            methods : {
+                getJoueursFromEquipes: () =>{}
+            },
+            mocks: {
+                $route
+            }
         })
+        
+        //wrapper.setState({ params: params })
+
     })
 
     it('contains the right information',()=> {
@@ -37,11 +34,14 @@ describe("Equipe.vue",()=> {
         // first cell in the header
         expect(wrapper.exists()).toBe(true);
     })
-    it("regarde si il y a un bouton d'ajout d'équipe",()=>{
+    /**it("regarde si il y a un bouton d'ajout d'équipe",()=>{
+        wrapper.setData({ joueurs:[{nom: "Antwi",
+        dateFinBlessure:  "24/05/2021",
+        prenom: "Ligaments croisés",
+        poste: "Ailier",}] })
         //await wrapper.setData({ nom: 10 })
-        expect(wrapper.find("v-btn").text()).toBe("Ajouter une équipe");
-        
-    })
+        expect(wrapper.text()).toContain("Antwi");    
+    })*/
 
     /**it("regarde si il y a une d'équipe",()=>{
             // n'accepte pas un `username` de moins de 7 caractères, exclut les espaces

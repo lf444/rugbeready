@@ -2,6 +2,7 @@ import HomeHead from '@/components/HomeHead.vue'
 import { text } from '@fortawesome/fontawesome-svg-core';
 import { shallowMount,RouterLinkStub } from '@vue/test-utils'
 import Vue from 'vue'
+
 describe("HomeHead.vue",()=> {
     Vue.config.silent = true; //pour enlever les warning
     let wrapper;
